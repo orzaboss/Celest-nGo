@@ -412,6 +412,302 @@
             font-size: 14px;
         }
 
+        /* ESTILOS DEL CARRITO */
+        .cart-content {
+            padding: 20px;
+            margin-bottom: 100px;
+        }
+
+        .cart-header {
+            background: var(--gradient-1);
+            color: white;
+            padding: 30px 20px;
+            margin: -20px -20px 30px -20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cart-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .cart-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cart-subtitle {
+            opacity: 0.9;
+            font-size: 14px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-cart-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+
+        .empty-cart-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .empty-cart-text {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .browse-button {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .browse-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+
+        .cart-items {
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .item-restaurant {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .item-description {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .item-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: right;
+        }
+
+        .item-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--background);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+        }
+
+        .quantity-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .quantity-btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quantity-number {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .remove-item:hover {
+            background: rgba(239, 68, 68, 0.1);
+            transform: scale(1.1);
+        }
+
+        .cart-summary {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 30px var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .summary-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 15px;
+            border-top: 2px solid var(--border-color);
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .summary-label {
+            color: var(--text-secondary);
+        }
+
+        .summary-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .checkout-button {
+            width: 100%;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checkout-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+
+        .checkout-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .checkout-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .checkout-button:active {
+            transform: translateY(-1px);
+        }
+
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -755,10 +1051,6 @@
 
                 <div class="categories">
                     <div class="category-item" onclick="selectCategory(this)">
-                        <span class="category-icon">🍕</span>
-                        <span class="category-name">Pizza</span>
-                    </div>
-                    <div class="category-item" onclick="selectCategory(this)">
                         <span class="category-icon">🌮</span>
                         <span class="category-name">Tacos</span>
                     </div>
@@ -868,6 +1160,95 @@
                             <div class="delivery-fee">$15</div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido del Carrito -->
+        <div id="cart-content" class="tab-content hidden">
+            <div class="cart-header">
+                <h2 class="cart-title">🛒 Mi Carrito</h2>
+                <p class="cart-subtitle">Revisa tus productos</p>
+            </div>
+
+            <div class="cart-content">
+                <!-- Estado vacío del carrito -->
+                <div id="empty-cart" class="hidden">
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h3 class="empty-cart-title">Tu carrito está vacío</h3>
+                        <p class="empty-cart-text">¡Explora nuestros deliciosos restaurantes y agrega tus platillos favoritos!</p>
+                        <button class="browse-button" onclick="switchTab(document.querySelector('.nav-item'), 'home')">
+                            Explorar Restaurantes
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Carrito con productos -->
+                <div id="cart-with-items">
+                    <div class="cart-items">
+                        <div class="cart-item" data-item-id="1">
+                            <div class="item-header">
+                                <div class="item-info">
+                                    <h3 class="item-name">Pizza Hawaiana Grande</h3>
+                                    <p class="item-restaurant">🍕 Pizzería Flamingo</p>
+                                    <p class="item-description">Jamón, piña, queso mozzarella, salsa especial</p>
+                                </div>
+                                <div class="item-price">$180</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="decreaseQuantity(1)">-</button>
+                                    <span class="quantity-number" id="quantity-1">1</span>
+                                    <button class="quantity-btn" onclick="increaseQuantity(1)">+</button>
+                                </div>
+                                <button class="remove-item" onclick="removeItem(1)">🗑️</button>
+                            </div>
+                        </div>
+
+                        <div class="cart-item" data-item-id="2">
+                            <div class="item-header">
+                                <div class="item-info">
+                                    <h3 class="item-name">Ceviche de Pescado</h3>
+                                    <p class="item-restaurant">🦐 Mariscos El Pelícano</p>
+                                    <p class="item-description">Pescado fresco, limón, cebolla, cilantro, aguacate</p>
+                                </div>
+                                <div class="item-price">$120</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="decreaseQuantity(2)">-</button>
+                                    <span class="quantity-number" id="quantity-2">1</span>
+                                    <button class="quantity-btn" onclick="increaseQuantity(2)">+</button>
+                                </div>
+                                <button class="remove-item" onclick="removeItem(2)">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cart-summary">
+                        <h3 class="summary-title">📋 Resumen del Pedido</h3>
+                        <div class="summary-row">
+                            <span class="summary-label">Subtotal:</span>
+                            <span class="summary-value" id="subtotal">$300</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Envío:</span>
+                            <span class="summary-value" id="delivery-cost">Gratis</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Descuento:</span>
+                            <span class="summary-value" id="discount">-$0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Total:</span>
+                            <span class="summary-value" id="total">$300</span>
+                        </div>
+                    </div>
+
+                    <button class="checkout-button" onclick="proceedToCheckout()">
+                        🚀 Proceder al Pago
+                    </button>
                 </div>
             </div>
         </div>
@@ -1119,7 +1500,7 @@
                 <div class="nav-item" onclick="switchTab(this, 'cart')" style="position: relative;">
                     <span class="nav-icon">🛒</span>
                     <span>Carrito</span>
-                    <span class="cart-badge">2</span>
+                    <span class="cart-badge" id="cart-badge">2</span>
                 </div>
                 <div class="nav-item" onclick="switchTab(this, 'profile')">
                     <span class="nav-icon">👤</span>
@@ -1130,7 +1511,88 @@
     </div>
 
     <script>
-        let cartItems = 2;
+        // Estado del carrito
+        let cartData = {
+            items: [
+                {
+                    id: 1,
+                    name: "Pizza Hawaiana Grande",
+                    restaurant: "🍕 Pizzería Flamingo",
+                    description: "Jamón, piña, queso mozzarella, salsa especial",
+                    price: 180,
+                    quantity: 1
+                },
+                {
+                    id: 2,
+                    name: "Ceviche de Pescado",
+                    restaurant: "🦐 Mariscos El Pelícano",
+                    description: "Pescado fresco, limón, cebolla, cilantro, aguacate",
+                    price: 120,
+                    quantity: 1
+                }
+            ]
+        };
+
+        let cartItems = cartData.items.length;
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            const totalItems = cartData.items.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = totalItems;
+            badge.style.display = totalItems > 0 ? 'flex' : 'none';
+        }
+
+        function updateCartSummary() {
+            const subtotal = cartData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const deliveryCost = subtotal >= 200 ? 0 : 25;
+            const discount = 0;
+            const total = subtotal + deliveryCost - discount;
+
+            document.getElementById('subtotal').textContent = `${subtotal}`;
+            document.getElementById('delivery-cost').textContent = deliveryCost === 0 ? 'Gratis' : `${deliveryCost}`;
+            document.getElementById('discount').textContent = `-${discount}`;
+            document.getElementById('total').textContent = `${total}`;
+        }
+
+        function increaseQuantity(itemId) {
+            const item = cartData.items.find(item => item.id === itemId);
+            if (item) {
+                item.quantity++;
+                document.getElementById(`quantity-${itemId}`).textContent = item.quantity;
+                updateCartBadge();
+                updateCartSummary();
+            }
+        }
+
+        function decreaseQuantity(itemId) {
+            const item = cartData.items.find(item => item.id === itemId);
+            if (item && item.quantity > 1) {
+                item.quantity--;
+                document.getElementById(`quantity-${itemId}`).textContent = item.quantity;
+                updateCartBadge();
+                updateCartSummary();
+            }
+        }
+
+        function removeItem(itemId) {
+            if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+                cartData.items = cartData.items.filter(item => item.id !== itemId);
+                document.querySelector(`[data-item-id="${itemId}"]`).remove();
+                updateCartBadge();
+                updateCartSummary();
+                
+                // Si el carrito está vacío, mostrar estado vacío
+                if (cartData.items.length === 0) {
+                    document.getElementById('cart-with-items').classList.add('hidden');
+                    document.getElementById('empty-cart').classList.remove('hidden');
+                }
+            }
+        }
+
+        function proceedToCheckout() {
+            const total = document.getElementById('total').textContent;
+            alert(`🚀 Procediendo al pago por ${total}\n\n¡Pronto implementaremos el sistema de pagos!`);
+        }
 
         function selectCategory(element) {
             document.querySelectorAll('.category-item').forEach(item => {
@@ -1183,7 +1645,7 @@
             });
             
             // Ocultar todo el contenido
-            document.querySelectorAll('#home-content, #tourism-content, #profile-content').forEach(content => {
+            document.querySelectorAll('#home-content, #tourism-content, #profile-content, #cart-content').forEach(content => {
                 content.classList.add('hidden');
             });
             
@@ -1197,11 +1659,20 @@
                 document.getElementById('tourism-content').classList.remove('hidden');
             } else if (tab === 'profile') {
                 document.getElementById('profile-content').classList.remove('hidden');
+            } else if (tab === 'cart') {
+                document.getElementById('cart-content').classList.remove('hidden');
+                // Mostrar carrito vacío o con productos según corresponda
+                if (cartData.items.length === 0) {
+                    document.getElementById('cart-with-items').classList.add('hidden');
+                    document.getElementById('empty-cart').classList.remove('hidden');
+                } else {
+                    document.getElementById('cart-with-items').classList.remove('hidden');
+                    document.getElementById('empty-cart').classList.add('hidden');
+                }
             } else {
                 // Para otros tabs, mostrar mensaje
                 const content = {
-                    'search': 'Abriendo búsqueda...',
-                    'cart': `Tienes ${cartItems} productos en tu carrito`
+                    'search': 'Abriendo búsqueda...'
                 };
                 
                 if (content[tab]) {
@@ -1217,7 +1688,7 @@
 
         // Animación de entrada
         window.addEventListener('load', () => {
-            const cards = document.querySelectorAll('.restaurant-card, .tourism-card');
+            const cards = document.querySelectorAll('.restaurant-card, .tourism-card, .cart-item');
             cards.forEach((card, index) => {
                 setTimeout(() => {
                     card.style.opacity = '0';
@@ -1230,6 +1701,10 @@
                     }, 100);
                 }, index * 100);
             });
+            
+            // Inicializar carrito
+            updateCartBadge();
+            updateCartSummary();
         });
 
         // Funciones del perfil
@@ -1274,7 +1749,7 @@
             }
         }
 
-        // Detectar cambios en el modo oscuro
+        // Detectar cambios en el modo oscuro y actualizar theme-color
         const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         
         function updateThemeColor() {
@@ -1286,6 +1761,58 @@
         // Actualizar color del tema al cargar y cuando cambie
         updateThemeColor();
         darkModeMediaQuery.addEventListener('change', updateThemeColor);
+
+        // Función para cambiar dinámicamente el color del navegador en móviles
+        function setMobileThemeColor(color) {
+            const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+            if (metaThemeColor) {
+                metaThemeColor.setAttribute('content', color);
+            }
+        }
+
+        // Cambiar color según la sección activa
+        function updateThemeColorForSection(section) {
+            const colors = {
+                'home': '#EC4899',      // Rosa principal
+                'search': '#F472B6',    // Rosa secundario
+                'tourism': '#FB7185',   // Rosa accent
+                'cart': '#A855F7',      // Púrpura
+                'profile': '#EC4899'    // Rosa principal
+            };
+            
+            const isDark = darkModeMediaQuery.matches;
+            let baseColor = colors[section] || '#EC4899';
+            
+            // Ajustar para modo oscuro
+            if (isDark) {
+                switch(section) {
+                    case 'home':
+                        baseColor = '#F472B6';
+                        break;
+                    case 'search':
+                        baseColor = '#EC4899';
+                        break;
+                    case 'tourism':
+                        baseColor = '#FB7185';
+                        break;
+                    case 'cart':
+                        baseColor = '#A855F7';
+                        break;
+                    case 'profile':
+                        baseColor = '#F472B6';
+                        break;
+                }
+            }
+            
+            setMobileThemeColor(baseColor);
+        }
+
+        // Modificar la función switchTab para incluir el cambio de color
+        const originalSwitchTab = switchTab;
+        switchTab = function(element, tab) {
+            originalSwitchTab(element, tab);
+            updateThemeColorForSection(tab);
+        };
 
         // Simular actualizaciones en tiempo real
         setInterval(() => {
@@ -1299,6 +1826,105 @@
                 }
             });
         }, 5000);
+
+        // Animaciones adicionales para el carrito
+        function animateCartUpdate() {
+            const cartBadge = document.getElementById('cart-badge');
+            cartBadge.style.animation = 'pulse 0.5s ease';
+            setTimeout(() => {
+                cartBadge.style.animation = '';
+            }, 500);
+        }
+
+        // Sobrescribir funciones del carrito para incluir animaciones
+        const originalIncreaseQuantity = increaseQuantity;
+        increaseQuantity = function(itemId) {
+            originalIncreaseQuantity(itemId);
+            animateCartUpdate();
+        };
+
+        const originalDecreaseQuantity = decreaseQuantity;
+        decreaseQuantity = function(itemId) {
+            originalDecreaseQuantity(itemId);
+            animateCartUpdate();
+        };
+
+        const originalRemoveItem = removeItem;
+        removeItem = function(itemId) {
+            originalRemoveItem(itemId);
+            animateCartUpdate();
+        };
+
+        // Efectos táctiles para móviles
+        if ('ontouchstart' in window) {
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.classList.contains('cart-item') || 
+                    e.target.closest('.cart-item')) {
+                    e.target.style.transform = 'scale(0.98)';
+                }
+            });
+
+            document.addEventListener('touchend', function(e) {
+                if (e.target.classList.contains('cart-item') || 
+                    e.target.closest('.cart-item')) {
+                    e.target.style.transform = 'scale(1)';
+                }
+            });
+        }
+
+        // Funciones adicionales para demo del carrito
+        function addSampleItem() {
+            const newItem = {
+                id: Date.now(),
+                name: "Tacos de Pastor",
+                restaurant: "🌮 Taquería La Gaviota",
+                description: "3 tacos con carne al pastor, piña, cebolla, cilantro",
+                price: 85,
+                quantity: 1
+            };
+            
+            cartData.items.push(newItem);
+            
+            // Crear elemento HTML para el nuevo item
+            const cartItems = document.querySelector('.cart-items');
+            const newItemHTML = `
+                <div class="cart-item" data-item-id="${newItem.id}">
+                    <div class="item-header">
+                        <div class="item-info">
+                            <h3 class="item-name">${newItem.name}</h3>
+                            <p class="item-restaurant">${newItem.restaurant}</p>
+                            <p class="item-description">${newItem.description}</p>
+                        </div>
+                        <div class="item-price">${newItem.price}</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="decreaseQuantity(${newItem.id})">-</button>
+                            <span class="quantity-number" id="quantity-${newItem.id}">${newItem.quantity}</span>
+                            <button class="quantity-btn" onclick="increaseQuantity(${newItem.id})">+</button>
+                        </div>
+                        <button class="remove-item" onclick="removeItem(${newItem.id})">🗑️</button>
+                    </div>
+                </div>
+            `;
+            
+            cartItems.insertAdjacentHTML('beforeend', newItemHTML);
+            updateCartBadge();
+            updateCartSummary();
+            animateCartUpdate();
+            
+            // Mostrar carrito con items si estaba vacío
+            document.getElementById('cart-with-items').classList.remove('hidden');
+            document.getElementById('empty-cart').classList.add('hidden');
+        }
+
+        // Evento para probar agregar items (doble click en restaurantes)
+        document.querySelectorAll('.restaurant-card').forEach(card => {
+            card.addEventListener('dblclick', function() {
+                addSampleItem();
+                alert('¡Producto agregado al carrito! 🛒');
+            });
+        });
     </script>
 </body>
 </html>
