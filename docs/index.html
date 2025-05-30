@@ -490,6 +490,235 @@
             display: none;
         }
 
+        .profile-header {
+            background: var(--gradient-1);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .avatar-emoji {
+            font-size: 35px;
+        }
+
+        .edit-avatar-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-avatar-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            opacity: 0.9;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .profile-sections {
+            padding: 0 20px;
+            margin-bottom: 100px;
+        }
+
+        .profile-section {
+            margin-bottom: 25px;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            padding-left: 5px;
+        }
+
+        .profile-menu {
+            background: var(--surface);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+            gap: 15px;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: var(--border-color);
+            transform: translateX(5px);
+        }
+
+        .menu-item:active {
+            transform: translateX(5px) scale(0.98);
+        }
+
+        .menu-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .menu-content {
+            flex: 1;
+        }
+
+        .menu-title {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .menu-description {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .menu-arrow {
+            font-size: 18px;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 28px;
+            background: var(--text-muted);
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: var(--primary-color);
+        }
+
+        .toggle-slider {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(22px);
+        }
+
+        .logout-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .logout-btn:active {
+            transform: translateY(0);
+        }
+
+        .logout-icon {
+            font-size: 18px;
+        }
+
         @media (max-width: 375px) {
             .categories {
                 grid-template-columns: repeat(3, 1fr);
@@ -702,6 +931,177 @@
             </div>
         </div>
 
+        <!-- Contenido del Perfil -->
+        <div id="profile-content" class="tab-content hidden">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <div class="avatar-circle">
+                        <span class="avatar-emoji">👤</span>
+                    </div>
+                    <button class="edit-avatar-btn" onclick="editAvatar()">📷</button>
+                </div>
+                <h2 class="profile-name">María González</h2>
+                <p class="profile-email">maria.gonzalez@email.com</p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Pedidos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4.8</span>
+                        <span class="stat-label">⭐ Rating</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">Gold</span>
+                        <span class="stat-label">Nivel</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-sections">
+                <div class="profile-section">
+                    <h3 class="section-subtitle">Mi Cuenta</h3>
+                    <div class="profile-menu">
+                        <div class="menu-item" onclick="openProfileOption('personal')">
+                            <span class="menu-icon">👤</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Información Personal</span>
+                                <span class="menu-description">Editar nombre, teléfono, email</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('addresses')">
+                            <span class="menu-icon">📍</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Mis Direcciones</span>
+                                <span class="menu-description">Casa, trabajo y más</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('payment')">
+                            <span class="menu-icon">💳</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Métodos de Pago</span>
+                                <span class="menu-description">Tarjetas y billeteras digitales</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3 class="section-subtitle">Historial</h3>
+                    <div class="profile-menu">
+                        <div class="menu-item" onclick="openProfileOption('orders')">
+                            <span class="menu-icon">📦</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Mis Pedidos</span>
+                                <span class="menu-description">Historial de órdenes</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('favorites')">
+                            <span class="menu-icon">❤️</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Favoritos</span>
+                                <span class="menu-description">Restaurantes y platillos</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('reviews')">
+                            <span class="menu-icon">⭐</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Mis Reseñas</span>
+                                <span class="menu-description">Calificaciones realizadas</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3 class="section-subtitle">Configuración</h3>
+                    <div class="profile-menu">
+                        <div class="menu-item" onclick="toggleNotifications()">
+                            <span class="menu-icon">🔔</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Notificaciones</span>
+                                <span class="menu-description">Ofertas y actualizaciones</span>
+                            </div>
+                            <div class="toggle-switch active" id="notifications-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item" onclick="toggleDarkMode()">
+                            <span class="menu-icon">🌙</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Modo Oscuro</span>
+                                <span class="menu-description">Automático según dispositivo</span>
+                            </div>
+                            <div class="toggle-switch" id="darkmode-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('language')">
+                            <span class="menu-icon">🌐</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Idioma</span>
+                                <span class="menu-description">Español</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3 class="section-subtitle">Soporte</h3>
+                    <div class="profile-menu">
+                        <div class="menu-item" onclick="openProfileOption('help')">
+                            <span class="menu-icon">❓</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Centro de Ayuda</span>
+                                <span class="menu-description">FAQ y soporte</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('contact')">
+                            <span class="menu-icon">💬</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Contáctanos</span>
+                                <span class="menu-description">Chat en vivo 24/7</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('about')">
+                            <span class="menu-icon">ℹ️</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Acerca de</span>
+                                <span class="menu-description">Celestún Go v2.1.0</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="logout-section">
+                        <button class="logout-btn" onclick="logout()">
+                            <span class="logout-icon">🚪</span>
+                            <span>Cerrar Sesión</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <nav class="bottom-nav">
             <div class="nav-items">
                 <div class="nav-item active" onclick="switchTab(this, 'home')">
@@ -783,7 +1183,7 @@
             });
             
             // Ocultar todo el contenido
-            document.querySelectorAll('#home-content, #tourism-content').forEach(content => {
+            document.querySelectorAll('#home-content, #tourism-content, #profile-content').forEach(content => {
                 content.classList.add('hidden');
             });
             
@@ -795,12 +1195,13 @@
                 document.getElementById('home-content').classList.remove('hidden');
             } else if (tab === 'tourism') {
                 document.getElementById('tourism-content').classList.remove('hidden');
+            } else if (tab === 'profile') {
+                document.getElementById('profile-content').classList.remove('hidden');
             } else {
                 // Para otros tabs, mostrar mensaje
                 const content = {
                     'search': 'Abriendo búsqueda...',
-                    'cart': `Tienes ${cartItems} productos en tu carrito`,
-                    'profile': 'Abriendo perfil...'
+                    'cart': `Tienes ${cartItems} productos en tu carrito`
                 };
                 
                 if (content[tab]) {
@@ -830,6 +1231,48 @@
                 }, index * 100);
             });
         });
+
+        // Funciones del perfil
+        function editAvatar() {
+            alert('📷 Seleccionar nueva foto de perfil...');
+        }
+
+        function openProfileOption(option) {
+            const options = {
+                'personal': '👤 Editar información personal',
+                'addresses': '📍 Gestionar direcciones guardadas',
+                'payment': '💳 Administrar métodos de pago',
+                'orders': '📦 Ver historial de pedidos',
+                'favorites': '❤️ Mis restaurantes y platillos favoritos',
+                'reviews': '⭐ Mis reseñas y calificaciones',
+                'language': '🌐 Cambiar idioma de la app',
+                'help': '❓ Centro de ayuda y preguntas frecuentes',
+                'contact': '💬 Contactar soporte técnico',
+                'about': 'ℹ️ Celestún Go versión 2.1.0'
+            };
+            alert(options[option] || 'Opción no disponible');
+        }
+
+        function toggleNotifications() {
+            const toggle = document.getElementById('notifications-toggle');
+            toggle.classList.toggle('active');
+            const isActive = toggle.classList.contains('active');
+            alert(isActive ? '🔔 Notificaciones activadas' : '🔕 Notificaciones desactivadas');
+        }
+
+        function toggleDarkMode() {
+            const toggle = document.getElementById('darkmode-toggle');
+            toggle.classList.toggle('active');
+            const isActive = toggle.classList.contains('active');
+            alert(isActive ? '🌙 Modo oscuro forzado activado' : '🌙 Modo automático según dispositivo');
+        }
+
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                alert('👋 Sesión cerrada. ¡Hasta pronto!');
+                // Aquí se implementaría la lógica de logout real
+            }
+        }
 
         // Detectar cambios en el modo oscuro
         const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
