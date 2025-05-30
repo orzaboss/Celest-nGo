@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celestún Go - Delivery</title>
+    <title>Celestún GO - Seguimiento de Pedido</title>
     <meta name="theme-color" content="#FF69B4">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,99 +16,9 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
+            background: #f8fafc;
             min-height: 100vh;
             overflow-x: hidden;
-        }
-
-        /* SPLASH SCREEN ANIMATION */
-        .splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .splash-screen.hide {
-            opacity: 0;
-            transform: scale(1.1);
-            pointer-events: none;
-        }
-
-        .splash-logo {
-            color: white;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .splash-title {
-            font-size: 48px;
-            font-weight: 900;
-            margin-bottom: 10px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: slideInUp 0.8s ease forwards 0.3s;
-        }
-
-        .splash-subtitle {
-            font-size: 18px;
-            opacity: 0.9;
-            letter-spacing: 2px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideInUp 0.8s ease forwards 0.6s;
-        }
-
-        .splash-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: scale(0.5) rotate(-180deg);
-            animation: iconEntry 1s ease forwards 0.1s;
-        }
-
-        .loading-dots {
-            display: flex;
-            gap: 8px;
-            margin-top: 40px;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            animation: loadingPulse 1.5s ease-in-out infinite;
-        }
-
-        .dot:nth-child(2) { animation-delay: 0.3s; }
-        .dot:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes slideInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes iconEntry {
-            to {
-                opacity: 1;
-                transform: scale(1) rotate(0deg);
-            }
-        }
-
-        @keyframes loadingPulse {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.3); opacity: 1; }
         }
 
         .app-container {
@@ -117,15 +27,7 @@
             background: #ffffff;
             min-height: 100vh;
             position: relative;
-            box-shadow: 0 0 30px rgba(0,0,0,0.2);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease;
-        }
-
-        .app-container.show {
-            opacity: 1;
-            transform: translateY(0);
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
         }
 
         .header {
@@ -156,26 +58,35 @@
         .header-content {
             position: relative;
             z-index: 10;
-        }
-
-        .location {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 10px;
-            opacity: 0.9;
+            gap: 15px;
         }
 
-        .location-icon {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .header-title {
+            flex: 1;
         }
 
         .app-title {
-            font-size: 28px;
+            font-size: 20px;
             font-weight: 700;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .subtitle {
@@ -183,266 +94,364 @@
             font-size: 14px;
         }
 
-        .search-container {
+        .tracking-container {
+            padding: 0;
+            background: white;
+        }
+
+        .order-info {
             padding: 20px;
             background: white;
-            position: relative;
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        .search-box {
-            position: relative;
-            margin-bottom: 20px;
+        .order-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
         }
 
-        .search-input {
-            width: 100%;
-            padding: 15px 50px 15px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 25px;
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
-            background: #f8fafc;
-        }
-
-        .search-input:focus {
-            border-color: #FF69B4;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-        }
-
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .category-item {
-            text-align: center;
-            padding: 15px 10px;
-            border-radius: 15px;
-            background: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .category-item:hover, .category-item.active {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-color: #FF69B4;
-        }
-
-        .category-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .category-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: #334155;
-        }
-
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #1e293b;
-            padding: 0 20px;
-        }
-
-        .restaurants-grid {
-            padding: 0 20px;
-            display: grid;
-            gap: 20px;
-            margin-bottom: 100px;
-        }
-
-        .restaurant-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .restaurant-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
-
-        .restaurant-image {
-            width: 100%;
-            height: 150px;
-            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .restaurant-image::before {
-            content: '🍕';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 40px;
-            opacity: 0.7;
-        }
-
-        .delivery-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(255, 105, 180, 0.9);
+        .status-icon {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 11px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
+            padding: 8px;
+            border-radius: 50%;
+            font-size: 16px;
+            animation: pulse 2s infinite;
         }
 
-        .restaurant-info {
-            padding: 20px;
+        .status-text {
+            flex: 1;
         }
 
-        .restaurant-name {
-            font-size: 18px;
+        .status-title {
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 8px;
-            color: #1e293b;
-        }
-
-        .restaurant-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .rating {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            color: #f59e0b;
-            font-weight: 600;
-        }
-
-        .delivery-time {
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .delivery-fee {
             color: #22c55e;
-            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .status-description {
             font-size: 14px;
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 400px;
-            background: white;
-            padding: 15px 20px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
-            backdrop-filter: blur(20px);
-        }
-
-        .nav-items {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
             color: #64748b;
+        }
+
+        .eta-badge {
+            background: #22c55e;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
             font-size: 12px;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 8px;
+        }
+
+        .order-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8fafc;
             border-radius: 12px;
         }
 
-        .nav-item.active {
-            color: #FF69B4;
-            background: rgba(255, 105, 180, 0.1);
+        .order-number {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 8px;
         }
 
-        .nav-icon {
-            font-size: 20px;
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ef4444;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
+        .restaurant-info {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: 700;
+            gap: 12px;
         }
 
-        .promo-banner {
-            background: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
-            margin: 20px;
-            padding: 20px;
-            border-radius: 20px;
+        .restaurant-icon {
+            background: linear-gradient(135deg, #FF69B4, #FF1493);
             color: white;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .restaurant-details h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .restaurant-details p {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .map-container {
+            height: 300px;
             position: relative;
+            background: #e2e8f0;
             overflow: hidden;
         }
 
-        .promo-banner::before {
-            content: '🎉';
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 30px;
-            opacity: 0.7;
+        #map {
+            width: 100%;
+            height: 100%;
         }
 
-        .promo-title {
+        .map-overlay {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .driver-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .driver-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FF69B4, #FF1493);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-size: 18px;
             font-weight: 700;
-            margin-bottom: 5px;
         }
 
-        .promo-subtitle {
+        .driver-details {
+            flex: 1;
+        }
+
+        .driver-name {
             font-size: 14px;
-            opacity: 0.9;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2px;
         }
 
-        .pulse {
+        .driver-vehicle {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .call-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .call-btn:hover {
+            background: #16a34a;
+            transform: scale(1.05);
+        }
+
+        .progress-section {
+            padding: 20px;
+            background: white;
+        }
+
+        .progress-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+        .progress-timeline {
+            position: relative;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 35px;
+            bottom: -20px;
+            width: 2px;
+            background: #e2e8f0;
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-right: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-icon.completed {
+            background: #22c55e;
+            color: white;
+        }
+
+        .timeline-icon.active {
+            background: #FF69B4;
+            color: white;
             animation: pulse 2s infinite;
+        }
+
+        .timeline-icon.pending {
+            background: #e2e8f0;
+            color: #94a3b8;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding-top: 2px;
+        }
+
+        .timeline-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .timeline-title.completed {
+            color: #22c55e;
+        }
+
+        .timeline-title.active {
+            color: #FF69B4;
+        }
+
+        .order-items {
+            padding: 20px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .items-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .item-info p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .item-quantity {
+            font-size: 14px;
+            font-weight: 700;
+            color: #FF69B4;
+        }
+
+        .total-section {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .total-row.final {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 8px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #FF69B4;
+        }
+
+        .actions {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #FF69B4;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, #FF69B4, #FF1493);
+            color: white;
+            border-color: transparent;
+        }
+
+        .action-btn.secondary {
+            background: white;
+            color: #FF69B4;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
         }
 
         @keyframes pulse {
@@ -451,1044 +460,856 @@
             100% { transform: scale(1); }
         }
 
-        /* CARRITO STYLES */
-        .cart-section {
-            padding: 20px;
-            margin-bottom: 100px;
-            display: none;
-        }
-
-        .cart-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .cart-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 5px;
-        }
-
-        .cart-empty {
-            text-align: center;
-            padding: 60px 20px;
-            color: #64748b;
-        }
-
-        .cart-empty-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            opacity: 0.6;
-        }
-
-        .cart-empty-text {
-            font-size: 16px;
-            margin-bottom: 30px;
-        }
-
-        .cart-items {
-            margin-bottom: 30px;
-        }
-
-        .cart-item {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .item-info h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 5px;
-        }
-
-        .item-info p {
-            font-size: 14px;
-            color: #64748b;
-        }
-
-        .item-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .quantity-btn {
-            background: #FF69B4;
+        .live-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(239, 68, 68, 0.9);
             color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .quantity-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .quantity-btn:disabled {
-            background: #cbd5e1;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .cart-summary {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .summary-row.total {
-            border-top: 2px solid #e2e8f0;
-            padding-top: 10px;
-            font-weight: 700;
-            font-size: 18px;
-            color: #FF69B4;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #FF69B4, #FF1493);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .checkout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.3);
-        }
-
-        /* SECTIONS STYLES */
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        /* ADS SECTION */
-        .ads-section {
-            padding: 20px;
-            margin-bottom: 100px;
-        }
-
-        .ad-banner {
-            background: linear-gradient(135deg, #FFB6C1, #FF69B4, #FF1493);
-            border-radius: 20px;
-            padding: 25px;
-            color: white;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .ad-banner:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.4);
-        }
-
-        .ad-title {
-            font-size: 20px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .ad-description {
-            font-size: 14px;
-            opacity: 0.95;
-            margin-bottom: 15px;
-        }
-
-        /* TOURS SECTION */
-        .tourism-section {
-            padding: 20px;
-            margin-bottom: 100px;
-        }
-
-        .tourism-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .tourism-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(255, 105, 180, 0.15);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .tourism-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.25);
-        }
-
-        .tourism-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
-        .tourism-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #FF1493;
-            margin-bottom: 8px;
-        }
-
-        .tourism-description {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .featured-tour {
-            background: linear-gradient(135deg, #FFB6C1, #FF69B4);
-            border-radius: 20px;
-            padding: 25px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 20px;
-            cursor: pointer;
-        }
-
-        .tour-badge {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            padding: 5px 12px;
-            border-radius: 15px;
+            padding: 5px 10px;
+            border-radius: 12px;
             font-size: 11px;
             font-weight: 600;
-            display: inline-block;
-            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+            animation: pulse 2s infinite;
         }
 
-        .tour-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .tour-price {
-            font-size: 14px;
-            opacity: 0.9;
+        .live-indicator::before {
+            content: '🔴';
+            margin-right: 5px;
         }
 
         /* Responsive */
         @media (max-width: 375px) {
-            .categories {
-                grid-template-columns: repeat(3, 1fr);
+            .app-container {
+                max-width: 100%;
             }
             
-            .tourism-grid {
-                grid-template-columns: 1fr;
+            .header {
+                padding: 30px 15px 15px;
+            }
+            
+            .order-info, .progress-section, .actions {
+                padding: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- SPLASH SCREEN -->
-    <div class="splash-screen" id="splashScreen">
-        <div class="splash-logo">
-            <div class="splash-icon">🏖️</div>
-            <div class="splash-title">CELESTÚN GO</div>
-            <div class="splash-subtitle">DELIVERY & TOURS</div>
-        </div>
-        <div class="loading-dots">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
-    </div>
-
-    <div class="app-container" id="appContainer">
+    <div class="app-container">
         <header class="header">
             <div class="header-content">
-                <div class="location">
-                    <svg class="location-icon" viewBox="0 0 24 24">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                    </svg>
-                    <span>Celestún, Yucatán</span>
+                <button class="back-btn" onclick="goBack()">
+                    ←
+                </button>
+                <div class="header-title">
+                    <h1 class="app-title">Seguimiento de Pedido</h1>
+                    <p class="subtitle">En tiempo real</p>
                 </div>
-                <h1 class="app-title">Celestún Go</h1>
-                <p class="subtitle">Delivery rápido y confiable</p>
             </div>
         </header>
 
-        <!-- HOME SECTION -->
-        <div class="content-section active" id="homeSection">
-            <div class="search-container">
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="¿Qué antojo tienes hoy?" id="searchInput">
-                    <span class="search-icon">🔍</span>
+        <div class="tracking-container">
+            <div class="order-info">
+                <div class="order-status">
+                    <div class="status-icon">🛵</div>
+                    <div class="status-text">
+                        <div class="status-title">En camino a tu ubicación</div>
+                        <div class="status-description">Tu repartidor está cerca</div>
+                    </div>
+                    <div class="eta-badge" id="etaBadge">12 min</div>
                 </div>
 
-                <div class="categories">
-                    <div class="category-item" onclick="selectCategory(this, 'pizza')" data-category="pizza">
-                        <span class="category-icon">🍕</span>
-                        <span class="category-name">Pizza</span>
-                    </div>
-                    <div class="category-item" onclick="selectCategory(this, 'tacos')" data-category="tacos">
-                        <span class="category-icon">🌮</span>
-                        <span class="category-name">Tacos</span>
-                    </div>
-                    <div class="category-item" onclick="selectCategory(this, 'burgers')" data-category="burgers">
-                        <span class="category-icon">🍔</span>
-                        <span class="category-name">Burgers</span>
-                    </div>
-                    <div class="category-item" onclick="selectCategory(this, 'saludable')" data-category="saludable">
-                        <span class="category-icon">🥗</span>
-                        <span class="category-name">Saludable</span>
-                    </div>
-                    <div class="category-item" onclick="selectCategory(this, 'sushi')" data-category="sushi">
-                        <span class="category-icon">🍣</span>
-                        <span class="category-name">Sushi</span>
-                    </div>
-                    <div class="category-item" onclick="selectCategory(this, 'mariscos')" data-category="mariscos">
-                        <span class="category-icon">🐟</span>
-                        <span class="category-name">Mariscos</span>
-                    </div>
-                    <div class="category-item" onclick="selectCategory(this, 'postres')" data-category="postres">
-                        <span class="category-icon">🧁</span>
-                        <span class="category-name">Postres</span>
-                    </div>
-                    <div class="category-item" onclick="selectCategory(this, 'bebidas')" data-category="bebidas">
-                        <span class="category-icon">☕</span>
-                        <span class="category-name">Bebidas</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="promo-banner pulse">
-                <div class="promo-title">¡Envío GRATIS!</div>
-                <div class="promo-subtitle">En pedidos mayores a $200</div>
-            </div>
-
-            <h2 class="section-title" id="restaurantsTitle">Restaurantes cerca de ti</h2>
-
-            <div class="restaurants-grid" id="restaurantsGrid">
-                <div class="restaurant-card" onclick="openRestaurant('pizzeria-flamingo')" data-category="pizza">
-                    <div class="restaurant-image" style="background: linear-gradient(45deg, #FF6B6B, #FF8E8E);">
-                        <div class="delivery-badge">Envío gratis</div>
-                    </div>
+                <div class="order-details">
+                    <div class="order-number">Pedido #CG-2024-0156</div>
                     <div class="restaurant-info">
-                        <h3 class="restaurant-name">Pizzería Flamingo</h3>
+                        <div class="restaurant-icon">🍕</div>
                         <div class="restaurant-details">
-                            <div class="rating">⭐ 4.8</div>
-                            <div class="delivery-time">25-35 min</div>
-                            <div class="delivery-fee">Gratis</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="restaurant-card" onclick="openRestaurant('mariscos-pelicano')" data-category="mariscos">
-                    <div class="restaurant-image" style="background: linear-gradient(45deg, #4ECDC4, #44A08D);">
-                        <div class="delivery-badge">Nuevo</div>
-                    </div>
-                    <div class="restaurant-info">
-                        <h3 class="restaurant-name">Mariscos El Pelícano</h3>
-                        <div class="restaurant-details">
-                            <div class="rating">⭐ 4.9</div>
-                            <div class="delivery-time">20-30 min</div>
-                            <div class="delivery-fee">$25</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="restaurant-card" onclick="openRestaurant('taqueria-gaviota')" data-category="tacos">
-                    <div class="restaurant-image" style="background: linear-gradient(45deg, #FFA726, #FF7043);">
-                        <div class="delivery-badge">Popular</div>
-                    </div>
-                    <div class="restaurant-info">
-                        <h3 class="restaurant-name">Taquería La Gaviota</h3>
-                        <div class="restaurant-details">
-                            <div class="rating">⭐ 4.7</div>
-                            <div class="delivery-time">15-25 min</div>
-                            <div class="delivery-fee">$20</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="restaurant-card" onclick="openRestaurant('cafe-manglar')" data-category="bebidas">
-                    <div class="restaurant-image" style="background: linear-gradient(45deg, #A855F7, #EC4899);">
-                        <div class="delivery-badge">Descuento</div>
-                    </div>
-                    <div class="restaurant-info">
-                        <h3 class="restaurant-name">Café Manglar</h3>
-                        <div class="restaurant-details">
-                            <div class="rating">⭐ 4.6</div>
-                            <div class="delivery-time">10-20 min</div>
-                            <div class="delivery-fee">$15</div>
+                            <h3>Pizzería Flamingo</h3>
+                            <p>Pizza Hawaiana Grande</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- CARRITO SECTION -->
-        <div class="content-section cart-section" id="cartSection">
-            <div class="cart-header">
-                <h2 class="cart-title">🛒 Mi Carrito</h2>
-            </div>
-            
-            <div id="cartEmpty" class="cart-empty">
-                <div class="cart-empty-icon">🛒</div>
-                <div class="cart-empty-text">Tu carrito está vacío</div>
-                <button class="checkout-btn" onclick="switchToSection('home')">Explorar Restaurantes</button>
-            </div>
-
-            <div id="cartContent" style="display: none;">
-                <div class="cart-items" id="cartItems"></div>
-                
-                <div class="cart-summary">
-                    <div class="summary-row">
-                        <span>Subtotal:</span>
-                        <span id="subtotal">$0</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Envío:</span>
-                        <span id="deliveryFee">$25</span>
-                    </div>
-                    <div class="summary-row total">
-                        <span>Total:</span>
-                        <span id="total">$0</span>
+            <div class="map-container">
+                <div class="live-indicator">EN VIVO</div>
+                <div id="map"></div>
+                <div class="map-overlay">
+                    <div class="driver-info">
+                        <div class="driver-avatar">CM</div>
+                        <div class="driver-details">
+                            <div class="driver-name">Carlos Martínez</div>
+                            <div class="driver-vehicle">Motocicleta • CBR-123</div>
+                        </div>
+                        <button class="call-btn" onclick="callDriver()">📞 Llamar</button>
                     </div>
                 </div>
+            </div>
 
-                <button class="checkout-btn" onclick="proceedToCheckout()">
-                    🚀 Proceder al Pago
+            <div class="progress-section">
+                <h3 class="progress-title">Estado del Pedido</h3>
+                <div class="progress-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon completed">✓</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title completed">Pedido confirmado</div>
+                            <div class="timeline-time">14:25</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon completed">✓</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title completed">Preparando tu pedido</div>
+                            <div class="timeline-time">14:30</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon completed">✓</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title completed">Pedido listo</div>
+                            <div class="timeline-time">14:45</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon active">🛵</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title active">En camino</div>
+                            <div class="timeline-time">Ahora</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-icon pending">📍</div>
+                        <div class="timeline-content">
+                            <div class="timeline-title">Entregado</div>
+                            <div class="timeline-time">~15:10</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-items">
+                <h3 class="items-title">Tu Pedido</h3>
+                <div class="item">
+                    <div class="item-info">
+                        <h4>Pizza Hawaiana Grande</h4>
+                        <p>Jamón, piña, queso mozzarella</p>
+                    </div>
+                    <div class="item-quantity">1x</div>
+                </div>
+                <div class="item">
+                    <div class="item-info">
+                        <h4>Refresco Coca-Cola</h4>
+                        <p>600ml</p>
+                    </div>
+                    <div class="item-quantity">2x</div>
+                </div>
+            </div>
+
+            <div class="total-section">
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span>$180</span>
+                </div>
+                <div class="total-row">
+                    <span>Bebidas:</span>
+                    <span>$40</span>
+                </div>
+                <div class="total-row">
+                    <span>Envío:</span>
+                    <span>Gratis</span>
+                </div>
+                <div class="total-row final">
+                    <span>Total:</span>
+                    <span>$220</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="action-btn secondary" onclick="contactSupport()">
+                    💬 Contactar Soporte
+                </button>
+                <button class="action-btn primary" onclick="shareLocation()">
+                    📍 Compartir mi Ubicación
                 </button>
             </div>
         </div>
-
-        <!-- OFERTAS SECTION -->
-        <div class="content-section ads-section" id="adsSection">
-            <h2 class="section-title">🎉 Ofertas Especiales</h2>
-            
-            <div class="ad-banner" onclick="activateOffer('BIENVENIDO50')">
-                <div class="ad-title">¡MEGA DESCUENTO!</div>
-                <div class="ad-description">50% OFF en tu primer pedido + delivery gratis</div>
-            </div>
-
-            <div class="ad-banner" onclick="activateOffer('COMBO150')">
-                <div class="ad-title">🍕 Pizza + Refresco</div>
-                <div class="ad-description">Combo especial por solo $150 - Ahorra $80</div>
-            </div>
-
-            <div class="ad-banner" onclick="activateOffer('TARJETA20')">
-                <div class="ad-title">💳 Paga con Tarjeta</div>
-                <div class="ad-description">20% de descuento pagando con tarjeta de crédito</div>
-            </div>
-        </div>
-
-        <!-- TOURS SECTION -->
-        <div class="content-section tourism-section" id="toursSection">
-            <h2 class="section-title">🏖️ Celestún Tours</h2>
-            
-            <div class="featured-tour" onclick="bookTour('flamingos-premium')">
-                <div class="tour-badge">⭐ Más Popular</div>
-                <div class="tour-title">Tour Flamingos Rosados</div>
-                <div class="tour-price">Desde $350 por persona</div>
-            </div>
-
-            <div class="tourism-grid">
-                <div class="tourism-card" onclick="bookTour('flamencos')">
-                    <span class="tourism-icon">🦩</span>
-                    <div class="tourism-title">Avistamiento</div>
-                    <div class="tourism-description">Observa flamingos en su hábitat natural</div>
-                </div>
-
-                <div class="tourism-card" onclick="bookTour('manglares')">
-                    <span class="tourism-icon">🚤</span>
-                    <div class="tourism-title">Manglares</div>
-                    <div class="tourism-description">Recorrido en lancha por los manglares</div>
-                </div>
-
-                <div class="tourism-card" onclick="bookTour('playa')">
-                    <span class="tourism-icon">🏖️</span>
-                    <div class="tourism-title">Playa Virgen</div>
-                    <div class="tourism-description">Relájate en playas de arena blanca</div>
-                </div>
-
-                <div class="tourism-card" onclick="bookTour('pesca')">
-                    <span class="tourism-icon">🎣</span>
-                    <div class="tourism-title">Pesca Deportiva</div>
-                    <div class="tourism-description">Aventura de pesca en alta mar</div>
-                </div>
-
-                <div class="tourism-card" onclick="bookTour('kayak')">
-                    <span class="tourism-icon">🛶</span>
-                    <div class="tourism-title">Kayak</div>
-                    <div class="tourism-description">Rema entre cenotes cristalinos</div>
-                </div>
-
-                <div class="tourism-card" onclick="bookTour('sunset')">
-                    <span class="tourism-icon">🌅</span>
-                    <div class="tourism-title">Atardecer</div>
-                    <div class="tourism-description">Tour fotográfico al atardecer</div>
-                </div>
-            </div>
-        </div>
-
-        <nav class="bottom-nav">
-            <div class="nav-items">
-                <div class="nav-item active" onclick="switchToSection('home')" data-section="home">
-                    <span class="nav-icon">🏠</span>
-                    <span>Inicio</span>
-                </div>
-                <div class="nav-item" onclick="openSearch()" data-section="search">
-                    <span class="nav-icon">🔍</span>
-                    <span>Buscar</span>
-                </div>
-                <div class="nav-item" onclick="switchToSection('cart')" data-section="cart" style="position: relative;">
-                    <span class="nav-icon">🛒</span>
-                    <span>Carrito</span>
-                    <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
-                </div>
-                <div class="nav-item" onclick="switchToSection('tours')" data-section="tours">
-                    <span class="nav-icon">🏖️</span>
-                    <span>Tours</span>
-                </div>
-                <div class="nav-item" onclick="switchToSection('ads')" data-section="ads">
-                    <span class="nav-icon">📢</span>
-                    <span>Ofertas</span>
-                </div>
-            </div>
-        </nav>
     </div>
 
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
     <script>
-        // Estado global de la app
-        let appState = {
-            cart: [],
-            activeCategory: null,
-            currentSection: 'home',
-            restaurants: [
-                {
-                    id: 'pizzeria-flamingo',
-                    name: 'Pizzería Flamingo',
-                    category: 'pizza',
-                    rating: 4.8,
-                    deliveryTime: '25-35 min',
-                    deliveryFee: 0,
-                    menu: [
-                        { id: 1, name: 'Pizza Hawaiana', price: 180, description: 'Jamón, piña, queso mozzarella' },
-                        { id: 2, name: 'Pizza Pepperoni', price: 160, description: 'Pepperoni, queso mozzarella' },
-                        { id: 3, name: 'Pizza Vegetariana', price: 170, description: 'Verduras frescas, queso' }
-                    ]
-                },
-                {
-                    id: 'mariscos-pelicano',
-                    name: 'Mariscos El Pelícano',
-                    category: 'mariscos',
-                    rating: 4.9,
-                    deliveryTime: '20-30 min',
-                    deliveryFee: 25,
-                    menu: [
-                        { id: 4, name: 'Ceviche de Pescado', price: 120, description: 'Pescado fresco, limón, cebolla' },
-                        { id: 5, name: 'Coctel de Camarón', price: 140, description: 'Camarones, salsa especial' },
-                        { id: 6, name: 'Pulpo a la Plancha', price: 180, description: 'Pulpo fresco a la plancha' }
-                    ]
-                },
-                {
-                    id: 'taqueria-gaviota',
-                    name: 'Taquería La Gaviota',
-                    category: 'tacos',
-                    rating: 4.7,
-                    deliveryTime: '15-25 min',
-                    deliveryFee: 20,
-                    menu: [
-                        { id: 7, name: 'Tacos de Pastor', price: 80, description: '4 tacos de pastor con piña' },
-                        { id: 8, name: 'Tacos de Carnitas', price: 75, description: '4 tacos de carnitas' },
-                        { id: 9, name: 'Quesadillas', price: 90, description: 'Quesadillas de queso o pollo' }
-                    ]
-                },
-                {
-                    id: 'cafe-manglar',
-                    name: 'Café Manglar',
-                    category: 'bebidas',
-                    rating: 4.6,
-                    deliveryTime: '10-20 min',
-                    deliveryFee: 15,
-                    menu: [
-                        { id: 10, name: 'Café Americano', price: 35, description: 'Café americano recién molido' },
-                        { id: 11, name: 'Frappé de Vainilla', price: 65, description: 'Frappé cremoso de vainilla' },
-                        { id: 12, name: 'Smoothie Tropical', price: 70, description: 'Mango, piña y coco' }
-                    ]
+        let map;
+        let deliveryMarker;
+        let customerMarker;
+        let directionsService;
+        let directionsRenderer;
+        let eta = 12; // minutos estimados
+
+        // Coordenadas de Celestún, Yucatán
+        const celestunCenter = { lat: 20.8583, lng: -90.3958 };
+        
+        // Coordenadas simuladas
+        const restaurantLocation = { lat: 20.8600, lng: -90.3970 };
+        const customerLocation = { lat: 20.8550, lng: -90.3920 };
+        let currentDeliveryLocation = { lat: 20.8580, lng: -90.3950 };
+
+        function initMap() {
+            // Inicializar el mapa
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: celestunCenter,
+                styles: [
+                    {
+                        featureType: 'water',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#e9e9e9' }, { lightness: 17 }]
+                    },
+                    {
+                        featureType: 'landscape',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#f5f5f5' }, { lightness: 20 }]
+                    },
+                    {
+                        featureType: 'road.highway',
+                        elementType: 'geometry.fill',
+                        stylers: [{ color: '#ffffff' }, { lightness: 17 }]
+                    },
+                    {
+                        featureType: 'road.highway',
+                        elementType: 'geometry.stroke',
+                        stylers: [{ color: '#ffffff' }, { lightness: 29 }, { weight: 0.2 }]
+                    },
+                    {
+                        featureType: 'poi',
+                        elementType: 'geometry',
+                        stylers: [{ color: '#f5f5f5' }, { lightness: 21 }]
+                    }
+                ],
+                disableDefaultUI: true,
+                zoomControl: true,
+                mapTypeControl: false,
+                scaleControl: false,
+                streetViewControl: false,
+                rotateControl: false,
+                fullscreenControl: false
+            });
+
+            // Servicios de direcciones
+            directionsService = new google.maps.DirectionsService();
+            directionsRenderer = new google.maps.DirectionsRenderer({
+                suppressMarkers: true,
+                polylineOptions: {
+                    strokeColor: '#FF69B4',
+                    strokeWeight: 4,
+                    strokeOpacity: 0.8
                 }
-            ],
-            tours: [
-                { id: 'flamencos', name: 'Avistamiento de Flamingos', price: 280, duration: '3 horas' },
-                { id: 'manglares', name: 'Tour por Manglares', price: 250, duration: '2.5 horas' },
-                { id: 'playa', name: 'Día de Playa Virgen', price: 200, duration: 'Todo el día' },
-                { id: 'pesca', name: 'Pesca Deportiva', price: 450, duration: '6 horas' },
-                { id: 'kayak', name: 'Aventura en Kayak', price: 320, duration: '4 horas' },
-                { id: 'sunset', name: 'Tour Atardecer', price: 250, duration: '2 horas' },
-                { id: 'flamingos-premium', name: 'Tour Premium Flamingos', price: 350, duration: '4 horas' }
-            ]
-        };
+            });
+            directionsRenderer.setMap(map);
 
-        // SPLASH SCREEN
-        function hideSplashScreen() {
-            setTimeout(() => {
-                document.getElementById('splashScreen').classList.add('hide');
-                setTimeout(() => {
-                    document.getElementById('splashScreen').style.display = 'none';
-                    document.getElementById('appContainer').classList.add('show');
-                    initializeApp();
-                }, 800);
-            }, 2500); // Mostrar splash por 2.5 segundos
+            // Marcador del restaurante
+            new google.maps.Marker({
+                position: restaurantLocation,
+                map: map,
+                icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                        <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="18" fill="#FF69B4" stroke="white" stroke-width="2"/>
+                            <text x="20" y="26" text-anchor="middle" fill="white" font-size="16">🍕</text>
+                        </svg>
+                    `),
+                    scaledSize: new google.maps.Size(40, 40),
+                    anchor: new google.maps.Point(20, 20)
+                },
+                title: 'Pizzería Flamingo'
+            });
+
+            // Marcador del cliente
+            customerMarker = new google.maps.Marker({
+                position: customerLocation,
+                map: map,
+                icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                        <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="18" fill="#22C55E" stroke="white" stroke-width="2"/>
+                            <text x="20" y="26" text-anchor="middle" fill="white" font-size="16">🏠</text>
+                        </svg>
+                    `),
+                    scaledSize: new google.maps.Size(40, 40),
+                    anchor: new google.maps.Point(20, 20)
+                },
+                title: 'Tu ubicación'
+            });
+
+            // Marcador del repartidor
+            deliveryMarker = new google.maps.Marker({
+                position: currentDeliveryLocation,
+                map: map,
+                icon: {
+                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                        <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="20" cy="20" r="18" fill="#3B82F6" stroke="white" stroke-width="2"/>
+                            <text x="20" y="26" text-anchor="middle" fill="white" font-size="16">🛵</text>
+                        </svg>
+                    `),
+                    scaledSize: new google.maps.Size(40, 40),
+                    anchor: new google.maps.Point(20, 20)
+                },
+                title: 'Carlos Martínez - Repartidor'
+            });
+
+            // Calcular y mostrar la ruta
+            calculateRoute();
+
+            // Simular movimiento del repartidor
+            startDeliverySimulation();
         }
 
-        // INICIALIZACIÓN
-        function initializeApp() {
-            updateCartBadge();
-            addEventListeners();
-            animateRestaurantCards();
-        }
-
-        function addEventListeners() {
-            // Búsqueda en tiempo real
-            document.getElementById('searchInput').addEventListener('input', handleSearch);
-        }
-
-        function animateRestaurantCards() {
-            const cards = document.querySelectorAll('.restaurant-card');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    card.style.transition = 'all 0.5s ease';
+        function calculateRoute() {
+            directionsService.route({
+                origin: currentDeliveryLocation,
+                destination: customerLocation,
+                travelMode: google.maps.TravelMode.DRIVING,
+                avoidTolls: true
+            }, (response, status) => {
+                if (status === 'OK') {
+                    directionsRenderer.setDirections(response);
                     
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 100);
-                }, index * 100);
-            });
-        }
-
-        // NAVEGACIÓN
-        function switchToSection(section) {
-            // Ocultar todas las secciones
-            document.querySelectorAll('.content-section').forEach(s => {
-                s.classList.remove('active');
-            });
-
-            // Mostrar sección seleccionada
-            document.getElementById(section + 'Section').classList.add('active');
-
-            // Actualizar navegación
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.querySelector(`[data-section="${section}"]`).classList.add('active');
-
-            appState.currentSection = section;
-
-            // Actualizar color del tema para móviles
-            updateThemeColor(section);
-
-            // Acciones específicas por sección
-            if (section === 'cart') {
-                updateCartDisplay();
-            }
-        }
-
-        function updateThemeColor(section) {
-            const colors = {
-                'home': '#FF69B4',
-                'search': '#FF1493',
-                'cart': '#A855F7',
-                'tours': '#FFB6C1',
-                'ads': '#FF6B6B'
-            };
-            
-            const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-            if (metaThemeColor) {
-                metaThemeColor.setAttribute('content', colors[section] || '#FF69B4');
-            }
-        }
-
-        // BÚSQUEDA
-        function openSearch() {
-            document.getElementById('searchInput').focus();
-            document.getElementById('searchInput').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function handleSearch(event) {
-            const query = event.target.value.toLowerCase();
-            const restaurants = document.querySelectorAll('.restaurant-card');
-            
-            restaurants.forEach(restaurant => {
-                const name = restaurant.querySelector('.restaurant-name').textContent.toLowerCase();
-                if (name.includes(query) || query === '') {
-                    restaurant.style.display = 'block';
-                    restaurant.style.animation = 'slideInUp 0.3s ease';
-                } else {
-                    restaurant.style.display = 'none';
+                    // Actualizar ETA basado en la ruta real
+                    const route = response.routes[0];
+                    const leg = route.legs[0];
+                    const duration = Math.ceil(leg.duration.value / 60); // convertir a minutos
+                    
+                    updateETA(duration);
                 }
             });
+        }
 
-            // Actualizar título
-            const title = document.getElementById('restaurantsTitle');
-            if (query) {
-                title.textContent = `Resultados para "${event.target.value}"`;
+        function startDeliverySimulation() {
+            const steps = [
+                { lat: 20.8580, lng: -90.3950, eta: 12 },
+                { lat: 20.8575, lng: -90.3945, eta: 10 },
+                { lat: 20.8570, lng: -90.3940, eta: 8 },
+                { lat: 20.8565, lng: -90.3935, eta: 6 },
+                { lat: 20.8560, lng: -90.3930, eta: 4 },
+                { lat: 20.8555, lng: -90.3925, eta: 2 },
+                { lat: 20.8550, lng: -90.3920, eta: 0 } // ubicación del cliente
+            ];
+
+            let currentStep = 0;
+
+            function moveDelivery() {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    currentDeliveryLocation = { lat: step.lat, lng: step.lng };
+                    
+                    // Animar el movimiento del marcador
+                    animateMarker(deliveryMarker, currentDeliveryLocation);
+                    
+                    // Actualizar ETA
+                    updateETA(step.eta);
+                    
+                    // Recalcular ruta
+                    calculateRoute();
+                    
+                    currentStep++;
+                    
+                    if (currentStep < steps.length) {
+                        setTimeout(moveDelivery, 15000); // Cada 15 segundos
+                    } else {
+                        // Pedido entregado
+                        setTimeout(deliveryCompleted, 2000);
+                    }
+                }
+            }
+
+            // Iniciar simulación después de 5 segundos
+            setTimeout(moveDelivery, 5000);
+        }
+
+        function animateMarker(marker, newPosition) {
+            const start = marker.getPosition();
+            const end = new google.maps.LatLng(newPosition.lat, newPosition.lng);
+            
+            let step = 0;
+            const numSteps = 50;
+            const timePerStep = 20;
+            
+            function animate() {
+                step++;
+                const progress = step / numSteps;
+                
+                if (progress <= 1) {
+                    const lat = start.lat() + (end.lat() - start.lat()) * progress;
+                    const lng = start.lng() + (end.lng() - start.lng()) * progress;
+                    
+                    marker.setPosition(new google.maps.LatLng(lat, lng));
+                    setTimeout(animate, timePerStep);
+                }
+            }
+            
+            animate();
+        }
+
+        function updateETA(minutes) {
+            eta = minutes;
+            const etaBadge = document.getElementById('etaBadge');
+            
+            if (minutes <= 0) {
+                etaBadge.textContent = '¡Llegó!';
+                etaBadge.style.background = '#22c55e';
             } else {
-                title.textContent = 'Restaurantes cerca de ti';
+                etaBadge.textContent = `${minutes} min`;
             }
         }
 
-        // CATEGORÍAS
-        function selectCategory(element, category) {
-            // Limpiar categorías anteriores
-            document.querySelectorAll('.category-item').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            // Activar categoría seleccionada
-            element.classList.add('active');
-            appState.activeCategory = category;
-
-            // Filtrar restaurantes
-            filterRestaurantsByCategory(category);
-        }
-
-        function filterRestaurantsByCategory(category) {
-            const restaurants = document.querySelectorAll('.restaurant-card');
-            let visibleCount = 0;
-
-            restaurants.forEach(restaurant => {
-                const restaurantCategory = restaurant.getAttribute('data-category');
-                if (restaurantCategory === category) {
-                    restaurant.style.display = 'block';
-                    restaurant.style.animation = 'slideInUp 0.3s ease';
-                    visibleCount++;
-                } else {
-                    restaurant.style.display = 'none';
-                }
-            });
-
-            // Actualizar título
-            const categoryNames = {
-                'pizza': 'Pizzas',
-                'tacos': 'Tacos',
-                'burgers': 'Hamburguesas',
-                'saludable': 'Comida Saludable',
-                'sushi': 'Sushi',
-                'mariscos': 'Mariscos',
-                'postres': 'Postres',
-                'bebidas': 'Bebidas'
-            };
-
-            document.getElementById('restaurantsTitle').textContent = 
-                `${categoryNames[category]} (${visibleCount} disponibles)`;
-
-            // Limpiar filtro al hacer doble click
-            element.addEventListener('dblclick', () => {
-                clearCategoryFilter();
-            });
-        }
-
-        function clearCategoryFilter() {
-            document.querySelectorAll('.category-item').forEach(item => {
-                item.classList.remove('active');
-            });
+        function deliveryCompleted() {
+            // Actualizar estado a entregado
+            updateDeliveryStatus();
             
-            document.querySelectorAll('.restaurant-card').forEach(restaurant => {
-                restaurant.style.display = 'block';
-            });
-
-            document.getElementById('restaurantsTitle').textContent = 'Restaurantes cerca de ti';
-            appState.activeCategory = null;
+            // Mostrar notificación
+            showDeliveryCompletedNotification();
         }
 
-        // RESTAURANTES
-        function openRestaurant(restaurantId) {
-            const restaurant = appState.restaurants.find(r => r.id === restaurantId);
-            if (!restaurant) return;
-
-            let menuHtml = restaurant.menu.map(item => `
-                <div style="padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <h4 style="color: #1e293b; margin-bottom: 5px;">${item.name}</h4>
-                        <p style="color: #64748b; font-size: 14px;">${item.description}</p>
-                        <p style="color: #FF69B4; font-weight: 700; margin-top: 5px;">${item.price}</p>
-                    </div>
-                    <button onclick="addToCart(${item.id})" style="background: #FF69B4; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-weight: 600;">
-                        Agregar
-                    </button>
-                </div>
-            `).join('');
-
-            const menuModal = `
-                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: flex; align-items: center; justify-content: center;" onclick="this.remove()">
-                    <div style="background: white; max-width: 350px; width: 90%; max-height: 80%; border-radius: 20px; overflow: hidden;" onclick="event.stopPropagation()">
-                        <div style="background: linear-gradient(135deg, #FF69B4, #FF1493); color: white; padding: 20px; text-align: center;">
-                            <h2 style="margin: 0; font-size: 20px;">${restaurant.name}</h2>
-                            <p style="margin: 5px 0 0 0; opacity: 0.9;">⭐ ${restaurant.rating} • ${restaurant.deliveryTime}</p>
-                        </div>
-                        <div style="max-height: 400px; overflow-y: auto;">
-                            ${menuHtml}
-                        </div>
-                        <div style="padding: 15px; text-align: center;">
-                            <button onclick="this.closest('[style*=\"fixed\"]').remove()" style="background: #64748b; color: white; border: none; padding: 10px 30px; border-radius: 20px; cursor: pointer;">
-                                Cerrar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.body.insertAdjacentHTML('beforeend', menuModal);
-        }
-
-        // CARRITO
-        function addToCart(itemId) {
-            const restaurant = appState.restaurants.find(r => 
-                r.menu.some(item => item.id === itemId)
-            );
-            const item = restaurant.menu.find(item => item.id === itemId);
-
-            const existingItem = appState.cart.find(cartItem => cartItem.id === itemId);
+        function updateDeliveryStatus() {
+            // Actualizar el icono de estado
+            document.querySelector('.status-icon').innerHTML = '✅';
+            document.querySelector('.status-title').textContent = '¡Pedido entregado!';
+            document.querySelector('.status-description').textContent = 'Disfruta tu comida';
             
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                appState.cart.push({
-                    ...item,
-                    restaurantName: restaurant.name,
-                    quantity: 1
+            // Actualizar timeline
+            const activeIcon = document.querySelector('.timeline-icon.active');
+            const pendingIcon = document.querySelector('.timeline-icon.pending');
+            const activeTitle = document.querySelector('.timeline-title.active');
+            
+            if (activeIcon) {
+                activeIcon.classList.remove('active');
+                activeIcon.classList.add('completed');
+                activeIcon.innerHTML = '✓';
+            }
+            
+            if (pendingIcon) {
+                pendingIcon.classList.remove('pending');
+                pendingIcon.classList.add('completed');
+                pendingIcon.innerHTML = '✓';
+            }
+            
+            if (activeTitle) {
+                activeTitle.classList.remove('active');
+                activeTitle.classList.add('completed');
+            }
+            
+            // Actualizar tiempo de entrega
+            const timeElements = document.querySelectorAll('.timeline-time');
+            if (timeElements.length >= 5) {
+                const now = new Date();
+                timeElements[4].textContent = now.toLocaleTimeString('es-ES', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
                 });
             }
-
-            updateCartBadge();
-            showAddToCartNotification(item.name);
         }
 
-        function removeFromCart(itemId) {
-            appState.cart = appState.cart.filter(item => item.id !== itemId);
-            updateCartBadge();
-            updateCartDisplay();
-        }
-
-        function updateQuantity(itemId, change) {
-            const item = appState.cart.find(cartItem => cartItem.id === itemId);
-            if (!item) return;
-
-            item.quantity += change;
-            
-            if (item.quantity <= 0) {
-                removeFromCart(itemId);
-            } else {
-                updateCartBadge();
-                updateCartDisplay();
-            }
-        }
-
-        function updateCartBadge() {
-            const badge = document.getElementById('cartBadge');
-            const totalItems = appState.cart.reduce((sum, item) => sum + item.quantity, 0);
-            
-            if (totalItems > 0) {
-                badge.textContent = totalItems;
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
-            }
-        }
-
-        function updateCartDisplay() {
-            const cartEmpty = document.getElementById('cartEmpty');
-            const cartContent = document.getElementById('cartContent');
-
-            if (appState.cart.length === 0) {
-                cartEmpty.style.display = 'block';
-                cartContent.style.display = 'none';
-                return;
-            }
-
-            cartEmpty.style.display = 'none';
-            cartContent.style.display = 'block';
-
-            // Generar HTML de items del carrito
-            const cartItemsHtml = appState.cart.map(item => `
-                <div class="cart-item">
-                    <div class="item-info">
-                        <h4>${item.name}</h4>
-                        <p>${item.restaurantName}</p>
-                        <p style="color: #FF69B4; font-weight: 700;">${item.price}</p>
-                    </div>
-                    <div class="item-controls">
-                        <div class="quantity-controls">
-                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
-                            <span style="margin: 0 10px; font-weight: 700;">${item.quantity}</span>
-                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                        </div>
-                        <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: #ef4444; font-size: 20px; cursor: pointer; padding: 5px;">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-
-            document.getElementById('cartItems').innerHTML = cartItemsHtml;
-
-            // Calcular totales
-            const subtotal = appState.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const deliveryFee = subtotal >= 200 ? 0 : 25;
-            const total = subtotal + deliveryFee;
-
-            document.getElementById('subtotal').textContent = `${subtotal}`;
-            document.getElementById('deliveryFee').textContent = deliveryFee === 0 ? 'Gratis' : `${deliveryFee}`;
-            document.getElementById('total').textContent = `${total}`;
-        }
-
-        function proceedToCheckout() {
-            const total = document.getElementById('total').textContent;
-            alert(`🚀 ¡Gracias por tu pedido!\n\nTotal: ${total}\n\n¡Tu pedido llegará en 25-35 minutos!`);
-            
-            // Limpiar carrito después del checkout
-            appState.cart = [];
-            updateCartBadge();
-            updateCartDisplay();
-        }
-
-        function showAddToCartNotification(itemName) {
+        function showDeliveryCompletedNotification() {
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
-                top: 20px;
-                right: 20px;
-                background: #22c55e;
-                color: white;
-                padding: 15px 20px;
-                border-radius: 10px;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
                 z-index: 10000;
-                animation: slideInRight 0.3s ease;
-                box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: fadeIn 0.3s ease;
             `;
-            notification.innerHTML = `✅ ${itemName} agregado al carrito`;
+            
+            notification.innerHTML = `
+                <div style="
+                    background: white;
+                    max-width: 320px;
+                    width: 90%;
+                    border-radius: 20px;
+                    padding: 30px 20px;
+                    text-align: center;
+                    animation: slideUp 0.3s ease;
+                ">
+                    <div style="font-size: 60px; margin-bottom: 20px;">🎉</div>
+                    <h2 style="color: #22c55e; font-size: 24px; font-weight: 700; margin-bottom: 10px;">
+                        ¡Pedido Entregado!
+                    </h2>
+                    <p style="color: #64748b; margin-bottom: 25px; line-height: 1.5;">
+                        Tu pedido ha sido entregado exitosamente.<br>
+                        ¡Que disfrutes tu comida!
+                    </p>
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="rateOrder()" style="
+                            flex: 1;
+                            background: linear-gradient(135deg, #FF69B4, #FF1493);
+                            color: white;
+                            border: none;
+                            padding: 12px 20px;
+                            border-radius: 20px;
+                            font-weight: 600;
+                            cursor: pointer;
+                        ">⭐ Calificar</button>
+                        <button onclick="closeNotification()" style="
+                            flex: 1;
+                            background: #f1f5f9;
+                            color: #64748b;
+                            border: none;
+                            padding: 12px 20px;
+                            border-radius: 20px;
+                            font-weight: 600;
+                            cursor: pointer;
+                        ">Cerrar</button>
+                    </div>
+                </div>
+            `;
             
             document.body.appendChild(notification);
             
+            // Auto-cerrar después de 10 segundos
             setTimeout(() => {
-                notification.style.animation = 'slideOutRight 0.3s ease';
-                setTimeout(() => notification.remove(), 300);
-            }, 2000);
-        }
-
-        // OFERTAS
-        function activateOffer(code) {
-            const offers = {
-                'BIENVENIDO50': {
-                    discount: 50,
-                    description: '50% de descuento en tu primer pedido'
-                },
-                'COMBO150': {
-                    discount: 30,
-                    description: 'Pizza + Refresco por $150'
-                },
-                'TARJETA20': {
-                    discount: 20,
-                    description: '20% de descuento pagando con tarjeta'
+                if (document.body.contains(notification)) {
+                    notification.remove();
                 }
-            };
+            }, 10000);
+        }
 
-            const offer = offers[code];
-            if (offer) {
-                alert(`🎉 ¡Código ${code} activado!\n\n${offer.description}\n\nDescuento aplicado en tu próximo pedido.`);
+        function closeNotification() {
+            const notification = document.querySelector('[style*="position: fixed"]');
+            if (notification) {
+                notification.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
             }
         }
 
-        // TOURS
-        function bookTour(tourId) {
-            const tour = appState.tours.find(t => t.id === tourId);
-            if (!tour) return;
-
-            const confirmation = confirm(
-                `🌟 ${tour.name}\n\n` +
-                `💰 Precio: ${tour.price} por persona\n` +
-                `⏰ Duración: ${tour.duration}\n\n` +
-                `¿Deseas reservar este tour?`
-            );
-
-            if (confirmation) {
-                alert(`¡Excelente! 🎉\n\nTour "${tour.name}" reservado.\n\nNos pondremos en contacto contigo para confirmar la fecha y hora.`);
-            }
+        function rateOrder() {
+            closeNotification();
+            showRatingModal();
         }
 
-        // ANIMACIONES CSS ADICIONALES
-        const additionalStyles = `
-            @keyframes slideInRight {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
+        function showRatingModal() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: fadeIn 0.3s ease;
+            `;
             
-            @keyframes slideOutRight {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    max-width: 320px;
+                    width: 90%;
+                    border-radius: 20px;
+                    padding: 30px 20px;
+                    text-align: center;
+                    animation: slideUp 0.3s ease;
+                ">
+                    <h2 style="color: #1e293b; font-size: 20px; font-weight: 700; margin-bottom: 15px;">
+                        ¿Cómo estuvo tu pedido?
+                    </h2>
+                    <p style="color: #64748b; margin-bottom: 20px;">
+                        Tu opinión nos ayuda a mejorar
+                    </p>
+                    
+                    <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;" id="starRating">
+                        <span class="star" data-rating="1" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
+                        <span class="star" data-rating="2" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
+                        <span class="star" data-rating="3" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
+                        <span class="star" data-rating="4" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
+                        <span class="star" data-rating="5" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
+                    </div>
+                    
+                    <textarea placeholder="Comentarios adicionales (opcional)" style="
+                        width: 100%;
+                        height: 80px;
+                        border: 2px solid #e2e8f0;
+                        border-radius: 12px;
+                        padding: 10px;
+                        margin-bottom: 20px;
+                        resize: none;
+                        font-family: inherit;
+                        font-size: 14px;
+                    " id="reviewComment"></textarea>
+                    
+                    <div style="display: flex; gap: 10px;">
+                        <button onclick="submitRating()" style="
+                            flex: 1;
+                            background: linear-gradient(135deg, #FF69B4, #FF1493);
+                            color: white;
+                            border: none;
+                            padding: 12px 20px;
+                            border-radius: 20px;
+                            font-weight: 600;
+                            cursor: pointer;
+                        " id="submitBtn" disabled>Enviar</button>
+                        <button onclick="this.closest('[style*=\"position: fixed\"]').remove()" style="
+                            flex: 1;
+                            background: #f1f5f9;
+                            color: #64748b;
+                            border: none;
+                            padding: 12px 20px;
+                            border-radius: 20px;
+                            font-weight: 600;
+                            cursor: pointer;
+                        ">Cancelar</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Funcionalidad de calificación con estrellas
+            const stars = modal.querySelectorAll('.star');
+            let selectedRating = 0;
+            
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    selectedRating = parseInt(star.dataset.rating);
+                    updateStars(selectedRating, stars);
+                    document.getElementById('submitBtn').disabled = false;
+                    document.getElementById('submitBtn').style.opacity = '1';
+                });
+                
+                star.addEventListener('mouseover', () => {
+                    const rating = parseInt(star.dataset.rating);
+                    updateStars(rating, stars);
+                });
+            });
+            
+            modal.addEventListener('mouseleave', () => {
+                updateStars(selectedRating, stars);
+            });
+        }
 
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = additionalStyles;
-        document.head.appendChild(styleSheet);
-
-        // INICIAR APP
-        window.addEventListener('load', () => {
-            hideSplashScreen();
-        });
-
-        // Simular actualizaciones en tiempo real
-        setInterval(() => {
-            const badges = document.querySelectorAll('.delivery-badge');
-            badges.forEach(badge => {
-                if (Math.random() > 0.8) {
-                    badge.style.animation = 'pulse 1s ease';
-                    setTimeout(() => {
-                        badge.style.animation = '';
-                    }, 1000);
+        function updateStars(rating, stars) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.style.color = '#fbbf24';
+                } else {
+                    star.style.color = '#e2e8f0';
                 }
             });
-        }, 8000);
+        }
+
+        function submitRating() {
+            const comment = document.getElementById('reviewComment').value;
+            const rating = document.querySelectorAll('.star[style*="fbbf24"]').length;
+            
+            // Simular envío de calificación
+            alert(`¡Gracias por tu calificación!\n\nCalificación: ${rating} estrellas\nComentario: ${comment || 'Sin comentarios'}`);
+            
+            const modal = document.querySelector('[style*="position: fixed"]');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Funciones de la interfaz
+        function goBack() {
+            if (confirm('¿Seguro que quieres salir del seguimiento?')) {
+                window.history.back();
+            }
+        }
+
+        function callDriver() {
+            if (confirm('¿Llamar a Carlos Martínez?')) {
+                alert('📞 Llamando a Carlos...\n\nEn una app real, esto abriría la aplicación de teléfono.');
+            }
+        }
+
+        function contactSupport() {
+            alert('💬 Conectando con soporte...\n\n¡Hola! ¿En qué puedo ayudarte con tu pedido?');
+        }
+
+        function shareLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    alert(`📍 Ubicación compartida\n\nLat: ${position.coords.latitude.toFixed(6)}\nLng: ${position.coords.longitude.toFixed(6)}\n\nTu repartidor ha recibido tu ubicación actualizada.`);
+                }, () => {
+                    alert('📍 Ubicación simulada compartida\n\nCalle Principal #123, Celestún\n\nTu repartidor ha recibido tu ubicación.');
+                });
+            } else {
+                alert('📍 Ubicación simulada compartida\n\nCalle Principal #123, Celestún\n\nTu repartidor ha recibido tu ubicación.');
+            }
+        }
+
+        // Función para manejar errores de Google Maps
+        function initMapFallback() {
+            const mapElement = document.getElementById('map');
+            mapElement.innerHTML = `
+                <div style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100%;
+                    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+                    color: #64748b;
+                    text-align: center;
+                    padding: 20px;
+                ">
+                    <div style="font-size: 40px; margin-bottom: 15px;">🗺️</div>
+                    <h3 style="margin-bottom: 10px; color: #374151;">Mapa en Tiempo Real</h3>
+                    <p style="font-size: 14px; line-height: 1.4;">
+                        Simulando seguimiento GPS<br>
+                        <strong>Carlos está en camino</strong><br>
+                        📍 0.8 km de distancia
+                    </p>
+                    <div style="
+                        margin-top: 15px;
+                        padding: 8px 15px;
+                        background: rgba(255, 105, 180, 0.1);
+                        border: 1px solid #FF69B4;
+                        border-radius: 20px;
+                        color: #FF69B4;
+                        font-size: 12px;
+                        font-weight: 600;
+                    ">
+                        🛵 Llegando en 12 minutos
+                    </div>
+                </div>
+            `;
+            
+            // Simular el movimiento aún sin Google Maps
+            startDeliverySimulation();
+        }
+
+        // CSS adicional para animaciones
+        const additionalStyles = document.createElement('style');
+        additionalStyles.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+            
+            @keyframes slideUp {
+                from { transform: translateY(30px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            
+            .star {
+                transition: color 0.2s ease;
+            }
+            
+            .star:hover {
+                transform: scale(1.1);
+            }
+            
+            #submitBtn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+        `;
+        document.head.appendChild(additionalStyles);
+
+        // Inicializar la aplicación
+        window.addEventListener('load', () => {
+            // Si Google Maps no carga, usar fallback
+            setTimeout(() => {
+                if (!window.google) {
+                    console.log('Google Maps no disponible, usando simulación...');
+                    initMapFallback();
+                }
+            }, 3000);
+        });
+
+        // Función global para inicializar el mapa (callback de Google Maps)
+        window.initMap = initMap;
+
+        // Simulaciones adicionales
+        function simulateDeliveryUpdates() {
+            const updates = [
+                { time: 5000, message: "Carlos recogió tu pedido" },
+                { time: 15000, message: "Carlos está en ruta" },
+                { time: 30000, message: "Carlos está cerca de tu ubicación" },
+                { time: 45000, message: "Carlos ha llegado a tu dirección" }
+            ];
+
+            updates.forEach(update => {
+                setTimeout(() => {
+                    showStatusUpdate(update.message);
+                }, update.time);
+            });
+        }
+
+        function showStatusUpdate(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(34, 197, 94, 0.95);
+                color: white;
+                padding: 12px 20px;
+                border-radius: 25px;
+                font-size: 14px;
+                font-weight: 600;
+                z-index: 10000;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+                animation: slideDown 0.3s ease;
+            `;
+            toast.textContent = `📱 ${message}`;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        const toastStyles = document.createElement('style');
+        toastStyles.textContent = `
+            @keyframes slideDown {
+                from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
+                to { transform: translateX(-50%) translateY(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(toastStyles);
+
+        // Iniciar simulaciones
+        setTimeout(simulateDeliveryUpdates, 1000);
+
+        // Actualizar tiempo cada minuto
+        setInterval(() => {
+            const now = new Date();
+            const timeElements = document.querySelectorAll('.timeline-time');
+            const currentTime = now.toLocaleTimeString('es-ES', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            // Actualizar "Ahora" en el timeline
+            timeElements.forEach(element => {
+                if (element.textContent === 'Ahora') {
+                    element.textContent = currentTime;
+                }
+            });
+        }, 60000);
     </script>
 </body>
 </html>
