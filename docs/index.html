@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celestún Go - Delivery</title>
+    <title>Celestún GO - Delivery</title>
     <meta name="theme-color" content="#EC4899">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,6 +18,9 @@
             --primary-color: #EC4899;
             --secondary-color: #F472B6;
             --accent-color: #FB7185;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
             --background: #ffffff;
             --surface: #fef7ff;
             --text-primary: #1e293b;
@@ -66,6 +69,71 @@
             box-shadow: 0 0 30px var(--shadow);
         }
 
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .logo-animation {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .logo-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .logo-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header */
         .header {
             background: var(--gradient-1);
             padding: 40px 20px 20px;
@@ -104,12 +172,6 @@
             opacity: 0.9;
         }
 
-        .location-icon {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-        }
-
         .app-title {
             font-size: 28px;
             font-weight: 700;
@@ -121,10 +183,19 @@
             font-size: 14px;
         }
 
+        .system-status {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 15px;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        /* Search */
         .search-container {
             padding: 20px;
             background: var(--background);
-            position: relative;
         }
 
         .search-box {
@@ -158,6 +229,7 @@
             color: var(--text-secondary);
         }
 
+        /* Categories */
         .categories {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -176,7 +248,7 @@
             border: 2px solid transparent;
         }
 
-        .category-item:hover {
+        .category-item:hover, .category-item.active {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px var(--shadow);
             border-color: var(--primary-color);
@@ -194,133 +266,25 @@
             color: var(--text-primary);
         }
 
+        /* Section Title */
         .section-title {
             font-size: 20px;
             font-weight: 700;
             margin-bottom: 20px;
             color: var(--text-primary);
             padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .promo-banner {
-            background: var(--gradient-2);
-            margin: 20px;
-            padding: 20px;
-            border-radius: 20px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .promo-banner::before {
-            content: '🎉';
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 30px;
-            opacity: 0.7;
-        }
-
-        .promo-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .promo-subtitle {
+        .section-subtitle {
             font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .ads-section {
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .ad-banner {
-            background: var(--gradient-3);
-            border-radius: 20px;
-            padding: 25px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
-
-        .ad-banner::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            right: -30px;
-            width: 100px;
-            height: 100px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-        }
-
-        .ad-content {
-            position: relative;
-            z-index: 10;
-        }
-
-        .ad-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .ad-subtitle {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-
-        .tourism-section {
-            padding: 0 20px;
-            margin-bottom: 30px;
-        }
-
-        .tourism-cards {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .tourism-card {
-            background: var(--surface);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 15px var(--shadow);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .tourism-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--primary-color);
-            box-shadow: 0 8px 25px var(--shadow);
-        }
-
-        .tourism-icon {
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-
-        .tourism-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-
-        .tourism-subtitle {
-            font-size: 12px;
             color: var(--text-secondary);
+            font-weight: 400;
         }
 
+        /* Restaurant Cards */
         .restaurants-grid {
             padding: 0 20px;
             display: grid;
@@ -344,6 +308,10 @@
             box-shadow: 0 15px 40px var(--shadow);
         }
 
+        .restaurant-card.closed {
+            opacity: 0.6;
+        }
+
         .restaurant-image {
             width: 100%;
             height: 150px;
@@ -362,17 +330,37 @@
             opacity: 0.7;
         }
 
-        .delivery-badge {
+        .status-badge {
             position: absolute;
             top: 10px;
             left: 10px;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-badge.open {
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+        }
+
+        .status-badge.closed {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+
+        .delivery-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
             background: rgba(236, 72, 153, 0.9);
             color: white;
             padding: 5px 10px;
             border-radius: 15px;
             font-size: 11px;
             font-weight: 600;
-            backdrop-filter: blur(10px);
         }
 
         .restaurant-info {
@@ -384,6 +372,12 @@
             font-weight: 700;
             margin-bottom: 8px;
             color: var(--text-primary);
+        }
+
+        .restaurant-schedule {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
         }
 
         .restaurant-details {
@@ -407,307 +401,12 @@
         }
 
         .delivery-fee {
-            color: #22c55e;
+            color: var(--success-color);
             font-weight: 600;
             font-size: 14px;
         }
 
-        /* ESTILOS DEL CARRITO */
-        .cart-content {
-            padding: 20px;
-            margin-bottom: 100px;
-        }
-
-        .cart-header {
-            background: var(--gradient-1);
-            color: white;
-            padding: 30px 20px;
-            margin: -20px -20px 30px -20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cart-header::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 120px;
-            height: 120px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .cart-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .cart-subtitle {
-            opacity: 0.9;
-            font-size: 14px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .empty-cart {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-secondary);
-        }
-
-        .empty-cart-icon {
-            font-size: 80px;
-            margin-bottom: 20px;
-            opacity: 0.6;
-        }
-
-        .empty-cart-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .empty-cart-text {
-            font-size: 16px;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-
-        .browse-button {
-            background: var(--gradient-1);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px var(--shadow);
-        }
-
-        .browse-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--shadow);
-        }
-
-        .cart-items {
-            margin-bottom: 30px;
-        }
-
-        .cart-item {
-            background: var(--surface);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 15px var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .cart-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--shadow);
-        }
-
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .item-info {
-            flex: 1;
-        }
-
-        .item-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-
-        .item-restaurant {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-        }
-
-        .item-description {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        .item-price {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-align: right;
-        }
-
-        .item-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: var(--background);
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 2px solid var(--border-color);
-        }
-
-        .quantity-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .quantity-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 2px 8px var(--shadow);
-        }
-
-        .quantity-btn:disabled {
-            background: var(--text-muted);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .quantity-number {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            min-width: 20px;
-            text-align: center;
-        }
-
-        .remove-item {
-            background: none;
-            border: none;
-            color: #ef4444;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .remove-item:hover {
-            background: rgba(239, 68, 68, 0.1);
-            transform: scale(1.1);
-        }
-
-        .cart-summary {
-            background: var(--surface);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 8px 30px var(--shadow);
-            margin-bottom: 20px;
-        }
-
-        .summary-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        .summary-row:last-child {
-            margin-bottom: 0;
-            padding-top: 15px;
-            border-top: 2px solid var(--border-color);
-            font-weight: 700;
-            font-size: 18px;
-            color: var(--primary-color);
-        }
-
-        .summary-label {
-            color: var(--text-secondary);
-        }
-
-        .summary-value {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .checkout-button {
-            width: 100%;
-            background: var(--gradient-1);
-            color: white;
-            border: none;
-            padding: 20px;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .checkout-button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 0;
-            height: 0;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            transition: all 0.5s ease;
-        }
-
-        .checkout-button:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .checkout-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px var(--shadow);
-        }
-
-        .checkout-button:active {
-            transform: translateY(-1px);
-        }
-
+        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -740,6 +439,7 @@
             transition: all 0.3s ease;
             padding: 8px;
             border-radius: 12px;
+            position: relative;
         }
 
         .nav-item.active {
@@ -755,7 +455,7 @@
             position: absolute;
             top: -5px;
             right: -5px;
-            background: #ef4444;
+            background: var(--error-color);
             color: white;
             border-radius: 50%;
             width: 18px;
@@ -767,722 +467,130 @@
             font-weight: 700;
         }
 
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .tab-content {
-            padding: 20px;
-            margin-bottom: 100px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .profile-header {
-            background: var(--gradient-1);
-            color: white;
-            padding: 30px 20px;
+        /* Error/Loading States */
+        .error-message {
             text-align: center;
-            position: relative;
+            padding: 40px 20px;
+            color: var(--error-color);
+        }
+
+        .error-icon {
+            font-size: 48px;
             margin-bottom: 20px;
         }
 
-        .profile-avatar {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        .avatar-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .avatar-emoji {
-            font-size: 35px;
-        }
-
-        .edit-avatar-btn {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: var(--secondary-color);
-            border: 2px solid white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .edit-avatar-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .profile-name {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .profile-email {
-            opacity: 0.9;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        .profile-stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-        }
-
-        .stat-item {
+        .loading-message {
             text-align: center;
-        }
-
-        .stat-number {
-            display: block;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 3px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-
-        .profile-sections {
-            padding: 0 20px;
-            margin-bottom: 100px;
-        }
-
-        .profile-section {
-            margin-bottom: 25px;
-        }
-
-        .section-subtitle {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 15px;
-            padding-left: 5px;
-        }
-
-        .profile-menu {
-            background: var(--surface);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px var(--shadow);
-            border: 1px solid var(--border-color);
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 18px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid var(--border-color);
-            gap: 15px;
-        }
-
-        .menu-item:last-child {
-            border-bottom: none;
-        }
-
-        .menu-item:hover {
-            background: var(--border-color);
-            transform: translateX(5px);
-        }
-
-        .menu-item:active {
-            transform: translateX(5px) scale(0.98);
-        }
-
-        .menu-icon {
-            font-size: 20px;
-            width: 24px;
-            text-align: center;
-        }
-
-        .menu-content {
-            flex: 1;
-        }
-
-        .menu-title {
-            display: block;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 15px;
-            margin-bottom: 2px;
-        }
-
-        .menu-description {
-            display: block;
-            font-size: 13px;
+            padding: 40px 20px;
             color: var(--text-secondary);
         }
 
-        .menu-arrow {
-            font-size: 18px;
-            color: var(--text-muted);
-            font-weight: bold;
+        .loading-dots {
+            display: inline-block;
+            animation: loading-dots 1.5s infinite;
         }
 
-        .toggle-switch {
-            width: 50px;
-            height: 28px;
-            background: var(--text-muted);
-            border-radius: 14px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        @keyframes loading-dots {
+            0%, 20% { opacity: 0; }
+            50% { opacity: 1; }
+            80%, 100% { opacity: 0; }
         }
 
-        .toggle-switch.active {
-            background: var(--primary-color);
+        /* Hidden utility */
+        .hidden {
+            display: none !important;
         }
 
-        .toggle-slider {
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .toggle-switch.active .toggle-slider {
-            transform: translateX(22px);
-        }
-
-        .logout-section {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .logout-btn {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 0 auto;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-        }
-
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
-        }
-
-        .logout-btn:active {
-            transform: translateY(0);
-        }
-
-        .logout-icon {
-            font-size: 18px;
-        }
-
+        /* Responsive */
         @media (max-width: 375px) {
             .categories {
                 grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .tourism-cards {
-                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="logo-animation">
+            <div class="logo-title">Celestún GO</div>
+            <div class="logo-subtitle">Delivery rápido y confiable</div>
+        </div>
+        <div class="loading-spinner"></div>
+    </div>
+
     <div class="app-container">
         <header class="header">
             <div class="header-content">
                 <div class="location">
-                    <svg class="location-icon" viewBox="0 0 24 24">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                    </svg>
+                    <span>📍</span>
                     <span>Celestún, Yucatán</span>
                 </div>
-                <h1 class="app-title">Celestún Go</h1>
+                <h1 class="app-title">Celestún GO</h1>
                 <p class="subtitle">Delivery rápido y confiable</p>
+                <div class="system-status" id="systemStatus">
+                    ⚡ Sistema activo
+                </div>
             </div>
         </header>
 
-        <!-- Contenido del Home -->
+        <!-- Home Content -->
         <div id="home-content">
             <div class="search-container">
                 <div class="search-box">
-                    <input type="text" class="search-input" placeholder="¿Qué antojo tienes hoy?">
+                    <input type="text" class="search-input" placeholder="¿Qué antojo tienes hoy?" id="searchInput">
                     <span class="search-icon">🔍</span>
                 </div>
 
-                <div class="categories">
-                    <div class="category-item" onclick="selectCategory(this)">
+                <div class="categories" id="categoriesContainer">
+                    <div class="category-item" data-category="pizza">
+                        <span class="category-icon">🍕</span>
+                        <span class="category-name">Pizza</span>
+                    </div>
+                    <div class="category-item" data-category="tacos">
                         <span class="category-icon">🌮</span>
                         <span class="category-name">Tacos</span>
                     </div>
-                    <div class="category-item" onclick="selectCategory(this)">
+                    <div class="category-item" data-category="burgers">
                         <span class="category-icon">🍔</span>
                         <span class="category-name">Burgers</span>
                     </div>
-                    <div class="category-item" onclick="selectCategory(this)">
+                    <div class="category-item" data-category="saludable">
                         <span class="category-icon">🥗</span>
                         <span class="category-name">Saludable</span>
                     </div>
-                    <div class="category-item" onclick="selectCategory(this)">
+                    <div class="category-item" data-category="sushi">
                         <span class="category-icon">🍣</span>
                         <span class="category-name">Sushi</span>
                     </div>
-                    <div class="category-item" onclick="selectCategory(this)">
+                    <div class="category-item" data-category="mariscos">
                         <span class="category-icon">🦐</span>
                         <span class="category-name">Mariscos</span>
                     </div>
-                    <div class="category-item" onclick="selectCategory(this)">
+                    <div class="category-item" data-category="postres">
                         <span class="category-icon">🧁</span>
                         <span class="category-name">Postres</span>
                     </div>
-                    <div class="category-item" onclick="selectCategory(this)">
+                    <div class="category-item" data-category="bebidas">
                         <span class="category-icon">☕</span>
                         <span class="category-name">Bebidas</span>
                     </div>
                 </div>
             </div>
 
-            <div class="promo-banner pulse">
-                <div class="promo-title">¡Envío GRATIS!</div>
-                <div class="promo-subtitle">En pedidos mayores a $200</div>
-            </div>
+            <h2 class="section-title" id="restaurantsTitle">
+                🍽️ Restaurantes cerca de ti
+                <span class="section-subtitle" id="restaurantsSubtitle"></span>
+            </h2>
 
-            <!-- Sección de Publicidad -->
-            <div class="ads-section">
-                <h2 class="section-title">Promociones especiales</h2>
-                <div class="ad-banner" onclick="openAd('restaurant')">
-                    <div class="ad-content">
-                        <div class="ad-title">🍤 Mariscos El Pelícano</div>
-                        <div class="ad-subtitle">2x1 en ceviches hasta las 6pm</div>
-                    </div>
-                </div>
-                <div class="ad-banner" onclick="openAd('combo')">
-                    <div class="ad-content">
-                        <div class="ad-title">🌮 Combo Familiar</div>
-                        <div class="ad-subtitle">Taquería La Gaviota - 20% OFF</div>
-                    </div>
-                </div>
-            </div>
-
-            <h2 class="section-title">Restaurantes cerca de ti</h2>
-
-            <div class="restaurants-grid">
-                <div class="restaurant-card" onclick="openRestaurant(this)">
-                    <div class="restaurant-image" style="background: linear-gradient(45deg, #FF6B6B, #FF8E8E);">
-                        <div class="delivery-badge">Envío gratis</div>
-                    </div>
-                    <div class="restaurant-info">
-                        <h3 class="restaurant-name">Pizzería Flamingo</h3>
-                        <div class="restaurant-details">
-                            <div class="rating">⭐ 4.8</div>
-                            <div class="delivery-time">25-35 min</div>
-                            <div class="delivery-fee">Gratis</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="restaurant-card" onclick="openRestaurant(this)">
-                    <div class="restaurant-image" style="background: linear-gradient(45deg, #4ECDC4, #44A08D);">
-                        <div class="delivery-badge">Nuevo</div>
-                    </div>
-                    <div class="restaurant-info">
-                        <h3 class="restaurant-name">Mariscos El Pelícano</h3>
-                        <div class="restaurant-details">
-                            <div class="rating">⭐ 4.9</div>
-                            <div class="delivery-time">20-30 min</div>
-                            <div class="delivery-fee">$25</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="restaurant-card" onclick="openRestaurant(this)">
-                    <div class="restaurant-image" style="background: linear-gradient(45deg, #FFA726, #FF7043);">
-                        <div class="delivery-badge">Popular</div>
-                    </div>
-                    <div class="restaurant-info">
-                        <h3 class="restaurant-name">Taquería La Gaviota</h3>
-                        <div class="restaurant-details">
-                            <div class="rating">⭐ 4.7</div>
-                            <div class="delivery-time">15-25 min</div>
-                            <div class="delivery-fee">$20</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="restaurant-card" onclick="openRestaurant(this)">
-                    <div class="restaurant-image" style="background: linear-gradient(45deg, #A855F7, #EC4899);">
-                        <div class="delivery-badge">Descuento</div>
-                    </div>
-                    <div class="restaurant-info">
-                        <h3 class="restaurant-name">Café Manglar</h3>
-                        <div class="restaurant-details">
-                            <div class="rating">⭐ 4.6</div>
-                            <div class="delivery-time">10-20 min</div>
-                            <div class="delivery-fee">$15</div>
-                        </div>
-                    </div>
+            <div class="restaurants-grid" id="restaurantsContainer">
+                <div class="loading-message">
+                    <div>Cargando restaurantes<span class="loading-dots">...</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- Contenido del Carrito -->
-        <div id="cart-content" class="tab-content hidden">
-            <div class="cart-header">
-                <h2 class="cart-title">🛒 Mi Carrito</h2>
-                <p class="cart-subtitle">Revisa tus productos</p>
-            </div>
-
-            <div class="cart-content">
-                <!-- Estado vacío del carrito -->
-                <div id="empty-cart" class="hidden">
-                    <div class="empty-cart">
-                        <div class="empty-cart-icon">🛒</div>
-                        <h3 class="empty-cart-title">Tu carrito está vacío</h3>
-                        <p class="empty-cart-text">¡Explora nuestros deliciosos restaurantes y agrega tus platillos favoritos!</p>
-                        <button class="browse-button" onclick="switchTab(document.querySelector('.nav-item'), 'home')">
-                            Explorar Restaurantes
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Carrito con productos -->
-                <div id="cart-with-items">
-                    <div class="cart-items">
-                        <div class="cart-item" data-item-id="1">
-                            <div class="item-header">
-                                <div class="item-info">
-                                    <h3 class="item-name">Pizza Hawaiana Grande</h3>
-                                    <p class="item-restaurant">🍕 Pizzería Flamingo</p>
-                                    <p class="item-description">Jamón, piña, queso mozzarella, salsa especial</p>
-                                </div>
-                                <div class="item-price">$180</div>
-                            </div>
-                            <div class="item-controls">
-                                <div class="quantity-controls">
-                                    <button class="quantity-btn" onclick="decreaseQuantity(1)">-</button>
-                                    <span class="quantity-number" id="quantity-1">1</span>
-                                    <button class="quantity-btn" onclick="increaseQuantity(1)">+</button>
-                                </div>
-                                <button class="remove-item" onclick="removeItem(1)">🗑️</button>
-                            </div>
-                        </div>
-
-                        <div class="cart-item" data-item-id="2">
-                            <div class="item-header">
-                                <div class="item-info">
-                                    <h3 class="item-name">Ceviche de Pescado</h3>
-                                    <p class="item-restaurant">🦐 Mariscos El Pelícano</p>
-                                    <p class="item-description">Pescado fresco, limón, cebolla, cilantro, aguacate</p>
-                                </div>
-                                <div class="item-price">$120</div>
-                            </div>
-                            <div class="item-controls">
-                                <div class="quantity-controls">
-                                    <button class="quantity-btn" onclick="decreaseQuantity(2)">-</button>
-                                    <span class="quantity-number" id="quantity-2">1</span>
-                                    <button class="quantity-btn" onclick="increaseQuantity(2)">+</button>
-                                </div>
-                                <button class="remove-item" onclick="removeItem(2)">🗑️</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cart-summary">
-                        <h3 class="summary-title">📋 Resumen del Pedido</h3>
-                        <div class="summary-row">
-                            <span class="summary-label">Subtotal:</span>
-                            <span class="summary-value" id="subtotal">$300</span>
-                        </div>
-                        <div class="summary-row">
-                            <span class="summary-label">Envío:</span>
-                            <span class="summary-value" id="delivery-cost">Gratis</span>
-                        </div>
-                        <div class="summary-row">
-                            <span class="summary-label">Descuento:</span>
-                            <span class="summary-value" id="discount">-$0</span>
-                        </div>
-                        <div class="summary-row">
-                            <span class="summary-label">Total:</span>
-                            <span class="summary-value" id="total">$300</span>
-                        </div>
-                    </div>
-
-                    <button class="checkout-button" onclick="proceedToCheckout()">
-                        🚀 Proceder al Pago
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contenido de Turismo -->
-        <div id="tourism-content" class="tab-content hidden">
-            <h2 class="section-title">Descubre Celestún</h2>
-            
-            <div class="tourism-cards">
-                <div class="tourism-card" onclick="openTourism('flamingos')">
-                    <div class="tourism-icon">🦩</div>
-                    <div class="tourism-title">Flamingos Rosados</div>
-                    <div class="tourism-subtitle">Tour en lancha</div>
-                </div>
-                
-                <div class="tourism-card" onclick="openTourism('beach')">
-                    <div class="tourism-icon">🏖️</div>
-                    <div class="tourism-title">Playa Celestún</div>
-                    <div class="tourism-subtitle">Aguas cristalinas</div>
-                </div>
-                
-                <div class="tourism-card" onclick="openTourism('mangrove')">
-                    <div class="tourism-icon">🌿</div>
-                    <div class="tourism-title">Manglares</div>
-                    <div class="tourism-subtitle">Ecosistema único</div>
-                </div>
-                
-                <div class="tourism-card" onclick="openTourism('lighthouse')">
-                    <div class="tourism-icon">🗼</div>
-                    <div class="tourism-title">Faro Histórico</div>
-                    <div class="tourism-subtitle">Vista panorámica</div>
-                </div>
-                
-                <div class="tourism-card" onclick="openTourism('salt')">
-                    <div class="tourism-icon">🧂</div>
-                    <div class="tourism-title">Salineras</div>
-                    <div class="tourism-subtitle">Tradición ancestral</div>
-                </div>
-                
-                <div class="tourism-card" onclick="openTourism('sunset')">
-                    <div class="tourism-icon">🌅</div>
-                    <div class="tourism-title">Atardeceres</div>
-                    <div class="tourism-subtitle">Fotografía única</div>
-                </div>
-            </div>
-
-            <div class="ads-section">
-                <h2 class="section-title">Tours recomendados</h2>
-                <div class="ad-banner" onclick="openAd('tour1')">
-                    <div class="ad-content">
-                        <div class="ad-title">🛥️ Tour Completo Celestún</div>
-                        <div class="ad-subtitle">Flamingos + Manglares - $450/persona</div>
-                    </div>
-                </div>
-                <div class="ad-banner" onclick="openAd('tour2')">
-                    <div class="ad-content">
-                        <div class="ad-title">📸 Tour Fotográfico</div>
-                        <div class="ad-subtitle">Atardecer + Flamingos - $350/persona</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contenido del Perfil -->
-        <div id="profile-content" class="tab-content hidden">
-            <div class="profile-header">
-                <div class="profile-avatar">
-                    <div class="avatar-circle">
-                        <span class="avatar-emoji">👤</span>
-                    </div>
-                    <button class="edit-avatar-btn" onclick="editAvatar()">📷</button>
-                </div>
-                <h2 class="profile-name">María González</h2>
-                <p class="profile-email">maria.gonzalez@email.com</p>
-                <div class="profile-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">12</span>
-                        <span class="stat-label">Pedidos</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">4.8</span>
-                        <span class="stat-label">⭐ Rating</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">Gold</span>
-                        <span class="stat-label">Nivel</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-sections">
-                <div class="profile-section">
-                    <h3 class="section-subtitle">Mi Cuenta</h3>
-                    <div class="profile-menu">
-                        <div class="menu-item" onclick="openProfileOption('personal')">
-                            <span class="menu-icon">👤</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Información Personal</span>
-                                <span class="menu-description">Editar nombre, teléfono, email</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                        
-                        <div class="menu-item" onclick="openProfileOption('addresses')">
-                            <span class="menu-icon">📍</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Mis Direcciones</span>
-                                <span class="menu-description">Casa, trabajo y más</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                        
-                        <div class="menu-item" onclick="openProfileOption('payment')">
-                            <span class="menu-icon">💳</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Métodos de Pago</span>
-                                <span class="menu-description">Tarjetas y billeteras digitales</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="profile-section">
-                    <h3 class="section-subtitle">Historial</h3>
-                    <div class="profile-menu">
-                        <div class="menu-item" onclick="openProfileOption('orders')">
-                            <span class="menu-icon">📦</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Mis Pedidos</span>
-                                <span class="menu-description">Historial de órdenes</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                        
-                        <div class="menu-item" onclick="openProfileOption('favorites')">
-                            <span class="menu-icon">❤️</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Favoritos</span>
-                                <span class="menu-description">Restaurantes y platillos</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                        
-                        <div class="menu-item" onclick="openProfileOption('reviews')">
-                            <span class="menu-icon">⭐</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Mis Reseñas</span>
-                                <span class="menu-description">Calificaciones realizadas</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="profile-section">
-                    <h3 class="section-subtitle">Configuración</h3>
-                    <div class="profile-menu">
-                        <div class="menu-item" onclick="toggleNotifications()">
-                            <span class="menu-icon">🔔</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Notificaciones</span>
-                                <span class="menu-description">Ofertas y actualizaciones</span>
-                            </div>
-                            <div class="toggle-switch active" id="notifications-toggle">
-                                <div class="toggle-slider"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="menu-item" onclick="toggleDarkMode()">
-                            <span class="menu-icon">🌙</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Modo Oscuro</span>
-                                <span class="menu-description">Automático según dispositivo</span>
-                            </div>
-                            <div class="toggle-switch" id="darkmode-toggle">
-                                <div class="toggle-slider"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="menu-item" onclick="openProfileOption('language')">
-                            <span class="menu-icon">🌐</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Idioma</span>
-                                <span class="menu-description">Español</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="profile-section">
-                    <h3 class="section-subtitle">Soporte</h3>
-                    <div class="profile-menu">
-                        <div class="menu-item" onclick="openProfileOption('help')">
-                            <span class="menu-icon">❓</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Centro de Ayuda</span>
-                                <span class="menu-description">FAQ y soporte</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                        
-                        <div class="menu-item" onclick="openProfileOption('contact')">
-                            <span class="menu-icon">💬</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Contáctanos</span>
-                                <span class="menu-description">Chat en vivo 24/7</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                        
-                        <div class="menu-item" onclick="openProfileOption('about')">
-                            <span class="menu-icon">ℹ️</span>
-                            <div class="menu-content">
-                                <span class="menu-title">Acerca de</span>
-                                <span class="menu-description">Celestún Go v2.1.0</span>
-                            </div>
-                            <span class="menu-arrow">›</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="profile-section">
-                    <div class="logout-section">
-                        <button class="logout-btn" onclick="logout()">
-                            <span class="logout-icon">🚪</span>
-                            <span>Cerrar Sesión</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <!-- Bottom Navigation -->
         <nav class="bottom-nav">
             <div class="nav-items">
                 <div class="nav-item active" onclick="switchTab(this, 'home')">
@@ -1493,14 +601,14 @@
                     <span class="nav-icon">🔍</span>
                     <span>Buscar</span>
                 </div>
-                <div class="nav-item" onclick="switchTab(this, 'tourism')">
-                    <span class="nav-icon">🏖️</span>
-                    <span>Turismo</span>
-                </div>
                 <div class="nav-item" onclick="switchTab(this, 'cart')" style="position: relative;">
                     <span class="nav-icon">🛒</span>
                     <span>Carrito</span>
-                    <span class="cart-badge" id="cart-badge">2</span>
+                    <span class="cart-badge hidden" id="cartBadge">0</span>
+                </div>
+                <div class="nav-item" onclick="switchTab(this, 'orders')">
+                    <span class="nav-icon">📦</span>
+                    <span>Pedidos</span>
                 </div>
                 <div class="nav-item" onclick="switchTab(this, 'profile')">
                     <span class="nav-icon">👤</span>
@@ -1511,419 +619,393 @@
     </div>
 
     <script>
-        // Estado del carrito
-        let cartData = {
-            items: [
-                {
-                    id: 1,
-                    name: "Pizza Hawaiana Grande",
-                    restaurant: "🍕 Pizzería Flamingo",
-                    description: "Jamón, piña, queso mozzarella, salsa especial",
-                    price: 180,
-                    quantity: 1
-                },
-                {
-                    id: 2,
-                    name: "Ceviche de Pescado",
-                    restaurant: "🦐 Mariscos El Pelícano",
-                    description: "Pescado fresco, limón, cebolla, cilantro, aguacate",
-                    price: 120,
-                    quantity: 1
-                }
-            ]
-        };
+        // Configuration
+        const API_BASE = 'http://localhost/celestun-go/api';
+        const CURRENT_USER_ID = 1; // Simular usuario logueado
 
-        let cartItems = cartData.items.length;
+        // Global state
+        let restaurantsData = [];
+        let categoriesData = [];
+        let cartItems = [];
+        let selectedCategory = null;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        async function initializeApp() {
+            try {
+                // Show loading screen
+                showLoadingScreen();
+
+                // Load system status
+                await loadSystemStatus();
+
+                // Load restaurants and availability
+                await loadRestaurants();
+
+                // Load cart
+                await loadCart();
+
+                // Hide loading screen
+                hideLoadingScreen();
+
+                // Set up event listeners
+                setupEventListeners();
+
+            } catch (error) {
+                console.error('Error initializing app:', error);
+                showError('Error al cargar la aplicación');
+                hideLoadingScreen();
+            }
+        }
+
+        function showLoadingScreen() {
+            document.getElementById('loadingScreen').classList.remove('hidden');
+        }
+
+        function hideLoadingScreen() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 1500);
+        }
+
+        async function loadSystemStatus() {
+            try {
+                const response = await fetch(`${API_BASE}/availability.php`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const status = data.data;
+                    const statusElement = document.getElementById('systemStatus');
+                    
+                    if (status.sistema_activo) {
+                        statusElement.innerHTML = '⚡ Sistema activo';
+                        statusElement.style.background = 'rgba(34, 197, 94, 0.2)';
+                    } else {
+                        statusElement.innerHTML = '⚠️ Mantenimiento';
+                        statusElement.style.background = 'rgba(239, 68, 68, 0.2)';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading system status:', error);
+            }
+        }
+
+        async function loadRestaurants() {
+            try {
+                // Get open restaurants with availability info
+                const response = await fetch(`${API_BASE}/availability.php?action=open_restaurants`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    restaurantsData = [...data.data.open_restaurants, ...data.data.closed_restaurants];
+                    updateRestaurantsSubtitle(data.data.total_open, data.data.total_closed);
+                    renderRestaurants(restaurantsData);
+                } else {
+                    throw new Error('Error loading restaurants');
+                }
+            } catch (error) {
+                console.error('Error loading restaurants:', error);
+                showError('Error al cargar restaurantes');
+            }
+        }
+
+        function updateRestaurantsSubtitle(open, closed) {
+            const subtitle = document.getElementById('restaurantsSubtitle');
+            subtitle.textContent = `${open} abiertos • ${closed} cerrados`;
+        }
+
+        function renderRestaurants(restaurants) {
+            const container = document.getElementById('restaurantsContainer');
+            
+            if (restaurants.length === 0) {
+                container.innerHTML = `
+                    <div class="error-message">
+                        <div class="error-icon">🍽️</div>
+                        <h3>No hay restaurantes disponibles</h3>
+                        <p>Intenta más tarde o cambia tu ubicación</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = restaurants.map(restaurant => `
+                <div class="restaurant-card ${restaurant.is_open ? '' : 'closed'}" 
+                     onclick="openRestaurant(${restaurant.id})">
+                    <div class="restaurant-image" style="background: linear-gradient(45deg, #FF6B6B, #FF8E8E);">
+                        <div class="status-badge ${restaurant.is_open ? 'open' : 'closed'}">
+                            ${restaurant.is_open ? 'Abierto' : 'Cerrado'}
+                        </div>
+                        ${restaurant.costo_envio === 0 ? '<div class="delivery-badge">Envío gratis</div>' : ''}
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">${restaurant.nombre}</h3>
+                        ${restaurant.horario_hoy?.apertura ? `
+                            <div class="restaurant-schedule">
+                                Abre: ${restaurant.horario_hoy.apertura} - Cierra: ${restaurant.horario_hoy.cierre}
+                            </div>
+                        ` : ''}
+                        <div class="restaurant-details">
+                            <div class="rating">⭐ ${restaurant.calificacion}</div>
+                            <div class="delivery-time">${restaurant.tiempo_entrega.min}-${restaurant.tiempo_entrega.max} min</div>
+                            <div class="delivery-fee">${restaurant.costo_envio === 0 ? 'Gratis' : '$' + restaurant.costo_envio}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function loadCart() {
+            try {
+                const response = await fetch(`${API_BASE}/cart.php?user_id=${CURRENT_USER_ID}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    cartItems = data.data.items || [];
+                    updateCartBadge();
+                }
+            } catch (error) {
+                console.error('Error loading cart:', error);
+            }
+        }
 
         function updateCartBadge() {
-            const badge = document.getElementById('cart-badge');
-            const totalItems = cartData.items.reduce((sum, item) => sum + item.quantity, 0);
-            badge.textContent = totalItems;
-            badge.style.display = totalItems > 0 ? 'flex' : 'none';
-        }
-
-        function updateCartSummary() {
-            const subtotal = cartData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const deliveryCost = subtotal >= 200 ? 0 : 25;
-            const discount = 0;
-            const total = subtotal + deliveryCost - discount;
-
-            document.getElementById('subtotal').textContent = `${subtotal}`;
-            document.getElementById('delivery-cost').textContent = deliveryCost === 0 ? 'Gratis' : `${deliveryCost}`;
-            document.getElementById('discount').textContent = `-${discount}`;
-            document.getElementById('total').textContent = `${total}`;
-        }
-
-        function increaseQuantity(itemId) {
-            const item = cartData.items.find(item => item.id === itemId);
-            if (item) {
-                item.quantity++;
-                document.getElementById(`quantity-${itemId}`).textContent = item.quantity;
-                updateCartBadge();
-                updateCartSummary();
+            const badge = document.getElementById('cartBadge');
+            const totalItems = cartItems.reduce((sum, item) => sum + item.cantidad, 0);
+            
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
             }
         }
 
-        function decreaseQuantity(itemId) {
-            const item = cartData.items.find(item => item.id === itemId);
-            if (item && item.quantity > 1) {
-                item.quantity--;
-                document.getElementById(`quantity-${itemId}`).textContent = item.quantity;
-                updateCartBadge();
-                updateCartSummary();
-            }
-        }
+        function setupEventListeners() {
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', handleSearch);
 
-        function removeItem(itemId) {
-            if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
-                cartData.items = cartData.items.filter(item => item.id !== itemId);
-                document.querySelector(`[data-item-id="${itemId}"]`).remove();
-                updateCartBadge();
-                updateCartSummary();
-                
-                // Si el carrito está vacío, mostrar estado vacío
-                if (cartData.items.length === 0) {
-                    document.getElementById('cart-with-items').classList.add('hidden');
-                    document.getElementById('empty-cart').classList.remove('hidden');
-                }
-            }
-        }
-
-        function proceedToCheckout() {
-            const total = document.getElementById('total').textContent;
-            alert(`🚀 Procediendo al pago por ${total}\n\n¡Pronto implementaremos el sistema de pagos!`);
-        }
-
-        function selectCategory(element) {
+            // Category selection
             document.querySelectorAll('.category-item').forEach(item => {
-                item.style.borderColor = 'transparent';
-                item.style.transform = 'translateY(0)';
+                item.addEventListener('click', handleCategorySelect);
             });
+        }
+
+        function handleSearch(event) {
+            const query = event.target.value.toLowerCase();
             
-            element.style.borderColor = 'var(--primary-color)';
-            element.style.transform = 'translateY(-5px)';
+            if (query.length === 0) {
+                renderRestaurants(restaurantsData);
+                return;
+            }
+
+            const filtered = restaurantsData.filter(restaurant => 
+                restaurant.nombre.toLowerCase().includes(query) ||
+                restaurant.descripcion?.toLowerCase().includes(query)
+            );
+
+            renderRestaurants(filtered);
+        }
+
+        function handleCategorySelect(event) {
+            const category = event.currentTarget.dataset.category;
             
-            setTimeout(() => {
-                element.style.transform = 'translateY(0)';
-            }, 200);
+            // Remove active class from all categories
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Toggle category selection
+            if (selectedCategory === category) {
+                selectedCategory = null;
+                renderRestaurants(restaurantsData);
+            } else {
+                selectedCategory = category;
+                event.currentTarget.classList.add('active');
+                filterByCategory(category);
+            }
         }
 
-        function openRestaurant(element) {
-            element.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                element.style.transform = 'scale(1)';
-                alert('Abriendo menú del restaurante...');
-            }, 150);
+        async function filterByCategory(category) {
+            try {
+                // This would filter restaurants that have products in this category
+                // For now, just show all restaurants
+                renderRestaurants(restaurantsData);
+            } catch (error) {
+                console.error('Error filtering by category:', error);
+            }
         }
 
-        function openAd(adType) {
-            const messages = {
-                'restaurant': '¡Oferta especial en Mariscos El Pelícano! 2x1 en ceviches',
-                'combo': '¡Combo familiar en Taquería La Gaviota con 20% de descuento!',
-                'tour1': '🛥️ Tour Completo: Observación de flamingos y recorrido por manglares',
-                'tour2': '📸 Tour Fotográfico: Captura los mejores atardeceres de Celestún'
-            };
-            alert(messages[adType] || 'Promoción especial disponible');
-        }
+        function openRestaurant(restaurantId) {
+            const restaurant = restaurantsData.find(r => r.id === restaurantId);
+            
+            if (!restaurant.is_open) {
+                alert('🕐 Este restaurante está cerrado en este momento.\n\nHorario: ' + 
+                      (restaurant.horario_hoy?.apertura || 'Ver horarios'));
+                return;
+            }
 
-        function openTourism(attraction) {
-            const attractions = {
-                'flamingos': '🦩 Observa los hermosos flamingos rosados en su hábitat natural',
-                'beach': '🏖️ Disfruta de las aguas cristalinas de Playa Celestún',
-                'mangrove': '🌿 Explora el ecosistema único de los manglares',
-                'lighthouse': '🗼 Visita el faro histórico con vista panorámica',
-                'salt': '🧂 Conoce las salineras y su tradición ancestral',
-                'sunset': '🌅 Captura los atardeceres más espectaculares'
-            };
-            alert(attractions[attraction] || 'Atracción turística disponible');
+            alert(`🍽️ Abriendo menú de ${restaurant.nombre}\n\n` + 
+                  '(Próximamente: Vista completa del menú con productos y carrito)');
         }
 
         function switchTab(element, tab) {
-            // Remover clase active de todos los tabs
+            // Remove active from all tabs
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
             });
             
-            // Ocultar todo el contenido
-            document.querySelectorAll('#home-content, #tourism-content, #profile-content, #cart-content').forEach(content => {
-                content.classList.add('hidden');
-            });
-            
-            // Activar el tab seleccionado
+            // Activate selected tab
             element.classList.add('active');
             
-            // Mostrar contenido correspondiente
-            if (tab === 'home') {
-                document.getElementById('home-content').classList.remove('hidden');
-            } else if (tab === 'tourism') {
-                document.getElementById('tourism-content').classList.remove('hidden');
-            } else if (tab === 'profile') {
-                document.getElementById('profile-content').classList.remove('hidden');
-            } else if (tab === 'cart') {
-                document.getElementById('cart-content').classList.remove('hidden');
-                // Mostrar carrito vacío o con productos según corresponda
-                if (cartData.items.length === 0) {
-                    document.getElementById('cart-with-items').classList.add('hidden');
-                    document.getElementById('empty-cart').classList.remove('hidden');
-                } else {
-                    document.getElementById('cart-with-items').classList.remove('hidden');
-                    document.getElementById('empty-cart').classList.add('hidden');
-                }
-            } else {
-                // Para otros tabs, mostrar mensaje
-                const content = {
-                    'search': 'Abriendo búsqueda...'
-                };
-                
-                if (content[tab]) {
-                    setTimeout(() => {
-                        alert(content[tab]);
-                    }, 200);
-                }
-                
-                // Volver a mostrar home si no hay contenido específico
-                document.getElementById('home-content').classList.remove('hidden');
+            // Handle tab content
+            switch(tab) {
+                case 'home':
+                    // Already showing home
+                    break;
+                case 'search':
+                    document.getElementById('searchInput').focus();
+                    break;
+                case 'cart':
+                    showCart();
+                    break;
+                case 'orders':
+                    showOrders();
+                    break;
+                case 'profile':
+                    showProfile();
+                    break;
             }
         }
 
-        // Animación de entrada
-        window.addEventListener('load', () => {
-            const cards = document.querySelectorAll('.restaurant-card, .tourism-card, .cart-item');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    card.style.transition = 'all 0.5s ease';
-                    
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                    }, 100);
-                }, index * 100);
-            });
-            
-            // Inicializar carrito
-            updateCartBadge();
-            updateCartSummary();
+        function showCart() {
+            if (cartItems.length === 0) {
+                alert('🛒 Tu carrito está vacío\n\n¡Explora nuestros restaurantes y agrega deliciosos platillos!');
+            } else {
+                alert(`🛒 Carrito (${cartItems.length} productos)\n\n` + 
+                      '(Próximamente: Vista completa del carrito con opciones de pago)');
+            }
+        }
+
+        function showOrders() {
+            alert('📦 Mis Pedidos\n\n(Próximamente: Historial de pedidos y seguimiento en tiempo real)');
+        }
+
+        function showProfile() {
+            alert('👤 Mi Perfil\n\n(Próximamente: Gestión de cuenta, direcciones y configuración)');
+        }
+
+        function showError(message) {
+            const container = document.getElementById('restaurantsContainer');
+            container.innerHTML = `
+                <div class="error-message">
+                    <div class="error-icon">⚠️</div>
+                    <h3>Oops! Algo salió mal</h3>
+                    <p>${message}</p>
+                    <button onclick="location.reload()" style="
+                        background: var(--primary-color);
+                        color: white;
+                        border: none;
+                        padding: 10px 20px;
+                        border-radius: 20px;
+                        margin-top: 15px;
+                        cursor: pointer;
+                        font-weight: 600;
+                    ">Reintentar</button>
+                </div>
+            `;
+        }
+
+        // Utility functions
+        function formatTime(timeString) {
+            if (!timeString) return '';
+            const [hours, minutes] = timeString.split(':');
+            return `${hours}:${minutes}`;
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('es-MX', {
+                style: 'currency',
+                currency: 'MXN'
+            }).format(amount);
+        }
+
+        // Auto-refresh restaurant status every 5 minutes
+        setInterval(async () => {
+            try {
+                await loadRestaurants();
+                console.log('Restaurant status refreshed');
+            } catch (error) {
+                console.error('Error refreshing restaurant status:', error);
+            }
+        }, 5 * 60 * 1000); // 5 minutes
+
+        // Handle online/offline status
+        window.addEventListener('online', () => {
+            document.getElementById('systemStatus').innerHTML = '⚡ Sistema activo';
+            document.getElementById('systemStatus').style.background = 'rgba(34, 197, 94, 0.2)';
         });
 
-        // Funciones del perfil
-        function editAvatar() {
-            alert('📷 Seleccionar nueva foto de perfil...');
+        window.addEventListener('offline', () => {
+            document.getElementById('systemStatus').innerHTML = '📶 Sin conexión';
+            document.getElementById('systemStatus').style.background = 'rgba(239, 68, 68, 0.2)';
+        });
+
+        // Service Worker registration for PWA (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
         }
 
-        function openProfileOption(option) {
-            const options = {
-                'personal': '👤 Editar información personal',
-                'addresses': '📍 Gestionar direcciones guardadas',
-                'payment': '💳 Administrar métodos de pago',
-                'orders': '📦 Ver historial de pedidos',
-                'favorites': '❤️ Mis restaurantes y platillos favoritos',
-                'reviews': '⭐ Mis reseñas y calificaciones',
-                'language': '🌐 Cambiar idioma de la app',
-                'help': '❓ Centro de ayuda y preguntas frecuentes',
-                'contact': '💬 Contactar soporte técnico',
-                'about': 'ℹ️ Celestún Go versión 2.1.0'
-            };
-            alert(options[option] || 'Opción no disponible');
-        }
-
-        function toggleNotifications() {
-            const toggle = document.getElementById('notifications-toggle');
-            toggle.classList.toggle('active');
-            const isActive = toggle.classList.contains('active');
-            alert(isActive ? '🔔 Notificaciones activadas' : '🔕 Notificaciones desactivadas');
-        }
-
-        function toggleDarkMode() {
-            const toggle = document.getElementById('darkmode-toggle');
-            toggle.classList.toggle('active');
-            const isActive = toggle.classList.contains('active');
-            alert(isActive ? '🌙 Modo oscuro forzado activado' : '🌙 Modo automático según dispositivo');
-        }
-
-        function logout() {
-            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-                alert('👋 Sesión cerrada. ¡Hasta pronto!');
-                // Aquí se implementaría la lógica de logout real
-            }
-        }
-
-        // Detectar cambios en el modo oscuro y actualizar theme-color
-        const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        
+        // Theme color update for mobile browsers
         function updateThemeColor() {
-            const isDark = darkModeMediaQuery.matches;
+            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             const themeColor = isDark ? '#F472B6' : '#EC4899';
             document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor);
         }
 
-        // Actualizar color del tema al cargar y cuando cambie
+        // Update theme color on page load and when system theme changes
         updateThemeColor();
-        darkModeMediaQuery.addEventListener('change', updateThemeColor);
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateThemeColor);
 
-        // Función para cambiar dinámicamente el color del navegador en móviles
-        function setMobileThemeColor(color) {
-            const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-            if (metaThemeColor) {
-                metaThemeColor.setAttribute('content', color);
-            }
-        }
-
-        // Cambiar color según la sección activa
-        function updateThemeColorForSection(section) {
-            const colors = {
-                'home': '#EC4899',      // Rosa principal
-                'search': '#F472B6',    // Rosa secundario
-                'tourism': '#FB7185',   // Rosa accent
-                'cart': '#A855F7',      // Púrpura
-                'profile': '#EC4899'    // Rosa principal
-            };
-            
-            const isDark = darkModeMediaQuery.matches;
-            let baseColor = colors[section] || '#EC4899';
-            
-            // Ajustar para modo oscuro
-            if (isDark) {
-                switch(section) {
-                    case 'home':
-                        baseColor = '#F472B6';
-                        break;
-                    case 'search':
-                        baseColor = '#EC4899';
-                        break;
-                    case 'tourism':
-                        baseColor = '#FB7185';
-                        break;
-                    case 'cart':
-                        baseColor = '#A855F7';
-                        break;
-                    case 'profile':
-                        baseColor = '#F472B6';
-                        break;
-                }
-            }
-            
-            setMobileThemeColor(baseColor);
-        }
-
-        // Modificar la función switchTab para incluir el cambio de color
-        const originalSwitchTab = switchTab;
-        switchTab = function(element, tab) {
-            originalSwitchTab(element, tab);
-            updateThemeColorForSection(tab);
-        };
-
-        // Simular actualizaciones en tiempo real
-        setInterval(() => {
-            const badges = document.querySelectorAll('.delivery-badge');
-            badges.forEach(badge => {
-                if (Math.random() > 0.7) {
-                    badge.style.animation = 'pulse 1s ease';
-                    setTimeout(() => {
-                        badge.style.animation = '';
-                    }, 1000);
-                }
-            });
-        }, 5000);
-
-        // Animaciones adicionales para el carrito
-        function animateCartUpdate() {
-            const cartBadge = document.getElementById('cart-badge');
-            cartBadge.style.animation = 'pulse 0.5s ease';
-            setTimeout(() => {
-                cartBadge.style.animation = '';
-            }, 500);
-        }
-
-        // Sobrescribir funciones del carrito para incluir animaciones
-        const originalIncreaseQuantity = increaseQuantity;
-        increaseQuantity = function(itemId) {
-            originalIncreaseQuantity(itemId);
-            animateCartUpdate();
-        };
-
-        const originalDecreaseQuantity = decreaseQuantity;
-        decreaseQuantity = function(itemId) {
-            originalDecreaseQuantity(itemId);
-            animateCartUpdate();
-        };
-
-        const originalRemoveItem = removeItem;
-        removeItem = function(itemId) {
-            originalRemoveItem(itemId);
-            animateCartUpdate();
-        };
-
-        // Efectos táctiles para móviles
+        // Touch feedback for mobile devices
         if ('ontouchstart' in window) {
             document.addEventListener('touchstart', function(e) {
-                if (e.target.classList.contains('cart-item') || 
-                    e.target.closest('.cart-item')) {
+                if (e.target.closest('.restaurant-card') || e.target.closest('.category-item')) {
                     e.target.style.transform = 'scale(0.98)';
                 }
             });
 
             document.addEventListener('touchend', function(e) {
-                if (e.target.classList.contains('cart-item') || 
-                    e.target.closest('.cart-item')) {
-                    e.target.style.transform = 'scale(1)';
+                if (e.target.closest('.restaurant-card') || e.target.closest('.category-item')) {
+                    setTimeout(() => {
+                        e.target.style.transform = '';
+                    }, 150);
                 }
             });
         }
 
-        // Funciones adicionales para demo del carrito
-        function addSampleItem() {
-            const newItem = {
-                id: Date.now(),
-                name: "Tacos de Pastor",
-                restaurant: "🌮 Taquería La Gaviota",
-                description: "3 tacos con carne al pastor, piña, cebolla, cilantro",
-                price: 85,
-                quantity: 1
-            };
-            
-            cartData.items.push(newItem);
-            
-            // Crear elemento HTML para el nuevo item
-            const cartItems = document.querySelector('.cart-items');
-            const newItemHTML = `
-                <div class="cart-item" data-item-id="${newItem.id}">
-                    <div class="item-header">
-                        <div class="item-info">
-                            <h3 class="item-name">${newItem.name}</h3>
-                            <p class="item-restaurant">${newItem.restaurant}</p>
-                            <p class="item-description">${newItem.description}</p>
-                        </div>
-                        <div class="item-price">${newItem.price}</div>
-                    </div>
-                    <div class="item-controls">
-                        <div class="quantity-controls">
-                            <button class="quantity-btn" onclick="decreaseQuantity(${newItem.id})">-</button>
-                            <span class="quantity-number" id="quantity-${newItem.id}">${newItem.quantity}</span>
-                            <button class="quantity-btn" onclick="increaseQuantity(${newItem.id})">+</button>
-                        </div>
-                        <button class="remove-item" onclick="removeItem(${newItem.id})">🗑️</button>
-                    </div>
-                </div>
-            `;
-            
-            cartItems.insertAdjacentHTML('beforeend', newItemHTML);
-            updateCartBadge();
-            updateCartSummary();
-            animateCartUpdate();
-            
-            // Mostrar carrito con items si estaba vacío
-            document.getElementById('cart-with-items').classList.remove('hidden');
-            document.getElementById('empty-cart').classList.add('hidden');
+        // Analytics tracking (placeholder)
+        function trackEvent(eventName, properties = {}) {
+            console.log('Analytics:', eventName, properties);
+            // Here you would integrate with your analytics service
         }
 
-        // Evento para probar agregar items (doble click en restaurantes)
-        document.querySelectorAll('.restaurant-card').forEach(card => {
-            card.addEventListener('dblclick', function() {
-                addSampleItem();
-                alert('¡Producto agregado al carrito! 🛒');
-            });
+        // Track app initialization
+        trackEvent('app_initialized', {
+            timestamp: new Date().toISOString(),
+            user_agent: navigator.userAgent,
+            viewport: `${window.innerWidth}x${window.innerHeight}`
         });
     </script>
 </body>
