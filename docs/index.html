@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celestún GO - Seguimiento de Pedido</title>
-    <meta name="theme-color" content="#FF69B4">
+    <title>Celestún Go - Delivery</title>
+    <meta name="theme-color" content="#EC4899">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
@@ -14,24 +14,60 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-color: #EC4899;
+            --secondary-color: #F472B6;
+            --accent-color: #FB7185;
+            --background: #ffffff;
+            --surface: #fef7ff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --border-color: #fce7f3;
+            --shadow: rgba(236, 72, 153, 0.1);
+            --gradient-1: linear-gradient(135deg, #EC4899, #F472B6);
+            --gradient-2: linear-gradient(135deg, #FB7185, #FBBF24);
+            --gradient-3: linear-gradient(135deg, #A855F7, #EC4899);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-color: #F472B6;
+                --secondary-color: #EC4899;
+                --accent-color: #FB7185;
+                --background: #0f172a;
+                --surface: #1e293b;
+                --text-primary: #f1f5f9;
+                --text-secondary: #cbd5e1;
+                --text-muted: #64748b;
+                --border-color: #334155;
+                --shadow: rgba(244, 114, 182, 0.2);
+                --gradient-1: linear-gradient(135deg, #F472B6, #EC4899);
+                --gradient-2: linear-gradient(135deg, #FB7185, #FBBF24);
+                --gradient-3: linear-gradient(135deg, #A855F7, #F472B6);
+            }
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #f8fafc;
+            background: var(--background);
             min-height: 100vh;
             overflow-x: hidden;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
         }
 
         .app-container {
             max-width: 400px;
             margin: 0 auto;
-            background: #ffffff;
+            background: var(--background);
             min-height: 100vh;
             position: relative;
-            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            box-shadow: 0 0 30px var(--shadow);
         }
 
         .header {
-            background: linear-gradient(135deg, #FF69B4, #FF1493);
+            background: var(--gradient-1);
             padding: 40px 20px 20px;
             color: white;
             position: relative;
@@ -58,35 +94,26 @@
         .header-content {
             position: relative;
             z-index: 10;
+        }
+
+        .location {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
+            margin-bottom: 10px;
+            opacity: 0.9;
         }
 
-        .back-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .back-btn:hover {
-            background: rgba(255,255,255,0.3);
-            transform: scale(1.1);
-        }
-
-        .header-title {
-            flex: 1;
+        .location-icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
         }
 
         .app-title {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 2px;
+            margin-bottom: 5px;
         }
 
         .subtitle {
@@ -94,364 +121,654 @@
             font-size: 14px;
         }
 
-        .tracking-container {
-            padding: 0;
-            background: white;
-        }
-
-        .order-info {
+        .search-container {
             padding: 20px;
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
+            background: var(--background);
+            position: relative;
         }
 
-        .order-status {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
         }
 
-        .status-icon {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: white;
-            padding: 8px;
-            border-radius: 50%;
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
             font-size: 16px;
-            animation: pulse 2s infinite;
+            outline: none;
+            transition: all 0.3s ease;
+            background: var(--surface);
+            color: var(--text-primary);
         }
 
-        .status-text {
-            flex: 1;
+        .search-input:focus {
+            border-color: var(--primary-color);
+            background: var(--background);
+            box-shadow: 0 0 0 3px var(--shadow);
         }
 
-        .status-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #22c55e;
-            margin-bottom: 2px;
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
         }
 
-        .status-description {
-            font-size: 14px;
-            color: #64748b;
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
-        .eta-badge {
-            background: #22c55e;
-            color: white;
-            padding: 6px 12px;
+        .category-item {
+            text-align: center;
+            padding: 15px 10px;
             border-radius: 15px;
+            background: var(--surface);
+            box-shadow: 0 4px 15px var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .category-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow);
+            border-color: var(--primary-color);
+        }
+
+        .category-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .category-name {
             font-size: 12px;
             font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .order-details {
-            margin-top: 15px;
-            padding: 15px;
-            background: #f8fafc;
-            border-radius: 12px;
-        }
-
-        .order-number {
-            font-size: 14px;
-            color: #64748b;
-            margin-bottom: 8px;
-        }
-
-        .restaurant-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .restaurant-icon {
-            background: linear-gradient(135deg, #FF69B4, #FF1493);
-            color: white;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 18px;
-        }
-
-        .restaurant-details h3 {
-            font-size: 16px;
+        .section-title {
+            font-size: 20px;
             font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 2px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            padding: 0 20px;
         }
 
-        .restaurant-details p {
-            font-size: 14px;
-            color: #64748b;
-        }
-
-        .map-container {
-            height: 300px;
+        .promo-banner {
+            background: var(--gradient-2);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 20px;
+            color: white;
             position: relative;
-            background: #e2e8f0;
             overflow: hidden;
         }
 
-        #map {
-            width: 100%;
-            height: 100%;
-        }
-
-        .map-overlay {
+        .promo-banner::before {
+            content: '🎉';
             position: absolute;
-            bottom: 15px;
-            left: 15px;
+            top: 10px;
             right: 15px;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-size: 30px;
+            opacity: 0.7;
         }
 
-        .driver-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .driver-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #FF69B4, #FF1493);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+        .promo-title {
             font-size: 18px;
             font-weight: 700;
+            margin-bottom: 5px;
         }
 
-        .driver-details {
-            flex: 1;
-        }
-
-        .driver-name {
+        .promo-subtitle {
             font-size: 14px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 2px;
+            opacity: 0.9;
         }
 
-        .driver-vehicle {
-            font-size: 12px;
-            color: #64748b;
+        .ads-section {
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        .call-btn {
-            background: #22c55e;
-            color: white;
-            border: none;
-            padding: 8px 12px;
+        .ad-banner {
+            background: var(--gradient-3);
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+            padding: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .call-btn:hover {
-            background: #16a34a;
-            transform: scale(1.05);
-        }
-
-        .progress-section {
-            padding: 20px;
-            background: white;
-        }
-
-        .progress-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 20px;
-        }
-
-        .progress-timeline {
-            position: relative;
-        }
-
-        .timeline-item {
-            display: flex;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 15px;
-            top: 35px;
-            bottom: -20px;
-            width: 2px;
-            background: #e2e8f0;
-        }
-
-        .timeline-item:last-child::before {
-            display: none;
-        }
-
-        .timeline-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            margin-right: 15px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .timeline-icon.completed {
-            background: #22c55e;
-            color: white;
-        }
-
-        .timeline-icon.active {
-            background: #FF69B4;
-            color: white;
-            animation: pulse 2s infinite;
-        }
-
-        .timeline-icon.pending {
-            background: #e2e8f0;
-            color: #94a3b8;
-        }
-
-        .timeline-content {
-            flex: 1;
-            padding-top: 2px;
-        }
-
-        .timeline-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 2px;
-        }
-
-        .timeline-time {
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        .timeline-title.completed {
-            color: #22c55e;
-        }
-
-        .timeline-title.active {
-            color: #FF69B4;
-        }
-
-        .order-items {
-            padding: 20px;
-            background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .items-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1e293b;
             margin-bottom: 15px;
         }
 
-        .item {
+        .ad-banner::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .ad-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .ad-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .ad-subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .tourism-section {
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+
+        .tourism-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .tourism-card {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .tourism-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+
+        .tourism-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .tourism-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .tourism-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .restaurants-grid {
+            padding: 0 20px;
+            display: grid;
+            gap: 20px;
+            margin-bottom: 100px;
+        }
+
+        .restaurant-card {
+            background: var(--surface);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--shadow);
+        }
+
+        .restaurant-image {
+            width: 100%;
+            height: 150px;
+            background: var(--gradient-1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .restaurant-image::before {
+            content: '🍕';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            opacity: 0.7;
+        }
+
+        .delivery-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(236, 72, 153, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .restaurant-info {
+            padding: 20px;
+        }
+
+        .restaurant-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .restaurant-details {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 10px;
         }
 
-        .item:last-child {
-            border-bottom: none;
-        }
-
-        .item-info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 2px;
-        }
-
-        .item-info p {
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        .item-quantity {
-            font-size: 14px;
-            font-weight: 700;
-            color: #FF69B4;
-        }
-
-        .total-section {
-            padding: 20px;
-            background: white;
-            border-top: 1px solid #e2e8f0;
-            margin-bottom: 20px;
-        }
-
-        .total-row {
+        .rating {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
+            align-items: center;
+            gap: 4px;
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .delivery-time {
+            color: var(--text-secondary);
             font-size: 14px;
         }
 
-        .total-row.final {
-            border-top: 1px solid #e2e8f0;
-            padding-top: 8px;
-            font-weight: 700;
-            font-size: 16px;
-            color: #FF69B4;
+        .delivery-fee {
+            color: #22c55e;
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        .actions {
+        /* ESTILOS DEL CARRITO */
+        .cart-content {
             padding: 20px;
-            background: white;
-            border-top: 1px solid #e2e8f0;
+            margin-bottom: 100px;
         }
 
-        .action-btn {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #FF69B4;
+        .cart-header {
+            background: var(--gradient-1);
+            color: white;
+            padding: 30px 20px;
+            margin: -20px -20px 30px -20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cart-header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .cart-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cart-subtitle {
+            opacity: 0.9;
+            font-size: 14px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-cart-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+
+        .empty-cart-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .empty-cart-text {
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .browse-button {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            padding: 15px 30px;
             border-radius: 25px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 10px;
+            box-shadow: 0 4px 15px var(--shadow);
         }
 
-        .action-btn.primary {
-            background: linear-gradient(135deg, #FF69B4, #FF1493);
-            color: white;
-            border-color: transparent;
-        }
-
-        .action-btn.secondary {
-            background: white;
-            color: #FF69B4;
-        }
-
-        .action-btn:hover {
+        .browse-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+
+        .cart-items {
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .item-restaurant {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .item-description {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .item-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: right;
+        }
+
+        .item-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--background);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid var(--border-color);
+        }
+
+        .quantity-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .quantity-btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .quantity-number {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .remove-item:hover {
+            background: rgba(239, 68, 68, 0.1);
+            transform: scale(1.1);
+        }
+
+        .cart-summary {
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 30px var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .summary-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 15px;
+            border-top: 2px solid var(--border-color);
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .summary-label {
+            color: var(--text-secondary);
+        }
+
+        .summary-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .checkout-button {
+            width: 100%;
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checkout-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+
+        .checkout-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .checkout-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--shadow);
+        }
+
+        .checkout-button:active {
+            transform: translateY(-1px);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 400px;
+            background: var(--surface);
+            padding: 15px 20px;
+            box-shadow: 0 -10px 30px var(--shadow);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 12px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+            background: var(--shadow);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -460,37 +777,251 @@
             100% { transform: scale(1); }
         }
 
-        .live-indicator {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(239, 68, 68, 0.9);
+        .tab-content {
+            padding: 20px;
+            margin-bottom: 100px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .profile-header {
+            background: var(--gradient-1);
             color: white;
-            padding: 5px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .avatar-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
-            animation: pulse 2s infinite;
         }
 
-        .live-indicator::before {
-            content: '🔴';
-            margin-right: 5px;
+        .avatar-emoji {
+            font-size: 35px;
         }
 
-        /* Responsive */
+        .edit-avatar-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .edit-avatar-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            opacity: 0.9;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .profile-sections {
+            padding: 0 20px;
+            margin-bottom: 100px;
+        }
+
+        .profile-section {
+            margin-bottom: 25px;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            padding-left: 5px;
+        }
+
+        .profile-menu {
+            background: var(--surface);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+            gap: 15px;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            background: var(--border-color);
+            transform: translateX(5px);
+        }
+
+        .menu-item:active {
+            transform: translateX(5px) scale(0.98);
+        }
+
+        .menu-icon {
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .menu-content {
+            flex: 1;
+        }
+
+        .menu-title {
+            display: block;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .menu-description {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .menu-arrow {
+            font-size: 18px;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 28px;
+            background: var(--text-muted);
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: var(--primary-color);
+        }
+
+        .toggle-slider {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(22px);
+        }
+
+        .logout-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .logout-btn:active {
+            transform: translateY(0);
+        }
+
+        .logout-icon {
+            font-size: 18px;
+        }
+
         @media (max-width: 375px) {
-            .app-container {
-                max-width: 100%;
+            .categories {
+                grid-template-columns: repeat(3, 1fr);
             }
             
-            .header {
-                padding: 30px 15px 15px;
-            }
-            
-            .order-info, .progress-section, .actions {
-                padding: 15px;
+            .tourism-cards {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -499,817 +1030,901 @@
     <div class="app-container">
         <header class="header">
             <div class="header-content">
-                <button class="back-btn" onclick="goBack()">
-                    ←
-                </button>
-                <div class="header-title">
-                    <h1 class="app-title">Seguimiento de Pedido</h1>
-                    <p class="subtitle">En tiempo real</p>
+                <div class="location">
+                    <svg class="location-icon" viewBox="0 0 24 24">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                    </svg>
+                    <span>Celestún, Yucatán</span>
                 </div>
+                <h1 class="app-title">Celestún Go</h1>
+                <p class="subtitle">Delivery rápido y confiable</p>
             </div>
         </header>
 
-        <div class="tracking-container">
-            <div class="order-info">
-                <div class="order-status">
-                    <div class="status-icon">🛵</div>
-                    <div class="status-text">
-                        <div class="status-title">En camino a tu ubicación</div>
-                        <div class="status-description">Tu repartidor está cerca</div>
-                    </div>
-                    <div class="eta-badge" id="etaBadge">12 min</div>
+        <!-- Contenido del Home -->
+        <div id="home-content">
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="¿Qué antojo tienes hoy?">
+                    <span class="search-icon">🔍</span>
                 </div>
 
-                <div class="order-details">
-                    <div class="order-number">Pedido #CG-2024-0156</div>
+                <div class="categories">
+                    <div class="category-item" onclick="selectCategory(this)">
+                        <span class="category-icon">🌮</span>
+                        <span class="category-name">Tacos</span>
+                    </div>
+                    <div class="category-item" onclick="selectCategory(this)">
+                        <span class="category-icon">🍔</span>
+                        <span class="category-name">Burgers</span>
+                    </div>
+                    <div class="category-item" onclick="selectCategory(this)">
+                        <span class="category-icon">🥗</span>
+                        <span class="category-name">Saludable</span>
+                    </div>
+                    <div class="category-item" onclick="selectCategory(this)">
+                        <span class="category-icon">🍣</span>
+                        <span class="category-name">Sushi</span>
+                    </div>
+                    <div class="category-item" onclick="selectCategory(this)">
+                        <span class="category-icon">🦐</span>
+                        <span class="category-name">Mariscos</span>
+                    </div>
+                    <div class="category-item" onclick="selectCategory(this)">
+                        <span class="category-icon">🧁</span>
+                        <span class="category-name">Postres</span>
+                    </div>
+                    <div class="category-item" onclick="selectCategory(this)">
+                        <span class="category-icon">☕</span>
+                        <span class="category-name">Bebidas</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="promo-banner pulse">
+                <div class="promo-title">¡Envío GRATIS!</div>
+                <div class="promo-subtitle">En pedidos mayores a $200</div>
+            </div>
+
+            <!-- Sección de Publicidad -->
+            <div class="ads-section">
+                <h2 class="section-title">Promociones especiales</h2>
+                <div class="ad-banner" onclick="openAd('restaurant')">
+                    <div class="ad-content">
+                        <div class="ad-title">🍤 Mariscos El Pelícano</div>
+                        <div class="ad-subtitle">2x1 en ceviches hasta las 6pm</div>
+                    </div>
+                </div>
+                <div class="ad-banner" onclick="openAd('combo')">
+                    <div class="ad-content">
+                        <div class="ad-title">🌮 Combo Familiar</div>
+                        <div class="ad-subtitle">Taquería La Gaviota - 20% OFF</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Restaurantes cerca de ti</h2>
+
+            <div class="restaurants-grid">
+                <div class="restaurant-card" onclick="openRestaurant(this)">
+                    <div class="restaurant-image" style="background: linear-gradient(45deg, #FF6B6B, #FF8E8E);">
+                        <div class="delivery-badge">Envío gratis</div>
+                    </div>
                     <div class="restaurant-info">
-                        <div class="restaurant-icon">🍕</div>
+                        <h3 class="restaurant-name">Pizzería Flamingo</h3>
                         <div class="restaurant-details">
-                            <h3>Pizzería Flamingo</h3>
-                            <p>Pizza Hawaiana Grande</p>
+                            <div class="rating">⭐ 4.8</div>
+                            <div class="delivery-time">25-35 min</div>
+                            <div class="delivery-fee">Gratis</div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="map-container">
-                <div class="live-indicator">EN VIVO</div>
-                <div id="map"></div>
-                <div class="map-overlay">
-                    <div class="driver-info">
-                        <div class="driver-avatar">CM</div>
-                        <div class="driver-details">
-                            <div class="driver-name">Carlos Martínez</div>
-                            <div class="driver-vehicle">Motocicleta • CBR-123</div>
+                <div class="restaurant-card" onclick="openRestaurant(this)">
+                    <div class="restaurant-image" style="background: linear-gradient(45deg, #4ECDC4, #44A08D);">
+                        <div class="delivery-badge">Nuevo</div>
+                    </div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">Mariscos El Pelícano</h3>
+                        <div class="restaurant-details">
+                            <div class="rating">⭐ 4.9</div>
+                            <div class="delivery-time">20-30 min</div>
+                            <div class="delivery-fee">$25</div>
                         </div>
-                        <button class="call-btn" onclick="callDriver()">📞 Llamar</button>
                     </div>
                 </div>
-            </div>
 
-            <div class="progress-section">
-                <h3 class="progress-title">Estado del Pedido</h3>
-                <div class="progress-timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-icon completed">✓</div>
-                        <div class="timeline-content">
-                            <div class="timeline-title completed">Pedido confirmado</div>
-                            <div class="timeline-time">14:25</div>
-                        </div>
+                <div class="restaurant-card" onclick="openRestaurant(this)">
+                    <div class="restaurant-image" style="background: linear-gradient(45deg, #FFA726, #FF7043);">
+                        <div class="delivery-badge">Popular</div>
                     </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-icon completed">✓</div>
-                        <div class="timeline-content">
-                            <div class="timeline-title completed">Preparando tu pedido</div>
-                            <div class="timeline-time">14:30</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-icon completed">✓</div>
-                        <div class="timeline-content">
-                            <div class="timeline-title completed">Pedido listo</div>
-                            <div class="timeline-time">14:45</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-icon active">🛵</div>
-                        <div class="timeline-content">
-                            <div class="timeline-title active">En camino</div>
-                            <div class="timeline-time">Ahora</div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-icon pending">📍</div>
-                        <div class="timeline-content">
-                            <div class="timeline-title">Entregado</div>
-                            <div class="timeline-time">~15:10</div>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">Taquería La Gaviota</h3>
+                        <div class="restaurant-details">
+                            <div class="rating">⭐ 4.7</div>
+                            <div class="delivery-time">15-25 min</div>
+                            <div class="delivery-fee">$20</div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="order-items">
-                <h3 class="items-title">Tu Pedido</h3>
-                <div class="item">
-                    <div class="item-info">
-                        <h4>Pizza Hawaiana Grande</h4>
-                        <p>Jamón, piña, queso mozzarella</p>
+                <div class="restaurant-card" onclick="openRestaurant(this)">
+                    <div class="restaurant-image" style="background: linear-gradient(45deg, #A855F7, #EC4899);">
+                        <div class="delivery-badge">Descuento</div>
                     </div>
-                    <div class="item-quantity">1x</div>
-                </div>
-                <div class="item">
-                    <div class="item-info">
-                        <h4>Refresco Coca-Cola</h4>
-                        <p>600ml</p>
+                    <div class="restaurant-info">
+                        <h3 class="restaurant-name">Café Manglar</h3>
+                        <div class="restaurant-details">
+                            <div class="rating">⭐ 4.6</div>
+                            <div class="delivery-time">10-20 min</div>
+                            <div class="delivery-fee">$15</div>
+                        </div>
                     </div>
-                    <div class="item-quantity">2x</div>
                 </div>
-            </div>
-
-            <div class="total-section">
-                <div class="total-row">
-                    <span>Subtotal:</span>
-                    <span>$180</span>
-                </div>
-                <div class="total-row">
-                    <span>Bebidas:</span>
-                    <span>$40</span>
-                </div>
-                <div class="total-row">
-                    <span>Envío:</span>
-                    <span>Gratis</span>
-                </div>
-                <div class="total-row final">
-                    <span>Total:</span>
-                    <span>$220</span>
-                </div>
-            </div>
-
-            <div class="actions">
-                <button class="action-btn secondary" onclick="contactSupport()">
-                    💬 Contactar Soporte
-                </button>
-                <button class="action-btn primary" onclick="shareLocation()">
-                    📍 Compartir mi Ubicación
-                </button>
             </div>
         </div>
+
+        <!-- Contenido del Carrito -->
+        <div id="cart-content" class="tab-content hidden">
+            <div class="cart-header">
+                <h2 class="cart-title">🛒 Mi Carrito</h2>
+                <p class="cart-subtitle">Revisa tus productos</p>
+            </div>
+
+            <div class="cart-content">
+                <!-- Estado vacío del carrito -->
+                <div id="empty-cart" class="hidden">
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h3 class="empty-cart-title">Tu carrito está vacío</h3>
+                        <p class="empty-cart-text">¡Explora nuestros deliciosos restaurantes y agrega tus platillos favoritos!</p>
+                        <button class="browse-button" onclick="switchTab(document.querySelector('.nav-item'), 'home')">
+                            Explorar Restaurantes
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Carrito con productos -->
+                <div id="cart-with-items">
+                    <div class="cart-items">
+                        <div class="cart-item" data-item-id="1">
+                            <div class="item-header">
+                                <div class="item-info">
+                                    <h3 class="item-name">Pizza Hawaiana Grande</h3>
+                                    <p class="item-restaurant">🍕 Pizzería Flamingo</p>
+                                    <p class="item-description">Jamón, piña, queso mozzarella, salsa especial</p>
+                                </div>
+                                <div class="item-price">$180</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="decreaseQuantity(1)">-</button>
+                                    <span class="quantity-number" id="quantity-1">1</span>
+                                    <button class="quantity-btn" onclick="increaseQuantity(1)">+</button>
+                                </div>
+                                <button class="remove-item" onclick="removeItem(1)">🗑️</button>
+                            </div>
+                        </div>
+
+                        <div class="cart-item" data-item-id="2">
+                            <div class="item-header">
+                                <div class="item-info">
+                                    <h3 class="item-name">Ceviche de Pescado</h3>
+                                    <p class="item-restaurant">🦐 Mariscos El Pelícano</p>
+                                    <p class="item-description">Pescado fresco, limón, cebolla, cilantro, aguacate</p>
+                                </div>
+                                <div class="item-price">$120</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="decreaseQuantity(2)">-</button>
+                                    <span class="quantity-number" id="quantity-2">1</span>
+                                    <button class="quantity-btn" onclick="increaseQuantity(2)">+</button>
+                                </div>
+                                <button class="remove-item" onclick="removeItem(2)">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cart-summary">
+                        <h3 class="summary-title">📋 Resumen del Pedido</h3>
+                        <div class="summary-row">
+                            <span class="summary-label">Subtotal:</span>
+                            <span class="summary-value" id="subtotal">$300</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Envío:</span>
+                            <span class="summary-value" id="delivery-cost">Gratis</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Descuento:</span>
+                            <span class="summary-value" id="discount">-$0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">Total:</span>
+                            <span class="summary-value" id="total">$300</span>
+                        </div>
+                    </div>
+
+                    <button class="checkout-button" onclick="proceedToCheckout()">
+                        🚀 Proceder al Pago
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido de Turismo -->
+        <div id="tourism-content" class="tab-content hidden">
+            <h2 class="section-title">Descubre Celestún</h2>
+            
+            <div class="tourism-cards">
+                <div class="tourism-card" onclick="openTourism('flamingos')">
+                    <div class="tourism-icon">🦩</div>
+                    <div class="tourism-title">Flamingos Rosados</div>
+                    <div class="tourism-subtitle">Tour en lancha</div>
+                </div>
+                
+                <div class="tourism-card" onclick="openTourism('beach')">
+                    <div class="tourism-icon">🏖️</div>
+                    <div class="tourism-title">Playa Celestún</div>
+                    <div class="tourism-subtitle">Aguas cristalinas</div>
+                </div>
+                
+                <div class="tourism-card" onclick="openTourism('mangrove')">
+                    <div class="tourism-icon">🌿</div>
+                    <div class="tourism-title">Manglares</div>
+                    <div class="tourism-subtitle">Ecosistema único</div>
+                </div>
+                
+                <div class="tourism-card" onclick="openTourism('lighthouse')">
+                    <div class="tourism-icon">🗼</div>
+                    <div class="tourism-title">Faro Histórico</div>
+                    <div class="tourism-subtitle">Vista panorámica</div>
+                </div>
+                
+                <div class="tourism-card" onclick="openTourism('salt')">
+                    <div class="tourism-icon">🧂</div>
+                    <div class="tourism-title">Salineras</div>
+                    <div class="tourism-subtitle">Tradición ancestral</div>
+                </div>
+                
+                <div class="tourism-card" onclick="openTourism('sunset')">
+                    <div class="tourism-icon">🌅</div>
+                    <div class="tourism-title">Atardeceres</div>
+                    <div class="tourism-subtitle">Fotografía única</div>
+                </div>
+            </div>
+
+            <div class="ads-section">
+                <h2 class="section-title">Tours recomendados</h2>
+                <div class="ad-banner" onclick="openAd('tour1')">
+                    <div class="ad-content">
+                        <div class="ad-title">🛥️ Tour Completo Celestún</div>
+                        <div class="ad-subtitle">Flamingos + Manglares - $450/persona</div>
+                    </div>
+                </div>
+                <div class="ad-banner" onclick="openAd('tour2')">
+                    <div class="ad-content">
+                        <div class="ad-title">📸 Tour Fotográfico</div>
+                        <div class="ad-subtitle">Atardecer + Flamingos - $350/persona</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido del Perfil -->
+        <div id="profile-content" class="tab-content hidden">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <div class="avatar-circle">
+                        <span class="avatar-emoji">👤</span>
+                    </div>
+                    <button class="edit-avatar-btn" onclick="editAvatar()">📷</button>
+                </div>
+                <h2 class="profile-name">María González</h2>
+                <p class="profile-email">maria.gonzalez@email.com</p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Pedidos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4.8</span>
+                        <span class="stat-label">⭐ Rating</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">Gold</span>
+                        <span class="stat-label">Nivel</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-sections">
+                <div class="profile-section">
+                    <h3 class="section-subtitle">Mi Cuenta</h3>
+                    <div class="profile-menu">
+                        <div class="menu-item" onclick="openProfileOption('personal')">
+                            <span class="menu-icon">👤</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Información Personal</span>
+                                <span class="menu-description">Editar nombre, teléfono, email</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('addresses')">
+                            <span class="menu-icon">📍</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Mis Direcciones</span>
+                                <span class="menu-description">Casa, trabajo y más</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('payment')">
+                            <span class="menu-icon">💳</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Métodos de Pago</span>
+                                <span class="menu-description">Tarjetas y billeteras digitales</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3 class="section-subtitle">Historial</h3>
+                    <div class="profile-menu">
+                        <div class="menu-item" onclick="openProfileOption('orders')">
+                            <span class="menu-icon">📦</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Mis Pedidos</span>
+                                <span class="menu-description">Historial de órdenes</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('favorites')">
+                            <span class="menu-icon">❤️</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Favoritos</span>
+                                <span class="menu-description">Restaurantes y platillos</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('reviews')">
+                            <span class="menu-icon">⭐</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Mis Reseñas</span>
+                                <span class="menu-description">Calificaciones realizadas</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3 class="section-subtitle">Configuración</h3>
+                    <div class="profile-menu">
+                        <div class="menu-item" onclick="toggleNotifications()">
+                            <span class="menu-icon">🔔</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Notificaciones</span>
+                                <span class="menu-description">Ofertas y actualizaciones</span>
+                            </div>
+                            <div class="toggle-switch active" id="notifications-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item" onclick="toggleDarkMode()">
+                            <span class="menu-icon">🌙</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Modo Oscuro</span>
+                                <span class="menu-description">Automático según dispositivo</span>
+                            </div>
+                            <div class="toggle-switch" id="darkmode-toggle">
+                                <div class="toggle-slider"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('language')">
+                            <span class="menu-icon">🌐</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Idioma</span>
+                                <span class="menu-description">Español</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3 class="section-subtitle">Soporte</h3>
+                    <div class="profile-menu">
+                        <div class="menu-item" onclick="openProfileOption('help')">
+                            <span class="menu-icon">❓</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Centro de Ayuda</span>
+                                <span class="menu-description">FAQ y soporte</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('contact')">
+                            <span class="menu-icon">💬</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Contáctanos</span>
+                                <span class="menu-description">Chat en vivo 24/7</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                        
+                        <div class="menu-item" onclick="openProfileOption('about')">
+                            <span class="menu-icon">ℹ️</span>
+                            <div class="menu-content">
+                                <span class="menu-title">Acerca de</span>
+                                <span class="menu-description">Celestún Go v2.1.0</span>
+                            </div>
+                            <span class="menu-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="logout-section">
+                        <button class="logout-btn" onclick="logout()">
+                            <span class="logout-icon">🚪</span>
+                            <span>Cerrar Sesión</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <div class="nav-items">
+                <div class="nav-item active" onclick="switchTab(this, 'home')">
+                    <span class="nav-icon">🏠</span>
+                    <span>Inicio</span>
+                </div>
+                <div class="nav-item" onclick="switchTab(this, 'search')">
+                    <span class="nav-icon">🔍</span>
+                    <span>Buscar</span>
+                </div>
+                <div class="nav-item" onclick="switchTab(this, 'tourism')">
+                    <span class="nav-icon">🏖️</span>
+                    <span>Turismo</span>
+                </div>
+                <div class="nav-item" onclick="switchTab(this, 'cart')" style="position: relative;">
+                    <span class="nav-icon">🛒</span>
+                    <span>Carrito</span>
+                    <span class="cart-badge" id="cart-badge">2</span>
+                </div>
+                <div class="nav-item" onclick="switchTab(this, 'profile')">
+                    <span class="nav-icon">👤</span>
+                    <span>Perfil</span>
+                </div>
+            </div>
+        </nav>
     </div>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
     <script>
-        let map;
-        let deliveryMarker;
-        let customerMarker;
-        let directionsService;
-        let directionsRenderer;
-        let eta = 12; // minutos estimados
-
-        // Coordenadas de Celestún, Yucatán
-        const celestunCenter = { lat: 20.8583, lng: -90.3958 };
-        
-        // Coordenadas simuladas
-        const restaurantLocation = { lat: 20.8600, lng: -90.3970 };
-        const customerLocation = { lat: 20.8550, lng: -90.3920 };
-        let currentDeliveryLocation = { lat: 20.8580, lng: -90.3950 };
-
-        function initMap() {
-            // Inicializar el mapa
-            map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: celestunCenter,
-                styles: [
-                    {
-                        featureType: 'water',
-                        elementType: 'geometry',
-                        stylers: [{ color: '#e9e9e9' }, { lightness: 17 }]
-                    },
-                    {
-                        featureType: 'landscape',
-                        elementType: 'geometry',
-                        stylers: [{ color: '#f5f5f5' }, { lightness: 20 }]
-                    },
-                    {
-                        featureType: 'road.highway',
-                        elementType: 'geometry.fill',
-                        stylers: [{ color: '#ffffff' }, { lightness: 17 }]
-                    },
-                    {
-                        featureType: 'road.highway',
-                        elementType: 'geometry.stroke',
-                        stylers: [{ color: '#ffffff' }, { lightness: 29 }, { weight: 0.2 }]
-                    },
-                    {
-                        featureType: 'poi',
-                        elementType: 'geometry',
-                        stylers: [{ color: '#f5f5f5' }, { lightness: 21 }]
-                    }
-                ],
-                disableDefaultUI: true,
-                zoomControl: true,
-                mapTypeControl: false,
-                scaleControl: false,
-                streetViewControl: false,
-                rotateControl: false,
-                fullscreenControl: false
-            });
-
-            // Servicios de direcciones
-            directionsService = new google.maps.DirectionsService();
-            directionsRenderer = new google.maps.DirectionsRenderer({
-                suppressMarkers: true,
-                polylineOptions: {
-                    strokeColor: '#FF69B4',
-                    strokeWeight: 4,
-                    strokeOpacity: 0.8
+        // Estado del carrito
+        let cartData = {
+            items: [
+                {
+                    id: 1,
+                    name: "Pizza Hawaiana Grande",
+                    restaurant: "🍕 Pizzería Flamingo",
+                    description: "Jamón, piña, queso mozzarella, salsa especial",
+                    price: 180,
+                    quantity: 1
+                },
+                {
+                    id: 2,
+                    name: "Ceviche de Pescado",
+                    restaurant: "🦐 Mariscos El Pelícano",
+                    description: "Pescado fresco, limón, cebolla, cilantro, aguacate",
+                    price: 120,
+                    quantity: 1
                 }
-            });
-            directionsRenderer.setMap(map);
+            ]
+        };
 
-            // Marcador del restaurante
-            new google.maps.Marker({
-                position: restaurantLocation,
-                map: map,
-                icon: {
-                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                        <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="18" fill="#FF69B4" stroke="white" stroke-width="2"/>
-                            <text x="20" y="26" text-anchor="middle" fill="white" font-size="16">🍕</text>
-                        </svg>
-                    `),
-                    scaledSize: new google.maps.Size(40, 40),
-                    anchor: new google.maps.Point(20, 20)
-                },
-                title: 'Pizzería Flamingo'
-            });
+        let cartItems = cartData.items.length;
 
-            // Marcador del cliente
-            customerMarker = new google.maps.Marker({
-                position: customerLocation,
-                map: map,
-                icon: {
-                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                        <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="18" fill="#22C55E" stroke="white" stroke-width="2"/>
-                            <text x="20" y="26" text-anchor="middle" fill="white" font-size="16">🏠</text>
-                        </svg>
-                    `),
-                    scaledSize: new google.maps.Size(40, 40),
-                    anchor: new google.maps.Point(20, 20)
-                },
-                title: 'Tu ubicación'
-            });
-
-            // Marcador del repartidor
-            deliveryMarker = new google.maps.Marker({
-                position: currentDeliveryLocation,
-                map: map,
-                icon: {
-                    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                        <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="20" cy="20" r="18" fill="#3B82F6" stroke="white" stroke-width="2"/>
-                            <text x="20" y="26" text-anchor="middle" fill="white" font-size="16">🛵</text>
-                        </svg>
-                    `),
-                    scaledSize: new google.maps.Size(40, 40),
-                    anchor: new google.maps.Point(20, 20)
-                },
-                title: 'Carlos Martínez - Repartidor'
-            });
-
-            // Calcular y mostrar la ruta
-            calculateRoute();
-
-            // Simular movimiento del repartidor
-            startDeliverySimulation();
+        function updateCartBadge() {
+            const badge = document.getElementById('cart-badge');
+            const totalItems = cartData.items.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = totalItems;
+            badge.style.display = totalItems > 0 ? 'flex' : 'none';
         }
 
-        function calculateRoute() {
-            directionsService.route({
-                origin: currentDeliveryLocation,
-                destination: customerLocation,
-                travelMode: google.maps.TravelMode.DRIVING,
-                avoidTolls: true
-            }, (response, status) => {
-                if (status === 'OK') {
-                    directionsRenderer.setDirections(response);
-                    
-                    // Actualizar ETA basado en la ruta real
-                    const route = response.routes[0];
-                    const leg = route.legs[0];
-                    const duration = Math.ceil(leg.duration.value / 60); // convertir a minutos
-                    
-                    updateETA(duration);
-                }
-            });
+        function updateCartSummary() {
+            const subtotal = cartData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const deliveryCost = subtotal >= 200 ? 0 : 25;
+            const discount = 0;
+            const total = subtotal + deliveryCost - discount;
+
+            document.getElementById('subtotal').textContent = `${subtotal}`;
+            document.getElementById('delivery-cost').textContent = deliveryCost === 0 ? 'Gratis' : `${deliveryCost}`;
+            document.getElementById('discount').textContent = `-${discount}`;
+            document.getElementById('total').textContent = `${total}`;
         }
 
-        function startDeliverySimulation() {
-            const steps = [
-                { lat: 20.8580, lng: -90.3950, eta: 12 },
-                { lat: 20.8575, lng: -90.3945, eta: 10 },
-                { lat: 20.8570, lng: -90.3940, eta: 8 },
-                { lat: 20.8565, lng: -90.3935, eta: 6 },
-                { lat: 20.8560, lng: -90.3930, eta: 4 },
-                { lat: 20.8555, lng: -90.3925, eta: 2 },
-                { lat: 20.8550, lng: -90.3920, eta: 0 } // ubicación del cliente
-            ];
-
-            let currentStep = 0;
-
-            function moveDelivery() {
-                if (currentStep < steps.length) {
-                    const step = steps[currentStep];
-                    currentDeliveryLocation = { lat: step.lat, lng: step.lng };
-                    
-                    // Animar el movimiento del marcador
-                    animateMarker(deliveryMarker, currentDeliveryLocation);
-                    
-                    // Actualizar ETA
-                    updateETA(step.eta);
-                    
-                    // Recalcular ruta
-                    calculateRoute();
-                    
-                    currentStep++;
-                    
-                    if (currentStep < steps.length) {
-                        setTimeout(moveDelivery, 15000); // Cada 15 segundos
-                    } else {
-                        // Pedido entregado
-                        setTimeout(deliveryCompleted, 2000);
-                    }
-                }
+        function increaseQuantity(itemId) {
+            const item = cartData.items.find(item => item.id === itemId);
+            if (item) {
+                item.quantity++;
+                document.getElementById(`quantity-${itemId}`).textContent = item.quantity;
+                updateCartBadge();
+                updateCartSummary();
             }
-
-            // Iniciar simulación después de 5 segundos
-            setTimeout(moveDelivery, 5000);
         }
 
-        function animateMarker(marker, newPosition) {
-            const start = marker.getPosition();
-            const end = new google.maps.LatLng(newPosition.lat, newPosition.lng);
-            
-            let step = 0;
-            const numSteps = 50;
-            const timePerStep = 20;
-            
-            function animate() {
-                step++;
-                const progress = step / numSteps;
+        function decreaseQuantity(itemId) {
+            const item = cartData.items.find(item => item.id === itemId);
+            if (item && item.quantity > 1) {
+                item.quantity--;
+                document.getElementById(`quantity-${itemId}`).textContent = item.quantity;
+                updateCartBadge();
+                updateCartSummary();
+            }
+        }
+
+        function removeItem(itemId) {
+            if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
+                cartData.items = cartData.items.filter(item => item.id !== itemId);
+                document.querySelector(`[data-item-id="${itemId}"]`).remove();
+                updateCartBadge();
+                updateCartSummary();
                 
-                if (progress <= 1) {
-                    const lat = start.lat() + (end.lat() - start.lat()) * progress;
-                    const lng = start.lng() + (end.lng() - start.lng()) * progress;
-                    
-                    marker.setPosition(new google.maps.LatLng(lat, lng));
-                    setTimeout(animate, timePerStep);
+                // Si el carrito está vacío, mostrar estado vacío
+                if (cartData.items.length === 0) {
+                    document.getElementById('cart-with-items').classList.add('hidden');
+                    document.getElementById('empty-cart').classList.remove('hidden');
                 }
             }
-            
-            animate();
         }
 
-        function updateETA(minutes) {
-            eta = minutes;
-            const etaBadge = document.getElementById('etaBadge');
-            
-            if (minutes <= 0) {
-                etaBadge.textContent = '¡Llegó!';
-                etaBadge.style.background = '#22c55e';
-            } else {
-                etaBadge.textContent = `${minutes} min`;
-            }
+        function proceedToCheckout() {
+            const total = document.getElementById('total').textContent;
+            alert(`🚀 Procediendo al pago por ${total}\n\n¡Pronto implementaremos el sistema de pagos!`);
         }
 
-        function deliveryCompleted() {
-            // Actualizar estado a entregado
-            updateDeliveryStatus();
+        function selectCategory(element) {
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.style.borderColor = 'transparent';
+                item.style.transform = 'translateY(0)';
+            });
             
-            // Mostrar notificación
-            showDeliveryCompletedNotification();
-        }
-
-        function updateDeliveryStatus() {
-            // Actualizar el icono de estado
-            document.querySelector('.status-icon').innerHTML = '✅';
-            document.querySelector('.status-title').textContent = '¡Pedido entregado!';
-            document.querySelector('.status-description').textContent = 'Disfruta tu comida';
+            element.style.borderColor = 'var(--primary-color)';
+            element.style.transform = 'translateY(-5px)';
             
-            // Actualizar timeline
-            const activeIcon = document.querySelector('.timeline-icon.active');
-            const pendingIcon = document.querySelector('.timeline-icon.pending');
-            const activeTitle = document.querySelector('.timeline-title.active');
-            
-            if (activeIcon) {
-                activeIcon.classList.remove('active');
-                activeIcon.classList.add('completed');
-                activeIcon.innerHTML = '✓';
-            }
-            
-            if (pendingIcon) {
-                pendingIcon.classList.remove('pending');
-                pendingIcon.classList.add('completed');
-                pendingIcon.innerHTML = '✓';
-            }
-            
-            if (activeTitle) {
-                activeTitle.classList.remove('active');
-                activeTitle.classList.add('completed');
-            }
-            
-            // Actualizar tiempo de entrega
-            const timeElements = document.querySelectorAll('.timeline-time');
-            if (timeElements.length >= 5) {
-                const now = new Date();
-                timeElements[4].textContent = now.toLocaleTimeString('es-ES', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                });
-            }
-        }
-
-        function showDeliveryCompletedNotification() {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.8);
-                z-index: 10000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                animation: fadeIn 0.3s ease;
-            `;
-            
-            notification.innerHTML = `
-                <div style="
-                    background: white;
-                    max-width: 320px;
-                    width: 90%;
-                    border-radius: 20px;
-                    padding: 30px 20px;
-                    text-align: center;
-                    animation: slideUp 0.3s ease;
-                ">
-                    <div style="font-size: 60px; margin-bottom: 20px;">🎉</div>
-                    <h2 style="color: #22c55e; font-size: 24px; font-weight: 700; margin-bottom: 10px;">
-                        ¡Pedido Entregado!
-                    </h2>
-                    <p style="color: #64748b; margin-bottom: 25px; line-height: 1.5;">
-                        Tu pedido ha sido entregado exitosamente.<br>
-                        ¡Que disfrutes tu comida!
-                    </p>
-                    <div style="display: flex; gap: 10px;">
-                        <button onclick="rateOrder()" style="
-                            flex: 1;
-                            background: linear-gradient(135deg, #FF69B4, #FF1493);
-                            color: white;
-                            border: none;
-                            padding: 12px 20px;
-                            border-radius: 20px;
-                            font-weight: 600;
-                            cursor: pointer;
-                        ">⭐ Calificar</button>
-                        <button onclick="closeNotification()" style="
-                            flex: 1;
-                            background: #f1f5f9;
-                            color: #64748b;
-                            border: none;
-                            padding: 12px 20px;
-                            border-radius: 20px;
-                            font-weight: 600;
-                            cursor: pointer;
-                        ">Cerrar</button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            // Auto-cerrar después de 10 segundos
             setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    notification.remove();
-                }
-            }, 10000);
+                element.style.transform = 'translateY(0)';
+            }, 200);
         }
 
-        function closeNotification() {
-            const notification = document.querySelector('[style*="position: fixed"]');
-            if (notification) {
-                notification.style.animation = 'fadeOut 0.3s ease';
-                setTimeout(() => notification.remove(), 300);
-            }
+        function openRestaurant(element) {
+            element.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+                alert('Abriendo menú del restaurante...');
+            }, 150);
         }
 
-        function rateOrder() {
-            closeNotification();
-            showRatingModal();
+        function openAd(adType) {
+            const messages = {
+                'restaurant': '¡Oferta especial en Mariscos El Pelícano! 2x1 en ceviches',
+                'combo': '¡Combo familiar en Taquería La Gaviota con 20% de descuento!',
+                'tour1': '🛥️ Tour Completo: Observación de flamingos y recorrido por manglares',
+                'tour2': '📸 Tour Fotográfico: Captura los mejores atardeceres de Celestún'
+            };
+            alert(messages[adType] || 'Promoción especial disponible');
         }
 
-        function showRatingModal() {
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.8);
-                z-index: 10000;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                animation: fadeIn 0.3s ease;
-            `;
-            
-            modal.innerHTML = `
-                <div style="
-                    background: white;
-                    max-width: 320px;
-                    width: 90%;
-                    border-radius: 20px;
-                    padding: 30px 20px;
-                    text-align: center;
-                    animation: slideUp 0.3s ease;
-                ">
-                    <h2 style="color: #1e293b; font-size: 20px; font-weight: 700; margin-bottom: 15px;">
-                        ¿Cómo estuvo tu pedido?
-                    </h2>
-                    <p style="color: #64748b; margin-bottom: 20px;">
-                        Tu opinión nos ayuda a mejorar
-                    </p>
-                    
-                    <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 20px;" id="starRating">
-                        <span class="star" data-rating="1" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
-                        <span class="star" data-rating="2" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
-                        <span class="star" data-rating="3" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
-                        <span class="star" data-rating="4" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
-                        <span class="star" data-rating="5" style="font-size: 30px; color: #e2e8f0; cursor: pointer;">⭐</span>
-                    </div>
-                    
-                    <textarea placeholder="Comentarios adicionales (opcional)" style="
-                        width: 100%;
-                        height: 80px;
-                        border: 2px solid #e2e8f0;
-                        border-radius: 12px;
-                        padding: 10px;
-                        margin-bottom: 20px;
-                        resize: none;
-                        font-family: inherit;
-                        font-size: 14px;
-                    " id="reviewComment"></textarea>
-                    
-                    <div style="display: flex; gap: 10px;">
-                        <button onclick="submitRating()" style="
-                            flex: 1;
-                            background: linear-gradient(135deg, #FF69B4, #FF1493);
-                            color: white;
-                            border: none;
-                            padding: 12px 20px;
-                            border-radius: 20px;
-                            font-weight: 600;
-                            cursor: pointer;
-                        " id="submitBtn" disabled>Enviar</button>
-                        <button onclick="this.closest('[style*=\"position: fixed\"]').remove()" style="
-                            flex: 1;
-                            background: #f1f5f9;
-                            color: #64748b;
-                            border: none;
-                            padding: 12px 20px;
-                            border-radius: 20px;
-                            font-weight: 600;
-                            cursor: pointer;
-                        ">Cancelar</button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            
-            // Funcionalidad de calificación con estrellas
-            const stars = modal.querySelectorAll('.star');
-            let selectedRating = 0;
-            
-            stars.forEach(star => {
-                star.addEventListener('click', () => {
-                    selectedRating = parseInt(star.dataset.rating);
-                    updateStars(selectedRating, stars);
-                    document.getElementById('submitBtn').disabled = false;
-                    document.getElementById('submitBtn').style.opacity = '1';
-                });
-                
-                star.addEventListener('mouseover', () => {
-                    const rating = parseInt(star.dataset.rating);
-                    updateStars(rating, stars);
-                });
+        function openTourism(attraction) {
+            const attractions = {
+                'flamingos': '🦩 Observa los hermosos flamingos rosados en su hábitat natural',
+                'beach': '🏖️ Disfruta de las aguas cristalinas de Playa Celestún',
+                'mangrove': '🌿 Explora el ecosistema único de los manglares',
+                'lighthouse': '🗼 Visita el faro histórico con vista panorámica',
+                'salt': '🧂 Conoce las salineras y su tradición ancestral',
+                'sunset': '🌅 Captura los atardeceres más espectaculares'
+            };
+            alert(attractions[attraction] || 'Atracción turística disponible');
+        }
+
+        function switchTab(element, tab) {
+            // Remover clase active de todos los tabs
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
             });
             
-            modal.addEventListener('mouseleave', () => {
-                updateStars(selectedRating, stars);
+            // Ocultar todo el contenido
+            document.querySelectorAll('#home-content, #tourism-content, #profile-content, #cart-content').forEach(content => {
+                content.classList.add('hidden');
             });
-        }
-
-        function updateStars(rating, stars) {
-            stars.forEach((star, index) => {
-                if (index < rating) {
-                    star.style.color = '#fbbf24';
+            
+            // Activar el tab seleccionado
+            element.classList.add('active');
+            
+            // Mostrar contenido correspondiente
+            if (tab === 'home') {
+                document.getElementById('home-content').classList.remove('hidden');
+            } else if (tab === 'tourism') {
+                document.getElementById('tourism-content').classList.remove('hidden');
+            } else if (tab === 'profile') {
+                document.getElementById('profile-content').classList.remove('hidden');
+            } else if (tab === 'cart') {
+                document.getElementById('cart-content').classList.remove('hidden');
+                // Mostrar carrito vacío o con productos según corresponda
+                if (cartData.items.length === 0) {
+                    document.getElementById('cart-with-items').classList.add('hidden');
+                    document.getElementById('empty-cart').classList.remove('hidden');
                 } else {
-                    star.style.color = '#e2e8f0';
+                    document.getElementById('cart-with-items').classList.remove('hidden');
+                    document.getElementById('empty-cart').classList.add('hidden');
                 }
-            });
-        }
-
-        function submitRating() {
-            const comment = document.getElementById('reviewComment').value;
-            const rating = document.querySelectorAll('.star[style*="fbbf24"]').length;
-            
-            // Simular envío de calificación
-            alert(`¡Gracias por tu calificación!\n\nCalificación: ${rating} estrellas\nComentario: ${comment || 'Sin comentarios'}`);
-            
-            const modal = document.querySelector('[style*="position: fixed"]');
-            if (modal) {
-                modal.remove();
-            }
-        }
-
-        // Funciones de la interfaz
-        function goBack() {
-            if (confirm('¿Seguro que quieres salir del seguimiento?')) {
-                window.history.back();
-            }
-        }
-
-        function callDriver() {
-            if (confirm('¿Llamar a Carlos Martínez?')) {
-                alert('📞 Llamando a Carlos...\n\nEn una app real, esto abriría la aplicación de teléfono.');
-            }
-        }
-
-        function contactSupport() {
-            alert('💬 Conectando con soporte...\n\n¡Hola! ¿En qué puedo ayudarte con tu pedido?');
-        }
-
-        function shareLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    alert(`📍 Ubicación compartida\n\nLat: ${position.coords.latitude.toFixed(6)}\nLng: ${position.coords.longitude.toFixed(6)}\n\nTu repartidor ha recibido tu ubicación actualizada.`);
-                }, () => {
-                    alert('📍 Ubicación simulada compartida\n\nCalle Principal #123, Celestún\n\nTu repartidor ha recibido tu ubicación.');
-                });
             } else {
-                alert('📍 Ubicación simulada compartida\n\nCalle Principal #123, Celestún\n\nTu repartidor ha recibido tu ubicación.');
-            }
-        }
-
-        // Función para manejar errores de Google Maps
-        function initMapFallback() {
-            const mapElement = document.getElementById('map');
-            mapElement.innerHTML = `
-                <div style="
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    height: 100%;
-                    background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
-                    color: #64748b;
-                    text-align: center;
-                    padding: 20px;
-                ">
-                    <div style="font-size: 40px; margin-bottom: 15px;">🗺️</div>
-                    <h3 style="margin-bottom: 10px; color: #374151;">Mapa en Tiempo Real</h3>
-                    <p style="font-size: 14px; line-height: 1.4;">
-                        Simulando seguimiento GPS<br>
-                        <strong>Carlos está en camino</strong><br>
-                        📍 0.8 km de distancia
-                    </p>
-                    <div style="
-                        margin-top: 15px;
-                        padding: 8px 15px;
-                        background: rgba(255, 105, 180, 0.1);
-                        border: 1px solid #FF69B4;
-                        border-radius: 20px;
-                        color: #FF69B4;
-                        font-size: 12px;
-                        font-weight: 600;
-                    ">
-                        🛵 Llegando en 12 minutos
-                    </div>
-                </div>
-            `;
-            
-            // Simular el movimiento aún sin Google Maps
-            startDeliverySimulation();
-        }
-
-        // CSS adicional para animaciones
-        const additionalStyles = document.createElement('style');
-        additionalStyles.textContent = `
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
-            }
-            
-            @keyframes slideUp {
-                from { transform: translateY(30px); opacity: 0; }
-                to { transform: translateY(0); opacity: 1; }
-            }
-            
-            .star {
-                transition: color 0.2s ease;
-            }
-            
-            .star:hover {
-                transform: scale(1.1);
-            }
-            
-            #submitBtn:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
-        `;
-        document.head.appendChild(additionalStyles);
-
-        // Inicializar la aplicación
-        window.addEventListener('load', () => {
-            // Si Google Maps no carga, usar fallback
-            setTimeout(() => {
-                if (!window.google) {
-                    console.log('Google Maps no disponible, usando simulación...');
-                    initMapFallback();
+                // Para otros tabs, mostrar mensaje
+                const content = {
+                    'search': 'Abriendo búsqueda...'
+                };
+                
+                if (content[tab]) {
+                    setTimeout(() => {
+                        alert(content[tab]);
+                    }, 200);
                 }
-            }, 3000);
+                
+                // Volver a mostrar home si no hay contenido específico
+                document.getElementById('home-content').classList.remove('hidden');
+            }
+        }
+
+        // Animación de entrada
+        window.addEventListener('load', () => {
+            const cards = document.querySelectorAll('.restaurant-card, .tourism-card, .cart-item');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.5s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+            });
+            
+            // Inicializar carrito
+            updateCartBadge();
+            updateCartSummary();
         });
 
-        // Función global para inicializar el mapa (callback de Google Maps)
-        window.initMap = initMap;
-
-        // Simulaciones adicionales
-        function simulateDeliveryUpdates() {
-            const updates = [
-                { time: 5000, message: "Carlos recogió tu pedido" },
-                { time: 15000, message: "Carlos está en ruta" },
-                { time: 30000, message: "Carlos está cerca de tu ubicación" },
-                { time: 45000, message: "Carlos ha llegado a tu dirección" }
-            ];
-
-            updates.forEach(update => {
-                setTimeout(() => {
-                    showStatusUpdate(update.message);
-                }, update.time);
-            });
+        // Funciones del perfil
+        function editAvatar() {
+            alert('📷 Seleccionar nueva foto de perfil...');
         }
 
-        function showStatusUpdate(message) {
-            const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                top: 100px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(34, 197, 94, 0.95);
-                color: white;
-                padding: 12px 20px;
-                border-radius: 25px;
-                font-size: 14px;
-                font-weight: 600;
-                z-index: 10000;
-                backdrop-filter: blur(10px);
-                box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
-                animation: slideDown 0.3s ease;
-            `;
-            toast.textContent = `📱 ${message}`;
-            
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.animation = 'slideUp 0.3s ease';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+        function openProfileOption(option) {
+            const options = {
+                'personal': '👤 Editar información personal',
+                'addresses': '📍 Gestionar direcciones guardadas',
+                'payment': '💳 Administrar métodos de pago',
+                'orders': '📦 Ver historial de pedidos',
+                'favorites': '❤️ Mis restaurantes y platillos favoritos',
+                'reviews': '⭐ Mis reseñas y calificaciones',
+                'language': '🌐 Cambiar idioma de la app',
+                'help': '❓ Centro de ayuda y preguntas frecuentes',
+                'contact': '💬 Contactar soporte técnico',
+                'about': 'ℹ️ Celestún Go versión 2.1.0'
+            };
+            alert(options[option] || 'Opción no disponible');
         }
 
-        const toastStyles = document.createElement('style');
-        toastStyles.textContent = `
-            @keyframes slideDown {
-                from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
-                to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        function toggleNotifications() {
+            const toggle = document.getElementById('notifications-toggle');
+            toggle.classList.toggle('active');
+            const isActive = toggle.classList.contains('active');
+            alert(isActive ? '🔔 Notificaciones activadas' : '🔕 Notificaciones desactivadas');
+        }
+
+        function toggleDarkMode() {
+            const toggle = document.getElementById('darkmode-toggle');
+            toggle.classList.toggle('active');
+            const isActive = toggle.classList.contains('active');
+            alert(isActive ? '🌙 Modo oscuro forzado activado' : '🌙 Modo automático según dispositivo');
+        }
+
+        function logout() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                alert('👋 Sesión cerrada. ¡Hasta pronto!');
+                // Aquí se implementaría la lógica de logout real
             }
-        `;
-        document.head.appendChild(toastStyles);
+        }
 
-        // Iniciar simulaciones
-        setTimeout(simulateDeliveryUpdates, 1000);
+        // Detectar cambios en el modo oscuro y actualizar theme-color
+        const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        function updateThemeColor() {
+            const isDark = darkModeMediaQuery.matches;
+            const themeColor = isDark ? '#F472B6' : '#EC4899';
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor);
+        }
 
-        // Actualizar tiempo cada minuto
-        setInterval(() => {
-            const now = new Date();
-            const timeElements = document.querySelectorAll('.timeline-time');
-            const currentTime = now.toLocaleTimeString('es-ES', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
+        // Actualizar color del tema al cargar y cuando cambie
+        updateThemeColor();
+        darkModeMediaQuery.addEventListener('change', updateThemeColor);
+
+        // Función para cambiar dinámicamente el color del navegador en móviles
+        function setMobileThemeColor(color) {
+            const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+            if (metaThemeColor) {
+                metaThemeColor.setAttribute('content', color);
+            }
+        }
+
+        // Cambiar color según la sección activa
+        function updateThemeColorForSection(section) {
+            const colors = {
+                'home': '#EC4899',      // Rosa principal
+                'search': '#F472B6',    // Rosa secundario
+                'tourism': '#FB7185',   // Rosa accent
+                'cart': '#A855F7',      // Púrpura
+                'profile': '#EC4899'    // Rosa principal
+            };
             
-            // Actualizar "Ahora" en el timeline
-            timeElements.forEach(element => {
-                if (element.textContent === 'Ahora') {
-                    element.textContent = currentTime;
+            const isDark = darkModeMediaQuery.matches;
+            let baseColor = colors[section] || '#EC4899';
+            
+            // Ajustar para modo oscuro
+            if (isDark) {
+                switch(section) {
+                    case 'home':
+                        baseColor = '#F472B6';
+                        break;
+                    case 'search':
+                        baseColor = '#EC4899';
+                        break;
+                    case 'tourism':
+                        baseColor = '#FB7185';
+                        break;
+                    case 'cart':
+                        baseColor = '#A855F7';
+                        break;
+                    case 'profile':
+                        baseColor = '#F472B6';
+                        break;
+                }
+            }
+            
+            setMobileThemeColor(baseColor);
+        }
+
+        // Modificar la función switchTab para incluir el cambio de color
+        const originalSwitchTab = switchTab;
+        switchTab = function(element, tab) {
+            originalSwitchTab(element, tab);
+            updateThemeColorForSection(tab);
+        };
+
+        // Simular actualizaciones en tiempo real
+        setInterval(() => {
+            const badges = document.querySelectorAll('.delivery-badge');
+            badges.forEach(badge => {
+                if (Math.random() > 0.7) {
+                    badge.style.animation = 'pulse 1s ease';
+                    setTimeout(() => {
+                        badge.style.animation = '';
+                    }, 1000);
                 }
             });
-        }, 60000);
+        }, 5000);
+
+        // Animaciones adicionales para el carrito
+        function animateCartUpdate() {
+            const cartBadge = document.getElementById('cart-badge');
+            cartBadge.style.animation = 'pulse 0.5s ease';
+            setTimeout(() => {
+                cartBadge.style.animation = '';
+            }, 500);
+        }
+
+        // Sobrescribir funciones del carrito para incluir animaciones
+        const originalIncreaseQuantity = increaseQuantity;
+        increaseQuantity = function(itemId) {
+            originalIncreaseQuantity(itemId);
+            animateCartUpdate();
+        };
+
+        const originalDecreaseQuantity = decreaseQuantity;
+        decreaseQuantity = function(itemId) {
+            originalDecreaseQuantity(itemId);
+            animateCartUpdate();
+        };
+
+        const originalRemoveItem = removeItem;
+        removeItem = function(itemId) {
+            originalRemoveItem(itemId);
+            animateCartUpdate();
+        };
+
+        // Efectos táctiles para móviles
+        if ('ontouchstart' in window) {
+            document.addEventListener('touchstart', function(e) {
+                if (e.target.classList.contains('cart-item') || 
+                    e.target.closest('.cart-item')) {
+                    e.target.style.transform = 'scale(0.98)';
+                }
+            });
+
+            document.addEventListener('touchend', function(e) {
+                if (e.target.classList.contains('cart-item') || 
+                    e.target.closest('.cart-item')) {
+                    e.target.style.transform = 'scale(1)';
+                }
+            });
+        }
+
+        // Funciones adicionales para demo del carrito
+        function addSampleItem() {
+            const newItem = {
+                id: Date.now(),
+                name: "Tacos de Pastor",
+                restaurant: "🌮 Taquería La Gaviota",
+                description: "3 tacos con carne al pastor, piña, cebolla, cilantro",
+                price: 85,
+                quantity: 1
+            };
+            
+            cartData.items.push(newItem);
+            
+            // Crear elemento HTML para el nuevo item
+            const cartItems = document.querySelector('.cart-items');
+            const newItemHTML = `
+                <div class="cart-item" data-item-id="${newItem.id}">
+                    <div class="item-header">
+                        <div class="item-info">
+                            <h3 class="item-name">${newItem.name}</h3>
+                            <p class="item-restaurant">${newItem.restaurant}</p>
+                            <p class="item-description">${newItem.description}</p>
+                        </div>
+                        <div class="item-price">${newItem.price}</div>
+                    </div>
+                    <div class="item-controls">
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="decreaseQuantity(${newItem.id})">-</button>
+                            <span class="quantity-number" id="quantity-${newItem.id}">${newItem.quantity}</span>
+                            <button class="quantity-btn" onclick="increaseQuantity(${newItem.id})">+</button>
+                        </div>
+                        <button class="remove-item" onclick="removeItem(${newItem.id})">🗑️</button>
+                    </div>
+                </div>
+            `;
+            
+            cartItems.insertAdjacentHTML('beforeend', newItemHTML);
+            updateCartBadge();
+            updateCartSummary();
+            animateCartUpdate();
+            
+            // Mostrar carrito con items si estaba vacío
+            document.getElementById('cart-with-items').classList.remove('hidden');
+            document.getElementById('empty-cart').classList.add('hidden');
+        }
+
+        // Evento para probar agregar items (doble click en restaurantes)
+        document.querySelectorAll('.restaurant-card').forEach(card => {
+            card.addEventListener('dblclick', function() {
+                addSampleItem();
+                alert('¡Producto agregado al carrito! 🛒');
+            });
+        });
     </script>
 </body>
 </html>
