@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Celestún GO - Delivery</title>
-    <meta name="theme-color" content="#EC4899">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Celestún GO</title>
     <style>
         * {
             margin: 0;
@@ -14,144 +11,118 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-color: #EC4899;
-            --secondary-color: #F472B6;
-            --accent-color: #FB7185;
-            --success-color: #22c55e;
-            --warning-color: #f59e0b;
-            --error-color: #ef4444;
-            --background: #ffffff;
-            --surface: #fef7ff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-muted: #94a3b8;
-            --border-color: #fce7f3;
-            --shadow: rgba(236, 72, 153, 0.1);
-            --gradient-1: linear-gradient(135deg, #EC4899, #F472B6);
-            --gradient-2: linear-gradient(135deg, #FB7185, #FBBF24);
-            --gradient-3: linear-gradient(135deg, #A855F7, #EC4899);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --primary-color: #F472B6;
-                --secondary-color: #EC4899;
-                --accent-color: #FB7185;
-                --background: #0f172a;
-                --surface: #1e293b;
-                --text-primary: #f1f5f9;
-                --text-secondary: #cbd5e1;
-                --text-muted: #64748b;
-                --border-color: #334155;
-                --shadow: rgba(244, 114, 182, 0.2);
-                --gradient-1: linear-gradient(135deg, #F472B6, #EC4899);
-                --gradient-2: linear-gradient(135deg, #FB7185, #FBBF24);
-                --gradient-3: linear-gradient(135deg, #A855F7, #F472B6);
-            }
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--background);
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f9fafb;
             overflow-x: hidden;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
         }
 
         .app-container {
-            max-width: 400px;
+            max-width: 390px;
             margin: 0 auto;
-            background: var(--background);
+            background: white;
             min-height: 100vh;
             position: relative;
-            box-shadow: 0 0 30px var(--shadow);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        /* Loading Screen */
-        .loading-screen {
+        /* SPLASH SCREEN */
+        .splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--gradient-1);
+            background: linear-gradient(135deg, #ec4899, #f472b6, #fb7185);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
         }
 
-        .loading-screen.hidden {
+        .splash-screen.hidden {
             opacity: 0;
             pointer-events: none;
         }
 
-        .logo-animation {
+        .splash-content {
             text-align: center;
             color: white;
-            margin-bottom: 30px;
         }
 
-        .logo-title {
-            font-size: 48px;
-            font-weight: 900;
-            margin-bottom: 10px;
-            animation: pulse 2s infinite;
-        }
-
-        .logo-subtitle {
-            font-size: 18px;
-            opacity: 0.9;
-            animation: fadeInUp 1s ease 0.5s both;
-        }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid white;
+        .splash-logo {
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.2);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            backdrop-filter: blur(10px);
+            font-size: 3rem;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .splash-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .splash-celestun {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 1s ease-out 0.5s forwards;
         }
 
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .splash-go {
+            opacity: 0;
+            transform: translateY(30px) scale(0.8);
+            background: linear-gradient(45deg, #fef08a, #fde047);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 4rem;
+            animation: slideUpScale 1s ease-out 1.5s forwards;
         }
 
-        /* Header */
-        .header {
-            background: var(--gradient-1);
-            padding: 40px 20px 20px;
-            color: white;
-            position: relative;
-            overflow: hidden;
+        .splash-subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards;
         }
 
-        .header::before {
-            content: '';
+        /* Partículas flotantes */
+        .particle {
             position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 200px;
-            height: 200px;
-            background: rgba(255,255,255,0.1);
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
             border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUpScale {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1.1);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes float {
@@ -159,854 +130,948 @@
             50% { transform: translateY(-20px) rotate(180deg); }
         }
 
-        .header-content {
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #ec4899, #f472b6);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            font-size: 1.2rem;
+        }
+
+        .header-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .header-subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.75rem;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        /* CONTENT */
+        .content {
+            padding: 1rem;
+            padding-bottom: 6rem;
+        }
+
+        /* HOME SCREEN */
+        .hero-section {
+            background: linear-gradient(135deg, #ec4899, #f472b6, #fb7185);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-decoration {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .hero-decoration-1 {
+            width: 128px;
+            height: 128px;
+            top: -32px;
+            right: -32px;
+        }
+
+        .hero-decoration-2 {
+            width: 96px;
+            height: 96px;
+            bottom: -32px;
+            left: -32px;
+        }
+
+        .hero-content {
             position: relative;
             z-index: 10;
         }
 
-        .location {
+        .hero-location {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 10px;
-            opacity: 0.9;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
         }
 
-        .app-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 5px;
+        .hero-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
         }
 
-        .subtitle {
-            opacity: 0.9;
-            font-size: 14px;
+        .hero-subtitle {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1rem;
         }
 
-        .system-status {
-            margin-top: 10px;
-            padding: 8px 12px;
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
             background: rgba(255,255,255,0.2);
-            border-radius: 15px;
-            font-size: 12px;
-            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
         }
 
-        /* Search */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* SEARCH BAR */
         .search-container {
-            padding: 20px;
-            background: var(--background);
-        }
-
-        .search-box {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .search-input {
             width: 100%;
-            padding: 15px 50px 15px 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 25px;
-            font-size: 16px;
+            padding: 1rem 1rem 1rem 3rem;
+            border: none;
+            border-radius: 1rem;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            font-size: 1rem;
             outline: none;
-            transition: all 0.3s ease;
-            background: var(--surface);
-            color: var(--text-primary);
+            transition: all 0.3s;
         }
 
         .search-input:focus {
-            border-color: var(--primary-color);
-            background: var(--background);
-            box-shadow: 0 0 0 3px var(--shadow);
+            box-shadow: 0 4px 20px rgba(236,72,153,0.3);
+            transform: translateY(-2px);
         }
 
         .search-icon {
             position: absolute;
-            right: 15px;
+            left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-secondary);
+            color: #9ca3af;
         }
 
-        /* Categories */
-        .categories {
+        /* SERVICES GRID */
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .category-item {
+        .service-card {
+            background: linear-gradient(135deg, var(--gradient-from), var(--gradient-to));
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            color: white;
             text-align: center;
-            padding: 15px 10px;
-            border-radius: 15px;
-            background: var(--surface);
-            box-shadow: 0 4px 15px var(--shadow);
-            transition: all 0.3s ease;
             cursor: pointer;
-            border: 2px solid transparent;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
-        .category-item:hover, .category-item.active {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px var(--shadow);
-            border-color: var(--primary-color);
+        .service-card:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
         }
 
-        .category-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-            display: block;
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
         }
 
-        .category-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-primary);
+        .service-card:hover::before {
+            transform: scale(1.2);
         }
 
-        /* Section Title */
+        .service-card.delivery {
+            --gradient-from: #fb923c;
+            --gradient-to: #ec4899;
+        }
+
+        .service-card.tours {
+            --gradient-from: #34d399;
+            --gradient-to: #14b8a6;
+        }
+
+        .service-card.airbnb {
+            --gradient-from: #a855f7;
+            --gradient-to: #ec4899;
+        }
+
+        .service-card.comercios {
+            --gradient-from: #3b82f6;
+            --gradient-to: #06b6d4;
+        }
+
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+
+        .service-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .service-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* FEATURED SECTION */
         .section-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-            padding: 0 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
         }
 
-        .section-subtitle {
-            font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 400;
+        .see-all {
+            font-size: 0.9rem;
+            color: #ec4899;
+            cursor: pointer;
+            font-weight: 600;
         }
 
-        /* Restaurant Cards */
-        .restaurants-grid {
-            padding: 0 20px;
-            display: grid;
-            gap: 20px;
-            margin-bottom: 100px;
+        .featured-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
 
         .restaurant-card {
-            background: var(--surface);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 8px 30px var(--shadow);
-            transition: all 0.3s ease;
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: 1px solid #f1f5f9;
             cursor: pointer;
-            position: relative;
-            border: 1px solid var(--border-color);
+            transition: all 0.3s;
         }
 
         .restaurant-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px var(--shadow);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
         }
 
-        .restaurant-card.closed {
-            opacity: 0.6;
+        .restaurant-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .restaurant-image {
-            width: 100%;
-            height: 150px;
-            background: var(--gradient-1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .restaurant-image::before {
-            content: '🍕';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 40px;
-            opacity: 0.7;
-        }
-
-        .status-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 11px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-        }
-
-        .status-badge.open {
-            background: rgba(34, 197, 94, 0.9);
-            color: white;
-        }
-
-        .status-badge.closed {
-            background: rgba(239, 68, 68, 0.9);
-            color: white;
-        }
-
-        .delivery-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(236, 72, 153, 0.9);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 11px;
-            font-weight: 600;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #fce7f3, #fed7aa);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .restaurant-info {
-            padding: 20px;
+            flex: 1;
         }
 
         .restaurant-name {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
         }
 
-        .restaurant-schedule {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
+        .restaurant-category {
+            color: #6b7280;
+            margin-bottom: 0.5rem;
         }
 
-        .restaurant-details {
+        .restaurant-meta {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            gap: 1rem;
         }
 
         .rating {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 0.25rem;
+            background: #fef3c7;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .rating-star {
             color: #f59e0b;
-            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .rating-text {
+            font-weight: bold;
+            color: #92400e;
+            font-size: 0.9rem;
         }
 
         .delivery-time {
-            color: var(--text-secondary);
-            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #6b7280;
+            font-size: 0.9rem;
         }
 
-        .delivery-fee {
-            color: var(--success-color);
-            font-weight: 600;
-            font-size: 14px;
+        .featured-badge {
+            background: linear-gradient(135deg, #ec4899, #fb923c);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: bold;
         }
 
-        /* Bottom Navigation */
+        /* BOTTOM NAVIGATION */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 400px;
-            background: var(--surface);
-            padding: 15px 20px;
-            box-shadow: 0 -10px 30px var(--shadow);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border-color);
+            max-width: 390px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            z-index: 100;
         }
 
-        .nav-items {
+        .nav-container {
             display: flex;
             justify-content: space-around;
-            align-items: center;
+            padding: 0.5rem 0;
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
-            color: var(--text-secondary);
-            font-size: 12px;
-            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 8px;
-            border-radius: 12px;
-            position: relative;
+            transition: all 0.3s;
+            border: none;
+            background: none;
+            text-decoration: none;
+            color: #6b7280;
         }
 
         .nav-item.active {
-            color: var(--primary-color);
-            background: var(--shadow);
+            color: #ec4899;
+            background: #fce7f3;
+            transform: scale(1.1);
+        }
+
+        .nav-item:hover:not(.active) {
+            color: #ec4899;
         }
 
         .nav-icon {
-            font-size: 20px;
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* SCREENS */
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* CART INDICATOR */
+        .cart-indicator {
+            position: relative;
         }
 
         .cart-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--error-color);
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
             color: white;
             border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 10px;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
+            font-size: 0.75rem;
+            font-weight: bold;
+            animation: bounce 0.5s;
         }
 
-        /* Error/Loading States */
-        .error-message {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--error-color);
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
-        .error-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+        /* DELIVERY SCREEN */
+        .delivery-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
         }
 
-        .loading-message {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
+        .delivery-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1f2937;
         }
 
-        .loading-dots {
-            display: inline-block;
-            animation: loading-dots 1.5s infinite;
+        .cart-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #ec4899, #fb923c);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
         }
 
-        @keyframes loading-dots {
-            0%, 20% { opacity: 0; }
-            50% { opacity: 1; }
-            80%, 100% { opacity: 0; }
+        .cart-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
         }
 
-        /* Hidden utility */
+        /* RESPONSIVE */
+        @media (max-width: 390px) {
+            .app-container {
+                max-width: 100%;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+            }
+            
+            .service-card {
+                padding: 1rem;
+            }
+        }
+
+        /* HIDE ELEMENTS BY DEFAULT */
         .hidden {
             display: none !important;
-        }
-
-        /* Responsive */
-        @media (max-width: 375px) {
-            .categories {
-                grid-template-columns: repeat(3, 1fr);
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="logo-animation">
-            <div class="logo-title">Celestún GO</div>
-            <div class="logo-subtitle">Delivery rápido y confiable</div>
-        </div>
-        <div class="loading-spinner"></div>
-    </div>
-
     <div class="app-container">
-        <header class="header">
-            <div class="header-content">
-                <div class="location">
-                    <span>📍</span>
-                    <span>Celestún, Yucatán</span>
+        <!-- SPLASH SCREEN -->
+        <div class="splash-screen" id="splashScreen">
+            <!-- Partículas flotantes -->
+            <div class="particle" style="top: 10%; left: 15%; animation-delay: 0s;"></div>
+            <div class="particle" style="top: 20%; left: 85%; animation-delay: 0.5s;"></div>
+            <div class="particle" style="top: 60%; left: 10%; animation-delay: 1s;"></div>
+            <div class="particle" style="top: 70%; left: 90%; animation-delay: 1.5s;"></div>
+            <div class="particle" style="top: 30%; left: 50%; animation-delay: 2s;"></div>
+            
+            <div class="splash-content">
+                <div class="splash-logo">🦩</div>
+                <div class="splash-title">
+                    <div class="splash-celestun">Celestún</div>
+                    <div class="splash-go">GO</div>
                 </div>
-                <h1 class="app-title">Celestún GO</h1>
-                <p class="subtitle">Delivery rápido y confiable</p>
-                <div class="system-status" id="systemStatus">
-                    ⚡ Sistema activo
-                </div>
-            </div>
-        </header>
-
-        <!-- Home Content -->
-        <div id="home-content">
-            <div class="search-container">
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="¿Qué antojo tienes hoy?" id="searchInput">
-                    <span class="search-icon">🔍</span>
-                </div>
-
-                <div class="categories" id="categoriesContainer">
-                    <div class="category-item" data-category="pizza">
-                        <span class="category-icon">🍕</span>
-                        <span class="category-name">Pizza</span>
-                    </div>
-                    <div class="category-item" data-category="tacos">
-                        <span class="category-icon">🌮</span>
-                        <span class="category-name">Tacos</span>
-                    </div>
-                    <div class="category-item" data-category="burgers">
-                        <span class="category-icon">🍔</span>
-                        <span class="category-name">Burgers</span>
-                    </div>
-                    <div class="category-item" data-category="saludable">
-                        <span class="category-icon">🥗</span>
-                        <span class="category-name">Saludable</span>
-                    </div>
-                    <div class="category-item" data-category="sushi">
-                        <span class="category-icon">🍣</span>
-                        <span class="category-name">Sushi</span>
-                    </div>
-                    <div class="category-item" data-category="mariscos">
-                        <span class="category-icon">🦐</span>
-                        <span class="category-name">Mariscos</span>
-                    </div>
-                    <div class="category-item" data-category="postres">
-                        <span class="category-icon">🧁</span>
-                        <span class="category-name">Postres</span>
-                    </div>
-                    <div class="category-item" data-category="bebidas">
-                        <span class="category-icon">☕</span>
-                        <span class="category-name">Bebidas</span>
-                    </div>
-                </div>
-            </div>
-
-            <h2 class="section-title" id="restaurantsTitle">
-                🍽️ Restaurantes cerca de ti
-                <span class="section-subtitle" id="restaurantsSubtitle"></span>
-            </h2>
-
-            <div class="restaurants-grid" id="restaurantsContainer">
-                <div class="loading-message">
-                    <div>Cargando restaurantes<span class="loading-dots">...</span></div>
-                </div>
+                <div class="splash-subtitle">Tu paraíso al alcance</div>
             </div>
         </div>
 
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <div class="nav-items">
-                <div class="nav-item active" onclick="switchTab(this, 'home')">
-                    <span class="nav-icon">🏠</span>
-                    <span>Inicio</span>
+        <!-- MAIN APP -->
+        <div id="mainApp" class="hidden">
+            <!-- HEADER -->
+            <header class="header">
+                <div class="header-left">
+                    <div class="header-logo">🦩</div>
+                    <div>
+                        <div class="header-title">Celestún GO</div>
+                        <div class="header-subtitle">Delivery rápido y confiable</div>
+                    </div>
                 </div>
-                <div class="nav-item" onclick="switchTab(this, 'search')">
-                    <span class="nav-icon">🔍</span>
-                    <span>Buscar</span>
+                <div class="header-right">
+                    <button class="header-btn">📍</button>
+                    <button class="header-btn">👤</button>
                 </div>
-                <div class="nav-item" onclick="switchTab(this, 'cart')" style="position: relative;">
-                    <span class="nav-icon">🛒</span>
-                    <span>Carrito</span>
-                    <span class="cart-badge hidden" id="cartBadge">0</span>
+            </header>
+
+            <!-- CONTENT -->
+            <main class="content">
+                <!-- HOME SCREEN -->
+                <div id="homeScreen" class="screen active">
+                    <!-- HERO SECTION -->
+                    <section class="hero-section">
+                        <div class="hero-decoration hero-decoration-1"></div>
+                        <div class="hero-decoration hero-decoration-2"></div>
+                        <div class="hero-content">
+                            <div class="hero-location">
+                                📍 Celestún, Yucatán
+                            </div>
+                            <h1 class="hero-title">¡Bienvenido a tu paraíso!</h1>
+                            <p class="hero-subtitle">Descubre, ordena y disfruta todo lo que Celestún tiene para ti</p>
+                            <div class="status-badge">
+                                <div class="status-dot"></div>
+                                Sistema activo
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- SEARCH BAR -->
+                    <div class="search-container">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="¿Qué antojo tienes hoy?">
+                    </div>
+
+                    <!-- SERVICES GRID -->
+                    <div class="services-grid">
+                        <button class="service-card delivery" onclick="showScreen('deliveryScreen')">
+                            <div class="service-icon">🍽️</div>
+                            <h3 class="service-title">Delivery</h3>
+                            <p class="service-subtitle">Comida a domicilio</p>
+                        </button>
+                        
+                        <button class="service-card tours" onclick="showScreen('toursScreen')">
+                            <div class="service-icon">📸</div>
+                            <h3 class="service-title">Tours</h3>
+                            <p class="service-subtitle">Experiencias únicas</p>
+                        </button>
+                        
+                        <button class="service-card airbnb" onclick="showScreen('airbnbScreen')">
+                            <div class="service-icon">🏠</div>
+                            <h3 class="service-title">Hospedaje</h3>
+                            <p class="service-subtitle">Casas y departamentos</p>
+                        </button>
+                        
+                        <button class="service-card comercios">
+                            <div class="service-icon">📍</div>
+                            <h3 class="service-title">Comercios</h3>
+                            <p class="service-subtitle">Encuentra todo</p>
+                        </button>
+                    </div>
+
+                    <!-- FEATURED SECTION -->
+                    <section>
+                        <div class="section-title">
+                            🔥 Destacados
+                            <span class="see-all">Ver todos</span>
+                        </div>
+                        <div class="featured-list">
+                            <div class="restaurant-card">
+                                <div class="restaurant-header">
+                                    <div class="restaurant-image">🦐</div>
+                                    <div class="restaurant-info">
+                                        <h3 class="restaurant-name">Mariscos El Flamenco</h3>
+                                        <p class="restaurant-category">Mariscos</p>
+                                        <div class="restaurant-meta">
+                                            <div class="rating">
+                                                <span class="rating-star">⭐</span>
+                                                <span class="rating-text">4.8</span>
+                                            </div>
+                                            <div class="delivery-time">
+                                                ⏱️ 25-35 min
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="featured-badge">HOT</div>
+                                </div>
+                            </div>
+
+                            <div class="restaurant-card">
+                                <div class="restaurant-header">
+                                    <div class="restaurant-image">🌮</div>
+                                    <div class="restaurant-info">
+                                        <h3 class="restaurant-name">Antojitos Yucatecos Doña María</h3>
+                                        <p class="restaurant-category">Comida Regional</p>
+                                        <div class="restaurant-meta">
+                                            <div class="rating">
+                                                <span class="rating-star">⭐</span>
+                                                <span class="rating-text">4.6</span>
+                                            </div>
+                                            <div class="delivery-time">
+                                                ⏱️ 20-30 min
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="featured-badge">HOT</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <div class="nav-item" onclick="switchTab(this, 'orders')">
-                    <span class="nav-icon">📦</span>
-                    <span>Pedidos</span>
+
+                <!-- DELIVERY SCREEN -->
+                <div id="deliveryScreen" class="screen">
+                    <div class="delivery-header">
+                        <h2 class="delivery-title">Delivery</h2>
+                        <button class="cart-button" id="cartBtn">
+                            🛒 <span id="cartCount">0</span>
+                        </button>
+                    </div>
+                    
+                    <p style="text-align: center; color: #6b7280; margin-top: 2rem;">
+                        Pantalla de Delivery en construcción...
+                    </p>
                 </div>
-                <div class="nav-item" onclick="switchTab(this, 'profile')">
-                    <span class="nav-icon">👤</span>
-                    <span>Perfil</span>
+
+                <!-- TOURS SCREEN -->
+                <div id="toursScreen" class="screen">
+                    <div class="section-title">Tours en Celestún</div>
+                    <p style="text-align: center; color: #6b7280; margin-top: 2rem;">
+                        Pantalla de Tours en construcción...
+                    </p>
                 </div>
-            </div>
-        </nav>
+
+                <!-- AIRBNB SCREEN -->
+                <div id="airbnbScreen" class="screen">
+                    <div class="section-title">Hospedaje</div>
+                    <p style="text-align: center; color: #6b7280; margin-top: 2rem;">
+                        Pantalla de Hospedaje en construcción...
+                    </p>
+                </div>
+            </main>
+
+            <!-- BOTTOM NAVIGATION -->
+            <nav class="bottom-nav">
+                <div class="nav-container">
+                    <button class="nav-item active" onclick="showScreen('homeScreen')" data-screen="homeScreen">
+                        <div class="nav-icon">🏠</div>
+                        <span class="nav-label">Inicio</span>
+                    </button>
+                    <button class="nav-item cart-indicator" onclick="showScreen('deliveryScreen')" data-screen="deliveryScreen">
+                        <div class="nav-icon">🍽️</div>
+                        <span class="nav-label">Delivery</span>
+                        <div class="cart-badge hidden" id="cartBadge">0</div>
+                    </button>
+                    <button class="nav-item" onclick="showScreen('toursScreen')" data-screen="toursScreen">
+                        <div class="nav-icon">📸</div>
+                        <span class="nav-label">Tours</span>
+                    </button>
+                    <button class="nav-item" onclick="showScreen('airbnbScreen')" data-screen="airbnbScreen">
+                        <div class="nav-icon">🏠</div>
+                        <span class="nav-label">Hospedaje</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
     </div>
 
     <script>
-        // Configuration
-        const API_BASE = 'http://localhost/celestun-go/api';
-        const CURRENT_USER_ID = 1; // Simular usuario logueado
+        // Variables globales
+        let cart = [];
+        let currentScreen = 'homeScreen';
 
-        // Global state
-        let restaurantsData = [];
-        let categoriesData = [];
-        let cartItems = [];
-        let selectedCategory = null;
+        // Mostrar app después del splash
+        setTimeout(() => {
+            document.getElementById('splashScreen').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+        }, 3000);
 
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-        });
+        // Función para cambiar pantallas
+        function showScreen(screenId) {
+            // Ocultar todas las pantallas
+            const screens = document.querySelectorAll('.screen');
+            screens.forEach(screen => screen.classList.remove('active'));
+            
+            // Mostrar la pantalla seleccionada
+            document.getElementById(screenId).classList.add('active');
+            
+            // Actualizar navegación
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            const activeNavItem = document.querySelector(`[data-screen="${screenId}"]`);
+            if (activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
+            
+            currentScreen = screenId;
+        }
 
-        async function initializeApp() {
-            try {
-                // Show loading screen
-                showLoadingScreen();
+        // Función para agregar al carrito
+        function addToCart(item) {
+            cart.push(item);
+            updateCartDisplay();
+        }
 
-                // Load system status
-                await loadSystemStatus();
-
-                // Load restaurants and availability
-                await loadRestaurants();
-
-                // Load cart
-                await loadCart();
-
-                // Hide loading screen
-                hideLoadingScreen();
-
-                // Set up event listeners
-                setupEventListeners();
-
-            } catch (error) {
-                console.error('Error initializing app:', error);
-                showError('Error al cargar la aplicación');
-                hideLoadingScreen();
+        // Actualizar display del carrito
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const cartBadge = document.getElementById('cartBadge');
+            
+            if (cart.length > 0) {
+                cartCount.textContent = cart.length;
+                cartBadge.textContent = cart.length;
+                cartBadge.classList.remove('hidden');
+            } else {
+                cartCount.textContent = '0';
+                cartBadge.classList.add('hidden');
             }
         }
 
-        function showLoadingScreen() {
-            document.getElementById('loadingScreen').classList.remove('hidden');
-        }
-
-        function hideLoadingScreen() {
-            setTimeout(() => {
-                document.getElementById('loadingScreen').classList.add('hidden');
-            }, 1500);
-        }
-
-        async function loadSystemStatus() {
-            try {
-                const response = await fetch(`${API_BASE}/availability.php`);
-                const data = await response.json();
+        // Efectos de hover para las tarjetas
+        document.querySelectorAll('.restaurant-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Simular agregar al carrito
+                addToCart({ name: 'Producto de prueba', price: 100 });
                 
-                if (data.success) {
-                    const status = data.data;
-                    const statusElement = document.getElementById('systemStatus');
-                    
-                    if (status.sistema_activo) {
-                        statusElement.innerHTML = '⚡ Sistema activo';
-                        statusElement.style.background = 'rgba(34, 197, 94, 0.2)';
-                    } else {
-                        statusElement.innerHTML = '⚠️ Mantenimiento';
-                        statusElement.style.background = 'rgba(239, 68, 68, 0.2)';
+                // Mostrar feedback visual
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // Efecto de búsqueda
+        document.querySelector('.search-input').addEventListener('focus', function() {
+            this.parentElement.style.transform = 'translateY(-2px)';
+        });
+
+        document.querySelector('.search-input').addEventListener('blur', function() {
+            this.parentElement.style.transform = 'translateY(0)';
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartDisplay();
+        });
+
+        // Animaciones adicionales
+        function createFloatingParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            particle.style.animationDuration = (2 + Math.random() * 2) + 's';
+            
+            const splashScreen = document.getElementById('splashScreen');
+            if (splashScreen && !splashScreen.classList.contains('hidden')) {
+                splashScreen.appendChild(particle);
+                
+                // Remover partícula después de la animación
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
                     }
-                }
-            } catch (error) {
-                console.error('Error loading system status:', error);
+                }, 4000);
             }
         }
 
-        async function loadRestaurants() {
-            try {
-                // Get open restaurants with availability info
-                const response = await fetch(`${API_BASE}/availability.php?action=open_restaurants`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    restaurantsData = [...data.data.open_restaurants, ...data.data.closed_restaurants];
-                    updateRestaurantsSubtitle(data.data.total_open, data.data.total_closed);
-                    renderRestaurants(restaurantsData);
-                } else {
-                    throw new Error('Error loading restaurants');
-                }
-            } catch (error) {
-                console.error('Error loading restaurants:', error);
-                showError('Error al cargar restaurantes');
-            }
-        }
-
-        function updateRestaurantsSubtitle(open, closed) {
-            const subtitle = document.getElementById('restaurantsSubtitle');
-            subtitle.textContent = `${open} abiertos • ${closed} cerrados`;
-        }
-
-        function renderRestaurants(restaurants) {
-            const container = document.getElementById('restaurantsContainer');
-            
-            if (restaurants.length === 0) {
-                container.innerHTML = `
-                    <div class="error-message">
-                        <div class="error-icon">🍽️</div>
-                        <h3>No hay restaurantes disponibles</h3>
-                        <p>Intenta más tarde o cambia tu ubicación</p>
-                    </div>
-                `;
+        // Crear partículas flotantes durante el splash
+        const particleInterval = setInterval(() => {
+            if (document.getElementById('splashScreen').classList.contains('hidden')) {
+                clearInterval(particleInterval);
                 return;
             }
+            createFloatingParticle();
+        }, 200);
 
-            container.innerHTML = restaurants.map(restaurant => `
-                <div class="restaurant-card ${restaurant.is_open ? '' : 'closed'}" 
-                     onclick="openRestaurant(${restaurant.id})">
-                    <div class="restaurant-image" style="background: linear-gradient(45deg, #FF6B6B, #FF8E8E);">
-                        <div class="status-badge ${restaurant.is_open ? 'open' : 'closed'}">
-                            ${restaurant.is_open ? 'Abierto' : 'Cerrado'}
-                        </div>
-                        ${restaurant.costo_envio === 0 ? '<div class="delivery-badge">Envío gratis</div>' : ''}
-                    </div>
-                    <div class="restaurant-info">
-                        <h3 class="restaurant-name">${restaurant.nombre}</h3>
-                        ${restaurant.horario_hoy?.apertura ? `
-                            <div class="restaurant-schedule">
-                                Abre: ${restaurant.horario_hoy.apertura} - Cierra: ${restaurant.horario_hoy.cierre}
-                            </div>
-                        ` : ''}
-                        <div class="restaurant-details">
-                            <div class="rating">⭐ ${restaurant.calificacion}</div>
-                            <div class="delivery-time">${restaurant.tiempo_entrega.min}-${restaurant.tiempo_entrega.max} min</div>
-                            <div class="delivery-fee">${restaurant.costo_envio === 0 ? 'Gratis' : '$' + restaurant.costo_envio}</div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        async function loadCart() {
-            try {
-                const response = await fetch(`${API_BASE}/cart.php?user_id=${CURRENT_USER_ID}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    cartItems = data.data.items || [];
-                    updateCartBadge();
-                }
-            } catch (error) {
-                console.error('Error loading cart:', error);
+        // Efecto de parallax suave en el hero
+        document.addEventListener('scroll', () => {
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                const scrolled = window.pageYOffset;
+                const parallax = scrolled * 0.5;
+                heroSection.style.transform = `translateY(${parallax}px)`;
             }
-        }
+        });
 
-        function updateCartBadge() {
-            const badge = document.getElementById('cartBadge');
-            const totalItems = cartItems.reduce((sum, item) => sum + item.cantidad, 0);
-            
-            if (totalItems > 0) {
-                badge.textContent = totalItems;
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
-            }
-        }
-
-        function setupEventListeners() {
-            // Search functionality
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', handleSearch);
-
-            // Category selection
-            document.querySelectorAll('.category-item').forEach(item => {
-                item.addEventListener('click', handleCategorySelect);
-            });
-        }
-
-        function handleSearch(event) {
-            const query = event.target.value.toLowerCase();
-            
-            if (query.length === 0) {
-                renderRestaurants(restaurantsData);
-                return;
-            }
-
-            const filtered = restaurantsData.filter(restaurant => 
-                restaurant.nombre.toLowerCase().includes(query) ||
-                restaurant.descripcion?.toLowerCase().includes(query)
-            );
-
-            renderRestaurants(filtered);
-        }
-
-        function handleCategorySelect(event) {
-            const category = event.currentTarget.dataset.category;
-            
-            // Remove active class from all categories
-            document.querySelectorAll('.category-item').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            // Toggle category selection
-            if (selectedCategory === category) {
-                selectedCategory = null;
-                renderRestaurants(restaurantsData);
-            } else {
-                selectedCategory = category;
-                event.currentTarget.classList.add('active');
-                filterByCategory(category);
-            }
-        }
-
-        async function filterByCategory(category) {
-            try {
-                // This would filter restaurants that have products in this category
-                // For now, just show all restaurants
-                renderRestaurants(restaurantsData);
-            } catch (error) {
-                console.error('Error filtering by category:', error);
-            }
-        }
-
-        function openRestaurant(restaurantId) {
-            const restaurant = restaurantsData.find(r => r.id === restaurantId);
-            
-            if (!restaurant.is_open) {
-                alert('🕐 Este restaurante está cerrado en este momento.\n\nHorario: ' + 
-                      (restaurant.horario_hoy?.apertura || 'Ver horarios'));
-                return;
-            }
-
-            alert(`🍽️ Abriendo menú de ${restaurant.nombre}\n\n` + 
-                  '(Próximamente: Vista completa del menú con productos y carrito)');
-        }
-
-        function switchTab(element, tab) {
-            // Remove active from all tabs
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Activate selected tab
-            element.classList.add('active');
-            
-            // Handle tab content
-            switch(tab) {
-                case 'home':
-                    // Already showing home
-                    break;
-                case 'search':
-                    document.getElementById('searchInput').focus();
-                    break;
-                case 'cart':
-                    showCart();
-                    break;
-                case 'orders':
-                    showOrders();
-                    break;
-                case 'profile':
-                    showProfile();
-                    break;
-            }
-        }
-
-        function showCart() {
-            if (cartItems.length === 0) {
-                alert('🛒 Tu carrito está vacío\n\n¡Explora nuestros restaurantes y agrega deliciosos platillos!');
-            } else {
-                alert(`🛒 Carrito (${cartItems.length} productos)\n\n` + 
-                      '(Próximamente: Vista completa del carrito con opciones de pago)');
-            }
-        }
-
-        function showOrders() {
-            alert('📦 Mis Pedidos\n\n(Próximamente: Historial de pedidos y seguimiento en tiempo real)');
-        }
-
-        function showProfile() {
-            alert('👤 Mi Perfil\n\n(Próximamente: Gestión de cuenta, direcciones y configuración)');
-        }
-
-        function showError(message) {
-            const container = document.getElementById('restaurantsContainer');
-            container.innerHTML = `
-                <div class="error-message">
-                    <div class="error-icon">⚠️</div>
-                    <h3>Oops! Algo salió mal</h3>
-                    <p>${message}</p>
-                    <button onclick="location.reload()" style="
-                        background: var(--primary-color);
-                        color: white;
-                        border: none;
-                        padding: 10px 20px;
-                        border-radius: 20px;
-                        margin-top: 15px;
-                        cursor: pointer;
-                        font-weight: 600;
-                    ">Reintentar</button>
-                </div>
+        // Notificaciones toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #dc2626)'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 0.75rem;
+                font-weight: 600;
+                z-index: 1000;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+                transform: translateX(100%);
+                transition: transform 0.3s ease-out;
             `;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            // Mostrar toast
+            setTimeout(() => {
+                toast.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Ocultar toast
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
         }
 
-        // Utility functions
-        function formatTime(timeString) {
-            if (!timeString) return '';
-            const [hours, minutes] = timeString.split(':');
-            return `${hours}:${minutes}`;
-        }
+        // Mejorar interacción de las tarjetas de servicio
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'scale(1.05) translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1) translateY(0)';
+            });
+        });
 
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('es-MX', {
-                style: 'currency',
-                currency: 'MXN'
-            }).format(amount);
-        }
+        // Efecto de click en botones
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Efecto de ripple
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.6);
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    left: ${x}px;
+                    top: ${y}px;
+                    width: ${size}px;
+                    height: ${size}px;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => {
+                    if (ripple.parentNode) {
+                        ripple.parentNode.removeChild(ripple);
+                    }
+                }, 600);
+            });
+        });
 
-        // Auto-refresh restaurant status every 5 minutes
-        setInterval(async () => {
-            try {
-                await loadRestaurants();
-                console.log('Restaurant status refreshed');
-            } catch (error) {
-                console.error('Error refreshing restaurant status:', error);
+        // Agregar CSS para el efecto ripple
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
             }
-        }, 5 * 60 * 1000); // 5 minutes
-
-        // Handle online/offline status
-        window.addEventListener('online', () => {
-            document.getElementById('systemStatus').innerHTML = '⚡ Sistema activo';
-            document.getElementById('systemStatus').style.background = 'rgba(34, 197, 94, 0.2)';
-        });
-
-        window.addEventListener('offline', () => {
-            document.getElementById('systemStatus').innerHTML = '📶 Sin conexión';
-            document.getElementById('systemStatus').style.background = 'rgba(239, 68, 68, 0.2)';
-        });
-
-        // Service Worker registration for PWA (optional)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('SW registered: ', registration);
-                    })
-                    .catch(registrationError => {
-                        console.log('SW registration failed: ', registrationError);
-                    });
-            });
-        }
-
-        // Theme color update for mobile browsers
-        function updateThemeColor() {
-            const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const themeColor = isDark ? '#F472B6' : '#EC4899';
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor);
-        }
-
-        // Update theme color on page load and when system theme changes
-        updateThemeColor();
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateThemeColor);
-
-        // Touch feedback for mobile devices
-        if ('ontouchstart' in window) {
-            document.addEventListener('touchstart', function(e) {
-                if (e.target.closest('.restaurant-card') || e.target.closest('.category-item')) {
-                    e.target.style.transform = 'scale(0.98)';
-                }
-            });
-
-            document.addEventListener('touchend', function(e) {
-                if (e.target.closest('.restaurant-card') || e.target.closest('.category-item')) {
-                    setTimeout(() => {
-                        e.target.style.transform = '';
-                    }, 150);
-                }
-            });
-        }
-
-        // Analytics tracking (placeholder)
-        function trackEvent(eventName, properties = {}) {
-            console.log('Analytics:', eventName, properties);
-            // Here you would integrate with your analytics service
-        }
-
-        // Track app initialization
-        trackEvent('app_initialized', {
-            timestamp: new Date().toISOString(),
-            user_agent: navigator.userAgent,
-            viewport: `${window.innerWidth}x${window.innerHeight}`
-        });
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
